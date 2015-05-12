@@ -1,9 +1,9 @@
 //
 //  UIViewController+HUD.m
-//  JuranClient
+//  Zouni
 //
 //  Created by Marin on 14-9-23.
-//  Copyright (c) 2014年 juran. All rights reserved.
+//  Copyright (c) 2015年 Zouni. All rights reserved.
 //
 
 #import "UIViewController+HUD.h"

@@ -1,9 +1,9 @@
 //
 //  UIButton+Block.h
-//  JuranClient
+//  Zouni
 //
 //  Created by aokuny on 14/11/5.
-//  Copyright (c) 2014年 juran. All rights reserved.
+//  Copyright (c) 2015年 Zouni. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

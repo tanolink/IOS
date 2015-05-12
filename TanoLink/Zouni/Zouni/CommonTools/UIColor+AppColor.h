@@ -1,9 +1,9 @@
 //
 //  UIColor+AppColor.h
-//  JuranClient
+//  Zouni
 //
 //  Created by Marin on 14-9-26.
-//  Copyright (c) 2014年 juran. All rights reserved.
+//  Copyright (c) 2015年 Zouni. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

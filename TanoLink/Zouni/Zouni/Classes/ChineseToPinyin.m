@@ -1,9 +1,9 @@
 //
 //  ChineseToPinyin.m
-//  JuranClient
+//  Zouni
 //
-//  Created by huchu on 14-10-13.
-//  Copyright (c) 2014年 juran. All rights reserved.
+//  Created by Aokuny on 14-10-13.
+//  Copyright (c) 2015年 Zouni. All rights reserved.
 //
 
 #import "ChineseToPinyin.h"
