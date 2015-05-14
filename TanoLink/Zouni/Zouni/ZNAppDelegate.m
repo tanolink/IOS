@@ -16,36 +16,42 @@
 #import "ZNAppUtil.h"
 #import "ZNClientInfo.h"
 #import "APService.h"
-@implementation ZNAppDelegate
+#import "CityListViewController.h"
+#import "ZNBaseNavigationController.h"
+#import <GoogleMaps/GoogleMaps.h>
 
+@implementation ZNAppDelegate
+static NSString *const kAPIKey = @"AIzaSyBUyVmigb163ipK0MyITVJt76RR0XBwnKk";
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
+      [GMSServices provideAPIKey:kAPIKey];
+    
+    
     /*参数为ShareSDK官网中添加应用后得到的AppKey*/
 //    _viewDelegate = [[AGViewDelegate alloc] init];
     
-
 //    [ShareSDK registerApp:shareSdkAppKey];
 //    [self registerAllSocialApp];
     [[AFNetworkReachabilityManager sharedManager]startMonitoring];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
 
-    MainViewController *mainViewController = [[MainViewController alloc] init];
-    /*self.mainViewController = mainViewController;*/
+//    MainViewController *mainViewController = [[MainViewController alloc] init];
+//    self.window.rootViewController = mainViewController;
+    CityListViewController *cityListVC = [[CityListViewController alloc]init];
+    ZNBaseNavigationController *cityNavController = [[ZNBaseNavigationController alloc]initWithRootViewController:cityListVC];
+    self.window.rootViewController = cityNavController;
     
-    self.window.rootViewController = mainViewController;
-    
-    //self.window.rootViewController = [MasonryViewController new];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(loginStateChange:)
-                                                 name:KNOTIFICATION_LOGINCHANGE
-                                               object:nil];
-
-    
-    [[IQKeyboardManager sharedManager] setEnable:YES];
-    [[IQKeyboardManager sharedManager] setEnableAutoToolbar:NO];
-    [[IQKeyboardManager sharedManager] setShouldShowTextFieldPlaceholder:YES];
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(loginStateChange:)
+//                                                 name:KNOTIFICATION_LOGINCHANGE
+//                                               object:nil];
+//
+//    
+//    [[IQKeyboardManager sharedManager] setEnable:YES];
+//    [[IQKeyboardManager sharedManager] setEnableAutoToolbar:NO];
+//    [[IQKeyboardManager sharedManager] setShouldShowTextFieldPlaceholder:YES];
 
     [self.window makeKeyAndVisible];
     

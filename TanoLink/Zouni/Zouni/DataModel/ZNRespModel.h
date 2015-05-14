@@ -8,13 +8,8 @@
 
 #import "JSONModel.h"
 
-@interface ZNRespHeadModel : JSONModel
-@property (nonatomic, strong) NSString *respCode;
-@property (nonatomic, strong) NSString <Optional>*respShow;
-@property (nonatomic, strong) NSString <Optional>*respDebug;
-@end
-
 @interface ZNRespModel : JSONModel
-@property (nonatomic,strong) ZNRespHeadModel* respHead;
-@property (nonatomic,strong) NSDictionary *respBody;
+@property (nonatomic,strong) NSString *success;
+@property (nonatomic,strong) NSString <Optional>*msg;
+@property (nonatomic,strong) NSDictionary <Optional>*data;
 @end

@@ -1,23 +1,24 @@
 //
 //  MainViewController.m
-//  Zouni
+//  Zouni 主页面（店铺列表）
 //
 //  Created by Marin on 14-9-16.
-//  Copyright (c) 2015年 Zouni. All rights reserved.
+//  Copyright (c) 2015年 TanoLink. All rights reserved.
 //
 
 #import "MainViewController.h"
 #import "ZNBaseNavigationController.h"
 #import "ZNClientInfo.h"
-//#import "LoginViewController.h"
 #import "ZNAppUtil.h"
-//#import "PersonalViewController.h"
-//#import "CaseViewController.h"
-//#import "DesignerListViewController.h"
-//#import "PublishDesignViewController.h"
+#import "CityListViewController.h"
+#import "StrategyViewController.h"
+#import "ToolViewController.h"
+#import "MyCenterViewController.h"
+#import "ShopListViewController.h"
+
 @interface MainViewController ()
-@property (nonatomic, strong) ZNBaseNavigationController *casePageNavController;
-@property (nonatomic, strong) ZNBaseNavigationController *subjectPageNavController;
+@property (nonatomic, strong) ZNBaseNavigationController *cityListNavController;
+//@property (nonatomic, strong) ZNBaseNavigationController *subjectPageNavController;
 @end
 
 @implementation MainViewController
@@ -25,48 +26,32 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
     self.delegate = self;
     
     if (!JRSystemVersionGreaterOrEqualThan(7.0)) {
         self.tabBar.backgroundImage = [[UIImage imageNamed:@"tabbarBackground"] stretchableImageWithLeftCapWidth:25 topCapHeight:25];
-        
     }
     
-    NSArray *tarbarItems = @[@{@"title":@"案例",@"imgStr":@"tabbar_case",@"imgHlStr":@"tabbar_case_hl"},
-                             @{@"title":@"专题",@"imgStr":@"tabbar_subject",@"imgHlStr":@"tabbar_subject_hl"},
-                             @{@"title":@"发布需求",@"imgStr":@"tabbar_demands",@"imgHlStr":@"tabbar_demands_hl"},
-                             @{@"title":@"设计师",@"imgStr":@"tabbar_designer",@"imgHlStr":@"tabbar_designer_hl"},
-                             @{@"title":@"个人中心",@"imgStr":@"tabbar_personal",@"imgHlStr":@"tabbar_personal_hl"}];
-//    /*案例*/
-//    CaseViewController *casePageVC = [[CaseViewController alloc]init];
-//    ZNBaseNavigationController *casePageNavController =[[ZNBaseNavigationController alloc]initWithRootViewController:casePageVC];
-//    self.casePageNavController = casePageNavController;
-//    
-//    /*专题*/
-//    UIViewController *subjectPageVC =[[UIViewController alloc]init];
-//    ZNBaseNavigationController *subjectPageNavController =[[ZNBaseNavigationController alloc]initWithRootViewController:subjectPageVC];
-//    self.subjectPageNavController = subjectPageNavController;
-//    
-//    /*发布需求*/
-//    PublishDesignViewController *demandsPageVC =[[PublishDesignViewController alloc]init];
-//    ZNBaseNavigationController *demandsPageNavController =[[ZNBaseNavigationController alloc]initWithRootViewController:demandsPageVC];
-//    /*self.demandsPageNavController = demandsPageNavController;*/
-//    
-//    /*设计师*/
-//    DesignerListViewController *designerPageVC =[[DesignerListViewController alloc]init];
-//    designerPageVC.controllerType = kDesignerTypeAll;
-//    ZNBaseNavigationController *designerPageNavController =[[ZNBaseNavigationController alloc]initWithRootViewController:designerPageVC];
-//    /*self.designerPageNavController = designerPageNavController;*/
-//    
-//    /*个人中心*/
-//    PersonalViewController *personalPageVC =[[PersonalViewController alloc]init];
-//    ZNBaseNavigationController *personalPageNavController =[[ZNBaseNavigationController alloc]initWithRootViewController:personalPageVC];
-//    
-//    self.viewControllers = @[casePageNavController, subjectPageNavController,demandsPageNavController,designerPageNavController,personalPageNavController];
+    NSArray *tarbarItems = @[@{@"title":@"发现",@"imgStr":@"tabbar_case",@"imgHlStr":@"tabbar_case_hl"},
+                             @{@"title":@"攻略",@"imgStr":@"tabbar_subject",@"imgHlStr":@"tabbar_subject_hl"},
+                             @{@"title":@"工具",@"imgStr":@"tabbar_demands",@"imgHlStr":@"tabbar_demands_hl"},
+                             @{@"title":@"我的",@"imgStr":@"tabbar_designer",@"imgHlStr":@"tabbar_designer_hl"}];
     
-    for (NSUInteger index=0; index<=4; index++) {
+    ShopListViewController *shopListVC = [[ShopListViewController alloc]init];
+    ZNBaseNavigationController *shopListNavController = [[ZNBaseNavigationController alloc]initWithRootViewController:shopListVC];
+    
+    StrategyViewController *strategyViewController = [[StrategyViewController alloc]init];
+    ZNBaseNavigationController *strategyNavController = [[ZNBaseNavigationController alloc]initWithRootViewController:strategyViewController];
+
+    ToolViewController *toolVC = [[ToolViewController alloc]init];
+    ZNBaseNavigationController *toolNavController = [[ZNBaseNavigationController alloc]initWithRootViewController:toolVC];
+    
+    MyCenterViewController *myCenterVC = [[MyCenterViewController alloc]init];
+    ZNBaseNavigationController *myCenterNavController = [[ZNBaseNavigationController alloc]initWithRootViewController:myCenterVC];
+    
+    self.viewControllers = @[shopListNavController,strategyNavController,toolNavController,myCenterNavController];
+    
+    for (NSUInteger index=0; index<4; index++) {
         NSDictionary *tarbarItem = [tarbarItems objectAtIndex:index];
         UINavigationController *navController = self.viewControllers[index];
         UIImage *normalImage = [UIImage imageNamed:tarbarItem[@"imgStr"]];
@@ -81,13 +66,6 @@
         [self selectedTapTabBarItems:navController.tabBarItem];
     }
     
-    // 设置默认的图片加载
-    if ([ZNClientInfo isIntelligence] == nil) {
-        ZNClientInfo *clientInfo = [[ZNClientInfo alloc]init];
-        // 自动
-        [clientInfo saveIntelligence:@"ON"];
-        [clientInfo saveImageQualityType:Common];
-    }
 }
 
 -(void)unSelectedTapTabBarItems:(UITabBarItem *)tabbarItem

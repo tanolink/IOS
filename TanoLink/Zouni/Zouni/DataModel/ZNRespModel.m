@@ -7,8 +7,5 @@
 //
 
 #import "ZNRespModel.h"
-@implementation ZNRespHeadModel
-@end
-
 @implementation ZNRespModel
 @end

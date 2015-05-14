@@ -216,7 +216,7 @@
     [self reloadGallery];
 }
 
-#define SHARE_URL @"http://www.juran.cn"
+#define SHARE_URL @"http://tanolink.com/"
 -(void) showShareView {
     NSString *imagePath = [_photoSource photoGallery:self urlForPhotoSize:FGalleryPhotoSizeFullsize atIndex:_currentIndex];
     NSString *description = [_photoSource photoGallery:self captionForPhotoAtIndex:_currentIndex];
