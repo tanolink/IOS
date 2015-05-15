@@ -13,11 +13,11 @@
 @end
 
 @interface CityModel : JSONModel
-@property (nonatomic, strong) NSString <Optional>*cityNameEN;
-@property (nonatomic, strong) NSString <Optional>*shopCount;
-@property (nonatomic, strong) NSString <Optional>*cityPhoto;
-@property (nonatomic, strong) NSString <Optional>*cityNameCN;
-@property (nonatomic, strong) NSString <Optional>*cityId;
+@property (nonatomic, strong) NSString <Optional>*CityNameEN;
+@property (nonatomic, strong) NSString <Optional>*ShopCount;
+@property (nonatomic, strong) NSString <Optional>*CityPhoto;
+@property (nonatomic, strong) NSString <Optional>*CityNameCN;
+@property (nonatomic, strong) NSString <Optional>*CityId;
 @end
 
 @interface CityListModel : JSONModel

@@ -11,7 +11,6 @@
 #import "CityListModel.h"
 #import "ShopListViewController.h"
 #import "CellCityList.h"
-#import "GoogleMapViewController.h"
 
 @interface CityListViewController (){
     /**
@@ -75,15 +74,19 @@
 -(void) loadServerData{
     [ZNApi invokePost:ZN_CITYLIST_API parameters:nil completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
         if (resultObj) {
-            NSError *err = nil;
-            NSDictionary *dicCityList = [[NSDictionary alloc]initWithObjectsAndKeys:resultObj,@"cityList", nil];
-            CityListModel *cityListModel = [[CityListModel alloc]initWithDictionary:dicCityList error:&err];
-            if (err) {
-                [self hideHud];
-                showAlertMessage(err.localizedDescription);
-                return ;
-            }
-            [_dataMutableArray addObjectsFromArray:cityListModel.cityList];
+//            NSError *err = nil;
+//            NSDictionary *dicCityList = [[NSDictionary alloc]initWithObjectsAndKeys:resultObj,@"cityList", nil];
+//            CityListModel *cityListModel = [[CityListModel alloc]initWithDictionary:dicCityList error:&err];
+//            if (err) {
+//                [self hideHud];
+//                showAlertMessage(err.localizedDescription);
+//                return ;
+//            }
+//            [_dataMutableArray addObjectsFromArray:cityListModel.cityList];
+            
+            NSArray *dic = (NSArray *)resultObj;
+            NSLog(@"%@",dic);
+            [_dataMutableArray addObjectsFromArray:dic];
             [_gTableView reloadData];
             if ([_dataMutableArray count]==0) {
                 _gTableView.nxEV_emptyView = [self emptyView];
@@ -124,24 +127,28 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *Indentifier = @"cellInd";
     CellCityList *cell = [tableView dequeueReusableCellWithIdentifier:Indentifier];
-    CityModel *cityModel = (CityModel *)[_dataMutableArray objectAtIndex:indexPath.row];
+    NSDictionary *cityModelDic = (NSDictionary *)[_dataMutableArray objectAtIndex:indexPath.row];
     if (!cell) {
         cell = [[CellCityList alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:Indentifier];
     }
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    NSError *err = nil;
+    CityModel *cityModel = [[CityModel alloc]initWithDictionary:cityModelDic error:&err];
     [cell setCellDataForModel:cityModel];
     return cell;
 }
 #pragma mark - tableview delegate methods
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 200;
+    return 160.00f;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    CityModel *cityModel = (CityModel *)[_dataMutableArray objectAtIndex:indexPath.row];
+    NSDictionary *cityModelDic = (NSDictionary *)[_dataMutableArray objectAtIndex:indexPath.row];
+    NSError *err = nil;
+    CityModel *cityModel = [[CityModel alloc]initWithDictionary:cityModelDic error:&err];
     ShopListViewController *shopListVC = [[ShopListViewController alloc]init];
-    GoogleMapViewController *g = [[GoogleMapViewController alloc]init];
+    shopListVC.cityModel = cityModel;
     // 跳转到店铺列表
-    [self.navigationController pushViewController:g animated:YES];
+    [self.navigationController pushViewController:shopListVC animated:YES];
 }
 
 -(UIView *)emptyView{

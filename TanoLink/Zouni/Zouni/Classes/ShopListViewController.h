@@ -7,7 +7,8 @@
 //
 
 #import "ZNBaseViewController.h"
+#import "CityListModel.h"
 
 @interface ShopListViewController : ZNBaseViewController
-
+@property (nonatomic,strong) CityModel *cityModel;
 @end

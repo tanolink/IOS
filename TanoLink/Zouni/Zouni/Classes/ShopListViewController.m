@@ -7,6 +7,7 @@
 //
 
 #import "ShopListViewController.h"
+#import "GoogleMapViewController.h"
 
 @interface ShopListViewController ()
 
@@ -16,13 +17,21 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setBackBarButton];
+    [self setTitle:self.cityModel.CityNameCN];
+    
+    [self setRightBarButtonItemTitle:@"地图" target:self action:@selector(pushToGoogleMap)];
+
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+-(void) pushToGoogleMap{
+    GoogleMapViewController *gooleMapVC = [[GoogleMapViewController alloc]init];
+    [self.navigationController pushViewController:gooleMapVC animated:YES];
+}
 /*
 #pragma mark - Navigation
 

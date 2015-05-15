@@ -23,6 +23,8 @@
 #import <AFNetworking/AFNetworking.h>
 #import "NSDate+Category.h"
 #import "NSDateFormatter+Category.h"
+#import "Masonry.h"
+
 
 #import <IQKeyboardManager/IQKeyboardManager.h>
 

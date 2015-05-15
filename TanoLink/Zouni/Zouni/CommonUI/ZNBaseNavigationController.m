@@ -23,11 +23,11 @@
     UIImage *image = nil;
     if (JRSystemVersionGreaterOrEqualThan(7.0)) {
 //        image = [UIImage imageNamed:@"navBar"];
-        [[UINavigationBar appearance] setBarTintColor:[UIColor whiteColor]];
-//         [[UINavigationBar appearance] setBarStyle:UIBarStyleBlackTranslucent ];
+        [[UINavigationBar appearance] setBarTintColor:[UIColor blackColor]];
+         [[UINavigationBar appearance] setBarStyle:UIBarStyleBlackTranslucent ];
         
         NSMutableDictionary *titleBarAttributes = [NSMutableDictionary dictionaryWithDictionary: [[UINavigationBar appearance] titleTextAttributes]];
-        [titleBarAttributes setValue:DEFAULT_FONT(14) forKey:UITextAttributeFont];
+        [titleBarAttributes setValue:DEFAULT_BOLD_FONT(16) forKey:UITextAttributeFont];
         [[UINavigationBar appearance] setTitleTextAttributes:titleBarAttributes];
 
     } else {
