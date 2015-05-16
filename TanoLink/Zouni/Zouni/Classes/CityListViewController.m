@@ -55,15 +55,15 @@
     [_gTableView addHeaderWithCallback:^{
         [weakSelf loadNewData];
     }];
-    [_gTableView addFooterWithCallback:^{
-//        [weakSelf loadMoreData];
-    }];
+//    [_gTableView addFooterWithCallback:^{
+////        [weakSelf loadMoreData];
+//    }];
     [self.view addSubview:_gTableView];
 }
 #pragma 初始化数据
 -(void) initData{
     _dataMutableArray = [[NSMutableArray alloc]init];
-    [self loadServerData];
+    [self performSelector:@selector(loadServerData) withObject:nil afterDelay:0.0f];
 }
 #pragma 下拉加载最新数据
 -(void)loadNewData{
@@ -72,6 +72,8 @@
 }
 #pragma mark 加载远程数据
 -(void) loadServerData{
+    [self showHudInView:self.view hint:nil];
+    __weak typeof(self) weakSelf = self;
     [ZNApi invokePost:ZN_CITYLIST_API parameters:nil completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
         if (resultObj) {
 //            NSError *err = nil;
@@ -83,38 +85,17 @@
 //                return ;
 //            }
 //            [_dataMutableArray addObjectsFromArray:cityListModel.cityList];
-            
             NSArray *dic = (NSArray *)resultObj;
             NSLog(@"%@",dic);
             [_dataMutableArray addObjectsFromArray:dic];
             [_gTableView reloadData];
+            [_gTableView headerEndRefreshing];
             if ([_dataMutableArray count]==0) {
                 _gTableView.nxEV_emptyView = [self emptyView];
             }
         }
-        [self hideHud];
+        [weakSelf hideHud];
     }];
-    
-    
-//    [ZNApi invokePostOne:ZN_CITYLIST_API parameters:nil completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
-//        if (resultObj) {
-//            NSError *err = nil;
-//            CityListModel *cityListModel = [[CityListModel alloc]initWithDictionary:resultObj error:&err];
-//            if (err) {
-//                [self hideHud];
-//                showAlertMessage(err.localizedDescription);
-//                return ;
-//            }
-//            [_dataMutableArray addObjectsFromArray:cityListModel.data];
-//
-//            [_gTableView reloadData];
-//            if ([_dataMutableArray count]==0) {
-//                _gTableView.nxEV_emptyView = [self emptyView];
-//            }
-//
-//        }
-//        [self hideHud];
-//    }];
     
 }
 #pragma mark tableview datasource

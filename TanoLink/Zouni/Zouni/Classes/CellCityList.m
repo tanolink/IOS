@@ -12,7 +12,7 @@
 @implementation CellCityList{
     UILabel *_LabCityNameCN;
     UILabel *_LabCityNameEN;
-    UILabel *_LabShopCount;
+    UIButton *_BtnShopCount;
     UIButton *_imgView;
     CityModel *_gCityModel;
 }
@@ -20,7 +20,7 @@
     _gCityModel = cityModel;
     [_LabCityNameCN setText:cityModel.CityNameCN];
     [_LabCityNameEN setText:cityModel.CityNameEN];
-    [_LabShopCount setText:cityModel.ShopCount];
+    [_BtnShopCount setTitle:[NSString stringWithFormat:@"%@家商场",cityModel.ShopCount] forState:UIControlStateNormal];
     
     NSURL *caseurl = [NSURL URLWithString:cityModel.CityPhoto];
     [_imgView sd_setBackgroundImageWithURL:caseurl forState:UIControlStateNormal
@@ -31,27 +31,33 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         _LabCityNameCN = [[UILabel alloc]initWithFrame:CGRectZero];
-        [_LabCityNameCN setFont:DEFAULT_BOLD_FONT(31.5/2)];
+        [_LabCityNameCN setFont:DEFAULT_BOLD_FONT(17)];
         [_LabCityNameCN setNumberOfLines:0];
         [_LabCityNameCN setTextColor:[UIColor whiteColor]];
         [_LabCityNameCN setLineBreakMode:NSLineBreakByTruncatingTail];
         //设置阴影
         _LabCityNameCN.shadowColor = [UIColor blackColor];
-        _LabCityNameCN.shadowOffset = CGSizeMake(2.0,2.0);
+        _LabCityNameCN.shadowOffset = CGSizeMake(1.0,1.0);
+//        _LabCityNameCN.layer.shadowOpacity = 0.1;
         
         _LabCityNameEN = [[UILabel alloc]initWithFrame:CGRectZero];
-        [_LabCityNameEN setFont:DEFAULT_FONT(18/2)];
+        [_LabCityNameEN setFont:DEFAULT_FONT(10)];
         [_LabCityNameEN setTextColor:[UIColor whiteColor]];
         [_LabCityNameEN setNumberOfLines:0];
         [_LabCityNameEN setLineBreakMode:NSLineBreakByTruncatingTail];
         //设置阴影
         _LabCityNameEN.shadowColor = [UIColor blackColor];
-        _LabCityNameEN.shadowOffset = CGSizeMake(2.0,2.0);
+        _LabCityNameEN.shadowOffset = CGSizeMake(1.0,1.0);
         
-        _LabShopCount = [[UILabel alloc]initWithFrame:CGRectZero];
-        [_LabShopCount setFont:DEFAULT_FONT(22.5/2)];
-        [_LabShopCount setTextColor:[UIColor whiteColor]];
-        
+        _BtnShopCount = [[UIButton alloc]initWithFrame:CGRectZero];
+        [_BtnShopCount.titleLabel setFont:DEFAULT_FONT(9)];
+        [_BtnShopCount.titleLabel setTintColor:[UIColor whiteColor]];
+        [_BtnShopCount setBackgroundColor:[UIColor blackColor]];
+        [_BtnShopCount.titleLabel setLineBreakMode:NSLineBreakByTruncatingTail];
+        _BtnShopCount.layer.cornerRadius = 9;
+        _BtnShopCount.alpha = 0.7;
+        [_BtnShopCount.titleLabel setTintColor:[UIColor blackColor]];
+
         _imgView = [UIButton buttonWithType:UIButtonTypeCustom];
         [_imgView setUserInteractionEnabled:NO];
         
@@ -59,24 +65,30 @@
         [self.contentView addSubview:_imgView];
         [self.contentView addSubview:_LabCityNameCN];
         [self.contentView addSubview:_LabCityNameEN];
-        [self.contentView addSubview:_LabShopCount];
+        [self.contentView addSubview:_BtnShopCount];
+        
+        // test color
+//        [_LabCityNameCN setBackgroundColor:[UIColor greenColor]];
+//        [_LabCityNameEN setBackgroundColor:[UIColor redColor]];
     }
     return self;
 }
 -(void)layoutSubviews{
     [super layoutSubviews];
-    // 中文名称距离
-    float magrin = 30/2 ;
-    // 汉字和英文名称的间距
-    float distance = 14/2;
-    [_LabCityNameCN setFrame:CGRectMake(magrin,magrin,200,20)];
-    [_LabCityNameEN setFrame:CGRectMake(magrin,CGRectGetMaxY(_LabCityNameCN.frame) + distance,200,20)];
-//    [_LabShopCount setFrame:CGRectMake(magrin,magrin,fullwidth-magrin*5,20)];
-    
-    [_LabShopCount mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.contentView).offset(-30/2);
-        make.top.equalTo(self.contentView).offset(30/2);
-        make.width.equalTo(@50);
+
+    [_LabCityNameCN mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.contentView).offset(18);
+        make.left.equalTo(self.contentView).offset(30/2);
+    }];
+    [_LabCityNameEN mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_LabCityNameCN.mas_bottom).offset(2);
+        make.left.equalTo(_LabCityNameCN);
+    }];
+    [_BtnShopCount mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.contentView).offset(-5);
+        make.top.equalTo(self.contentView).offset(20);
+        make.width.equalTo(@55);
+        make.height.equalTo(@18);
     }];
     [_imgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.contentView).offset(10);

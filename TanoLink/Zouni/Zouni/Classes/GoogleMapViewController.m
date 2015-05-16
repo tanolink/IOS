@@ -14,24 +14,66 @@
 
 @implementation GoogleMapViewController{
     GMSMapView *mapView_;
+    BOOL firstLocationUpdate_;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     
+    //北京 39.9024510000,116.4273010000
     // 创建一个GMSCameraPosition,告诉map在指定的zoom level下显示指定的点
-    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:-22.86 longitude:151.20 zoom:6];
+    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:39.9024510000
+                                                            longitude:116.4273010000
+                                                                 zoom:12];
     mapView_ = [GMSMapView mapWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) camera:camera];
-    [self.view addSubview:mapView_];
-    
+    mapView_.settings.compassButton = YES;
+    mapView_.settings.myLocationButton = YES;
+    self.view = mapView_;
+
     // 在map中间做一个标记
     GMSMarker *marker = [[GMSMarker alloc] init];
-    marker.position = CLLocationCoordinate2DMake(-22.86, 151.20);
-    marker.title = @"Sydney";
-    marker.snippet = @"Australia";
+    marker.position = CLLocationCoordinate2DMake(39.9076298843,116.4759538808);
+    marker.appearAnimation = kGMSMarkerAnimationPop;
+
+    marker.title = @"中青旅";
+    marker.snippet = @"万达广场";
     marker.map = mapView_;
     
+
+    //// 定位我的位置
+    //// Listen to the myLocation property of GMSMapView.
+//    [mapView_ addObserver:self
+//               forKeyPath:@"myLocation"
+//                  options:NSKeyValueObservingOptionNew
+//                  context:NULL];
+
+    
+    
+    // Ask for My Location data after the map has already been added to the UI.
+    dispatch_async(dispatch_get_main_queue(), ^{
+        mapView_.myLocationEnabled = YES;
+    });
+    
 }
+#pragma mark - KVO updates
+//
+//- (void)observeValueForKeyPath:(NSString *)keyPath
+//                      ofObject:(id)object
+//                        change:(NSDictionary *)change
+//                       context:(void *)context {
+//    if (!firstLocationUpdate_) {
+//        // If the first location update has not yet been recieved, then jump to that
+//        // location.
+//        firstLocationUpdate_ = YES;
+//        CLLocation *location = [change objectForKey:NSKeyValueChangeNewKey];
+//        mapView_.camera = [GMSCameraPosition cameraWithTarget:location.coordinate
+//                                                         zoom:14];
+//    }
+//}
+//- (void)dealloc {
+//    [mapView_ removeObserver:self
+//                  forKeyPath:@"myLocation"
+//                     context:NULL];
+//}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

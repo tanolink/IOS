@@ -22,7 +22,6 @@
     self.delegate = self;
     UIImage *image = nil;
     if (JRSystemVersionGreaterOrEqualThan(7.0)) {
-//        image = [UIImage imageNamed:@"navBar"];
         [[UINavigationBar appearance] setBarTintColor:[UIColor blackColor]];
          [[UINavigationBar appearance] setBarStyle:UIBarStyleBlackTranslucent ];
         
