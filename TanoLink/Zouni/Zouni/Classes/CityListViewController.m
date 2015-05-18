@@ -11,6 +11,8 @@
 #import "CityListModel.h"
 #import "ShopListViewController.h"
 #import "CellCityList.h"
+#import "MainViewController.h"
+#import "ZNBaseNavigationController.h"
 
 @interface CityListViewController (){
     /**
@@ -96,7 +98,6 @@
         }
         [weakSelf hideHud];
     }];
-    
 }
 #pragma mark tableview datasource
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -126,10 +127,18 @@
     NSDictionary *cityModelDic = (NSDictionary *)[_dataMutableArray objectAtIndex:indexPath.row];
     NSError *err = nil;
     CityModel *cityModel = [[CityModel alloc]initWithDictionary:cityModelDic error:&err];
-    ShopListViewController *shopListVC = [[ShopListViewController alloc]init];
-    shopListVC.cityModel = cityModel;
+//    ShopListViewController *shopListVC = [[ShopListViewController alloc]init];
+//    shopListVC.cityModel = cityModel;
     // 跳转到店铺列表
-    [self.navigationController pushViewController:shopListVC animated:YES];
+//    [self.navigationController pushViewController:shopListVC animated:YES];
+    
+    MainViewController *mainViewController = [[MainViewController alloc] init];
+    mainViewController.cityModel = cityModel;
+    [self.navigationController pushViewController:mainViewController animated:YES];
+    
+//    MainViewController *mainViewController = [[MainViewController alloc] init];
+//    ZNBaseNavigationController *cityNavController = [[ZNBaseNavigationController alloc]initWithRootViewController:mainViewController];
+//    [[UIApplication sharedApplication] keyWindow].rootViewController = cityNavController;
 }
 
 -(UIView *)emptyView{

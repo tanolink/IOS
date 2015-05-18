@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CityListModel.h"
 
 @interface MainViewController : UITabBarController <UITabBarControllerDelegate>
-
+@property (nonatomic,strong) CityModel *cityModel;
 @end

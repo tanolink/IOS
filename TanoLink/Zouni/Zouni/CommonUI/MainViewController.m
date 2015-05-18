@@ -17,21 +17,19 @@
 #import "ShopListViewController.h"
 
 @interface MainViewController ()
-@property (nonatomic, strong) ZNBaseNavigationController *cityListNavController;
-//@property (nonatomic, strong) ZNBaseNavigationController *subjectPageNavController;
 @end
 
 @implementation MainViewController
-
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self BackButton];
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.delegate = self;
-    
-    if (!JRSystemVersionGreaterOrEqualThan(7.0)) {
-        self.tabBar.backgroundImage = [[UIImage imageNamed:@"tabbarBackground"] stretchableImageWithLeftCapWidth:25 topCapHeight:25];
-    }
-    
+    [self setTitle:@"走你"];
+
     NSArray *tarbarItems = @[@{@"title":@"发现",@"imgStr":@"tabbar_case",@"imgHlStr":@"tabbar_case_hl"},
                              @{@"title":@"攻略",@"imgStr":@"tabbar_subject",@"imgHlStr":@"tabbar_subject_hl"},
                              @{@"title":@"工具",@"imgStr":@"tabbar_demands",@"imgHlStr":@"tabbar_demands_hl"},
@@ -68,6 +66,33 @@
     
 }
 
+-(void) BackButton {
+    NSString *aTitle = self.cityModel.CityNameCN;
+    UIFont * font=DEFAULT_FONT(13);
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    CGSize size = [aTitle sizeWithFont:font constrainedToSize:CGSizeMake(ScreenWidth, 30)];
+    CGRect rect = CGRectMake(0, 0, size.width, 30);
+    UIImage *image = [UIImage imageNamed:@""];
+    if (image) {
+        rect = CGRectMake(0, 0, MIN(22.f,  image.size.width)/*25.f*/, MIN( image.size.height,22.f )/*25.f*/);
+    }
+    button.frame = rect;
+    [button setTitle:aTitle forState:UIControlStateNormal];
+    button.titleLabel.font = font;
+    [button setTitleColor:[UIColor colorWithWhite:1.000 alpha:1.000] forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor colorWithRed:0.953 green:0.948 blue:0.959 alpha:1.000] forState:UIControlStateHighlighted];
+    [button setBackgroundImage:image forState:UIControlStateNormal];
+    //    [button setBackgroundImage:highligteImage forState:UIControlStateHighlighted];
+    button.imageView.contentMode = UIViewContentModeScaleToFill;
+    [button addTarget:self action:@selector(goBack) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
+}
+
+
+-(void)goBack {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 -(void)unSelectedTapTabBarItems:(UITabBarItem *)tabbarItem
 {
     [tabbarItem setTitleTextAttributes:@{NSFontAttributeName: DEFAULT_FONT(11), NSForegroundColorAttributeName:[UIColor blackColor] } forState:UIControlStateNormal ];
@@ -88,25 +113,25 @@
 
 #pragma mark - UITabBarControllerDelegate methods
 - (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController {
-    if ([ZNClientInfo isLogin]) {
-        return YES;
-    } else {
-        if (viewController.tabBarItem.tag == 4) {
-            
-//            __block ZNBaseNavigationController *currentNavController = (ZNBaseNavigationController *) [tabBarController.viewControllers objectAtIndex:tabBarController.selectedIndex];
-//            __block ZNBaseNavigationController *willToNavController = (ZNBaseNavigationController*)viewController;
-//            __block UITabBarController*weakTabBarController = tabBarController;
-//            LoginViewController *loginVC = [[LoginViewController alloc]init];
-//            [loginVC setCompletionBlockWithLoginSuccess:^(LoginViewController *loginVC, NSDictionary *info) {
-//                [weakTabBarController setSelectedViewController:willToNavController];
-//            } Cancel:^(LoginViewController *loginVC, NSDictionary *info) {
-//                
-//            }];
-//            ZNBaseNavigationController *loginNav = [[ZNBaseNavigationController alloc]initWithRootViewController:loginVC];
-//            [currentNavController presentViewController:loginNav animated:YES completion:nil];
-            return NO;
-        }
-    }
+//    if ([ZNClientInfo isLogin]) {
+//        return YES;
+//    } else {
+//        if (viewController.tabBarItem.tag == 4) {
+//            
+////            __block ZNBaseNavigationController *currentNavController = (ZNBaseNavigationController *) [tabBarController.viewControllers objectAtIndex:tabBarController.selectedIndex];
+////            __block ZNBaseNavigationController *willToNavController = (ZNBaseNavigationController*)viewController;
+////            __block UITabBarController*weakTabBarController = tabBarController;
+////            LoginViewController *loginVC = [[LoginViewController alloc]init];
+////            [loginVC setCompletionBlockWithLoginSuccess:^(LoginViewController *loginVC, NSDictionary *info) {
+////                [weakTabBarController setSelectedViewController:willToNavController];
+////            } Cancel:^(LoginViewController *loginVC, NSDictionary *info) {
+////                
+////            }];
+////            ZNBaseNavigationController *loginNav = [[ZNBaseNavigationController alloc]initWithRootViewController:loginVC];
+////            [currentNavController presentViewController:loginNav animated:YES completion:nil];
+//            return NO;
+//        }
+//    }
     return YES;
 
 }

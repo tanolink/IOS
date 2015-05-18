@@ -9,6 +9,6 @@
 #import "ZNBaseViewController.h"
 #import "CityListModel.h"
 
-@interface ShopListViewController : ZNBaseViewController
+@interface ShopListViewController : ZNBaseViewController<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic,strong) CityModel *cityModel;
 @end

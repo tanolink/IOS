@@ -26,7 +26,8 @@
 
 /*发现*/
 #define ZN_CITYLIST_API                 @"api/Cities"                      /*城市列表*/
-#define ZN_SHOPLIST_API                 @"api/ShopDetail"                  /*城市下的店铺列表*/
+#define ZN_SHOPLIST_API                 @"api/ShopList"                    /*城市下的店铺列表*/
+#define ZN_SHOPDETAIL_API               @"api/ShopDetail"
 
 /*我的个人中心*/
 

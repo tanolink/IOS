@@ -86,6 +86,10 @@
 		2FE762AD1B03682700B598FF /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FE762AC1B03682700B598FF /* OpenGLES.framework */; };
 		2FFD8B8F1B06F7E700245C8F /* libobjc.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FFD8B8E1B06F7E700245C8F /* libobjc.dylib */; };
 		2FFD8B911B06F84900245C8F /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FFD8B901B06F84900245C8F /* CoreFoundation.framework */; };
+		2FFD8B961B073F6C00245C8F /* CellShopList.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FFD8B951B073F6C00245C8F /* CellShopList.m */; };
+		2FFD8B991B076AA000245C8F /* ShopModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FFD8B981B076AA000245C8F /* ShopModel.m */; };
+		2FFD8B9C1B08F14800245C8F /* ShopDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FFD8B9B1B08F14800245C8F /* ShopDetailViewController.m */; };
+		2FFD8B9F1B08F75100245C8F /* CouponViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FFD8B9E1B08F75100245C8F /* CouponViewController.m */; };
 		4F0DBE6B19EE1B6C001E7CC9 /* PlaceholderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F0DBE6A19EE1B6C001E7CC9 /* PlaceholderTextView.m */; };
 		4F0DBE6E19EE46A9001E7CC9 /* PickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F0DBE6D19EE46A9001E7CC9 /* PickerViewController.m */; };
 		4F18A7C419EBF0B200BED27D /* ChineseToPinyin.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F18A7C319EBF0B200BED27D /* ChineseToPinyin.m */; };
@@ -282,6 +286,14 @@
 		2FE762AC1B03682700B598FF /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		2FFD8B8E1B06F7E700245C8F /* libobjc.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libobjc.dylib; path = usr/lib/libobjc.dylib; sourceTree = SDKROOT; };
 		2FFD8B901B06F84900245C8F /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		2FFD8B941B073F6C00245C8F /* CellShopList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellShopList.h; sourceTree = "<group>"; };
+		2FFD8B951B073F6C00245C8F /* CellShopList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CellShopList.m; sourceTree = "<group>"; };
+		2FFD8B971B076AA000245C8F /* ShopModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopModel.h; sourceTree = "<group>"; };
+		2FFD8B981B076AA000245C8F /* ShopModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopModel.m; sourceTree = "<group>"; };
+		2FFD8B9A1B08F14800245C8F /* ShopDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopDetailViewController.h; sourceTree = "<group>"; };
+		2FFD8B9B1B08F14800245C8F /* ShopDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopDetailViewController.m; sourceTree = "<group>"; };
+		2FFD8B9D1B08F75100245C8F /* CouponViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CouponViewController.h; sourceTree = "<group>"; };
+		2FFD8B9E1B08F75100245C8F /* CouponViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CouponViewController.m; sourceTree = "<group>"; };
 		4F0DBE6919EE1B6C001E7CC9 /* PlaceholderTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlaceholderTextView.h; path = ../Classes/PlaceholderTextView.h; sourceTree = "<group>"; };
 		4F0DBE6A19EE1B6C001E7CC9 /* PlaceholderTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlaceholderTextView.m; path = ../Classes/PlaceholderTextView.m; sourceTree = "<group>"; };
 		4F0DBE6C19EE46A9001E7CC9 /* PickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PickerViewController.h; path = ../Classes/PickerViewController.h; sourceTree = "<group>"; };
@@ -669,6 +681,12 @@
 				2FE762991B0327D400B598FF /* ShopListViewController.m */,
 				2FE7629B1B03343D00B598FF /* CellCityList.h */,
 				2FE7629C1B03343D00B598FF /* CellCityList.m */,
+				2FFD8B941B073F6C00245C8F /* CellShopList.h */,
+				2FFD8B951B073F6C00245C8F /* CellShopList.m */,
+				2FFD8B9A1B08F14800245C8F /* ShopDetailViewController.h */,
+				2FFD8B9B1B08F14800245C8F /* ShopDetailViewController.m */,
+				2FFD8B9D1B08F75100245C8F /* CouponViewController.h */,
+				2FFD8B9E1B08F75100245C8F /* CouponViewController.m */,
 			);
 			name = Discovery;
 			sourceTree = "<group>";
@@ -915,6 +933,8 @@
 				4F392CE619EFB093005E909E /* ZNRespModel.m */,
 				2FE762891B02EA4700B598FF /* CityListModel.h */,
 				2FE7628A1B02EA4700B598FF /* CityListModel.m */,
+				2FFD8B971B076AA000245C8F /* ShopModel.h */,
+				2FFD8B981B076AA000245C8F /* ShopModel.m */,
 			);
 			path = DataModel;
 			sourceTree = "<group>";
@@ -1230,6 +1250,7 @@
 				2F78666219F6585400C9440C /* DXChatBarMoreView.m in Sources */,
 				669037D919D912A80018EC44 /* UIImage+Screenshot.m in Sources */,
 				4FC3D7CB19FE5CE600980CFC /* UIView+MJExtension.m in Sources */,
+				2FFD8B961B073F6C00245C8F /* CellShopList.m in Sources */,
 				2F3F93EB19F7B0ED00080B05 /* FGalleryPhotoView.m in Sources */,
 				2F78665E19F6585400C9440C /* DXFaceView.m in Sources */,
 				669037D819D912A80018EC44 /* UIImage+ImageWithColor.m in Sources */,
@@ -1250,6 +1271,7 @@
 				2F78666119F6585400C9440C /* FacialView.m in Sources */,
 				4FC3D7C519FE5CE600980CFC /* MJRefreshBaseView.m in Sources */,
 				4FC3D7C619FE5CE600980CFC /* MJRefreshConst.m in Sources */,
+				2FFD8B9F1B08F75100245C8F /* CouponViewController.m in Sources */,
 				4F629A7519F6397D00122CB5 /* SVSegmentedThumb.m in Sources */,
 				4F8BB3201A074A3F00C23E39 /* NSDate+Category.m in Sources */,
 				4F5E958219EE631200A2A5B9 /* DatePickerViewController.m in Sources */,
@@ -1263,6 +1285,7 @@
 				4F3B55BD19FA582C006DF19F /* UITableView+NXEmptyView.m in Sources */,
 				2FE762851B01F5F900B598FF /* CityListViewController.m in Sources */,
 				4F392CE719EFB093005E909E /* ZNRespModel.m in Sources */,
+				2FFD8B991B076AA000245C8F /* ShopModel.m in Sources */,
 				668B1C0419D1204300EAF748 /* UIViewController+HUD.m in Sources */,
 				662999F919C82A9700F057AA /* ZNClientInfo.m in Sources */,
 				4F0DBE6B19EE1B6C001E7CC9 /* PlaceholderTextView.m in Sources */,
@@ -1272,6 +1295,7 @@
 				668B1C0819D12B7300EAF748 /* JGProgressHUD+Add.m in Sources */,
 				6622A51F19D5386000DF95C8 /* UIColor+AppColor.m in Sources */,
 				4F444CB819E908F000F3DE8F /* SRSlimeView.m in Sources */,
+				2FFD8B9C1B08F14800245C8F /* ShopDetailViewController.m in Sources */,
 				4F8BB3211A074A3F00C23E39 /* NSDateFormatter+Category.m in Sources */,
 				2F78669619F65C2400C9440C /* EmojiEmoticons.m in Sources */,
 				4FC3D7CA19FE5CE600980CFC /* UIScrollView+MJRefresh.m in Sources */,
