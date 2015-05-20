@@ -19,25 +19,47 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self setBackBarButton];
+    
     //北京 39.9024510000,116.4273010000
+    int zoom = 12;
+    double mainPx = 35.6750560000;
+    double mainPy = 139.8151100000;
+    if (self.mainZoom) {
+        zoom  = [self.mainZoom intValue];
+    }
+//    if(self.mainPX){
+//        mainPx = [self.mainPX doubleValue];
+//        mainPy = [self.mainPY doubleValue];
+//    }
     // 创建一个GMSCameraPosition,告诉map在指定的zoom level下显示指定的点
-    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:39.9024510000
-                                                            longitude:116.4273010000
-                                                                 zoom:12];
+    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:mainPx
+                                                            longitude:mainPy
+                                                                 zoom:zoom];
     mapView_ = [GMSMapView mapWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) camera:camera];
     mapView_.settings.compassButton = YES;
     mapView_.settings.myLocationButton = YES;
     self.view = mapView_;
 
-    // 在map中间做一个标记
-    GMSMarker *marker = [[GMSMarker alloc] init];
-    marker.position = CLLocationCoordinate2DMake(39.9076298843,116.4759538808);
-    marker.appearAnimation = kGMSMarkerAnimationPop;
-
-    marker.title = @"中青旅";
-    marker.snippet = @"万达广场";
-    marker.map = mapView_;
-    
+    if([self.PXYList count]>0){
+        for (NSDictionary *dicPXY in self.PXYList) {
+            GMSMarker *marker = [[GMSMarker alloc] init];
+            marker.position = CLLocationCoordinate2DMake([dicPXY[@"PX"] doubleValue],[dicPXY[@"PY"] doubleValue]);
+            marker.appearAnimation = kGMSMarkerAnimationPop;
+            
+            marker.title = dicPXY[@"Title"];
+            marker.snippet = dicPXY[@"Desc"];
+            marker.map = mapView_;
+        }
+    }else{
+        // 在map中间做一个标记
+        GMSMarker *marker = [[GMSMarker alloc] init];
+        marker.position = CLLocationCoordinate2DMake(35.700852,139.771860);
+        marker.appearAnimation = kGMSMarkerAnimationPop;
+        marker.title = @"唐吉坷得";
+        marker.snippet = @"秋叶原店";
+        marker.map = mapView_;
+    }
 
     //// 定位我的位置
     //// Listen to the myLocation property of GMSMapView.
@@ -45,9 +67,6 @@
 //               forKeyPath:@"myLocation"
 //                  options:NSKeyValueObservingOptionNew
 //                  context:NULL];
-
-    
-    
     // Ask for My Location data after the map has already been added to the UI.
     dispatch_async(dispatch_get_main_queue(), ^{
         mapView_.myLocationEnabled = YES;

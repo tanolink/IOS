@@ -16,7 +16,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+
+//    [self showHudInView:self.view hint:nil];
+//    __weak typeof(self) weakSelf = self;
+    NSDictionary *requestDic = [[NSDictionary alloc]initWithObjectsAndKeys:@"4",@"shopId",nil];
+    [ZNApi invokePost:ZN_SHOPDETAIL_API parameters:requestDic completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
+        if (resultObj) {
+            NSArray *dic = (NSArray *)resultObj;
+            NSLog(@"%@",dic);
+        }
+//        [weakSelf hideHud];
+    }];
 }
 
 - (void)didReceiveMemoryWarning {

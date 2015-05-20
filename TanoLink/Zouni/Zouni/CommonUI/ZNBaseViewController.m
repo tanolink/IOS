@@ -135,7 +135,7 @@
     /*UIButton *button = [self buttonWithTitle:nil image:[UIImage createBackArrowImage] highligted:nil target:self action:@selector(goBack)];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];*/
     
-    [self setBackBarButtonItemImage:@"nav_backbtn" target:self action:@selector(goBack)];
+    [self setBackBarButtonItemImage:@"arrow_back" target:self action:@selector(goBack)];
     
 }
 

@@ -27,13 +27,13 @@
     self = [super init];
     if (self) {
         AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc]initWithBaseURL:[NSURL URLWithString:JR_BASE_URL]];
-        AFJSONRequestSerializer *requestSerializer = [AFJSONRequestSerializer serializerWithWritingOptions:NSJSONWritingPrettyPrinted];
+//        AFJSONRequestSerializer *requestSerializer = [AFJSONRequestSerializer serializerWithWritingOptions:NSJSONWritingPrettyPrinted];
+         AFHTTPRequestSerializer *requestSerializer = [AFHTTPRequestSerializer serializer];
         [requestSerializer setValue:TestHeaderMD5 forHTTPHeaderField:@"permit"];
         [requestSerializer setTimeoutInterval:60];
         [manager setRequestSerializer:requestSerializer];
         [manager setResponseSerializer:[AFJSONResponseSerializer serializerWithReadingOptions:NSJSONReadingAllowFragments]];
         manager.responseSerializer.acceptableContentTypes =[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript", @"text/plain",@"text/html",nil];
-        
         self.manager = manager;
     }
     return self;
@@ -61,19 +61,6 @@
         showAlertMessage(error.localizedDescription);
     }];
 }
-
-+ (void )invokePostOne:(NSString *)URLString parameters:(id)parameters completion: (ZNObjectBlock)completeBlock {
-    AFHTTPRequestOperationManager *manager  = [ZNApi sharedInstance].manager;
-    NSLog(@"请求接口：%@\n参数：%@",[[NSURL URLWithString:URLString relativeToURL:manager.baseURL] absoluteString], parameters);
-    [manager POST:URLString parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        completeBlock(responseObject,nil,nil);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"%@",error.localizedDescription);
-        completeBlock(nil,nil,nil);
-        showAlertMessage(error.localizedDescription);
-    }];
-}
-
 
 + (void )invokeGet:(NSString *)URLString parameters:(id)parameters completion: (ZNObjectBlock)completeBlock {
     AFHTTPRequestOperationManager *manager  = [ZNApi sharedInstance].manager;

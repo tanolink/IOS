@@ -90,6 +90,9 @@
 		2FFD8B991B076AA000245C8F /* ShopModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FFD8B981B076AA000245C8F /* ShopModel.m */; };
 		2FFD8B9C1B08F14800245C8F /* ShopDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FFD8B9B1B08F14800245C8F /* ShopDetailViewController.m */; };
 		2FFD8B9F1B08F75100245C8F /* CouponViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FFD8B9E1B08F75100245C8F /* CouponViewController.m */; };
+		2FFD8BA61B098FC600245C8F /* CTBView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FFD8BA11B098FC600245C8F /* CTBView.m */; };
+		2FFD8BA71B098FC600245C8F /* CTCBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FFD8BA31B098FC600245C8F /* CTCBar.m */; };
+		2FFD8BA81B098FC600245C8F /* FilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FFD8BA51B098FC600245C8F /* FilterViewController.m */; };
 		4F0DBE6B19EE1B6C001E7CC9 /* PlaceholderTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F0DBE6A19EE1B6C001E7CC9 /* PlaceholderTextView.m */; };
 		4F0DBE6E19EE46A9001E7CC9 /* PickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F0DBE6D19EE46A9001E7CC9 /* PickerViewController.m */; };
 		4F18A7C419EBF0B200BED27D /* ChineseToPinyin.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F18A7C319EBF0B200BED27D /* ChineseToPinyin.m */; };
@@ -294,6 +297,12 @@
 		2FFD8B9B1B08F14800245C8F /* ShopDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopDetailViewController.m; sourceTree = "<group>"; };
 		2FFD8B9D1B08F75100245C8F /* CouponViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CouponViewController.h; sourceTree = "<group>"; };
 		2FFD8B9E1B08F75100245C8F /* CouponViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CouponViewController.m; sourceTree = "<group>"; };
+		2FFD8BA01B098FC600245C8F /* CTBView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTBView.h; sourceTree = "<group>"; };
+		2FFD8BA11B098FC600245C8F /* CTBView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTBView.m; sourceTree = "<group>"; };
+		2FFD8BA21B098FC600245C8F /* CTCBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTCBar.h; sourceTree = "<group>"; };
+		2FFD8BA31B098FC600245C8F /* CTCBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTCBar.m; sourceTree = "<group>"; };
+		2FFD8BA41B098FC600245C8F /* FilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterViewController.h; sourceTree = "<group>"; };
+		2FFD8BA51B098FC600245C8F /* FilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterViewController.m; sourceTree = "<group>"; };
 		4F0DBE6919EE1B6C001E7CC9 /* PlaceholderTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlaceholderTextView.h; path = ../Classes/PlaceholderTextView.h; sourceTree = "<group>"; };
 		4F0DBE6A19EE1B6C001E7CC9 /* PlaceholderTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlaceholderTextView.m; path = ../Classes/PlaceholderTextView.m; sourceTree = "<group>"; };
 		4F0DBE6C19EE46A9001E7CC9 /* PickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PickerViewController.h; path = ../Classes/PickerViewController.h; sourceTree = "<group>"; };
@@ -954,6 +963,12 @@
 		6665313819C80B41005096E7 /* CommonUI */ = {
 			isa = PBXGroup;
 			children = (
+				2FFD8BA01B098FC600245C8F /* CTBView.h */,
+				2FFD8BA11B098FC600245C8F /* CTBView.m */,
+				2FFD8BA21B098FC600245C8F /* CTCBar.h */,
+				2FFD8BA31B098FC600245C8F /* CTCBar.m */,
+				2FFD8BA41B098FC600245C8F /* FilterViewController.h */,
+				2FFD8BA51B098FC600245C8F /* FilterViewController.m */,
 				4F67DBBE19EB80D900AB977C /* JSBadgeView.h */,
 				4F67DBBF19EB80D900AB977C /* JSBadgeView.m */,
 				4F3B55BB19FA582C006DF19F /* UITableView+NXEmptyView.h */,
@@ -1087,6 +1102,7 @@
 				ORGANIZATIONNAME = juran;
 				TargetAttributes = {
 					666530FC19C80ABA005096E7 = {
+						DevelopmentTeam = U924JW2W33;
 						SystemCapabilities = {
 							com.apple.Maps.iOS = {
 								enabled = 0;
@@ -1252,7 +1268,9 @@
 				4FC3D7CB19FE5CE600980CFC /* UIView+MJExtension.m in Sources */,
 				2FFD8B961B073F6C00245C8F /* CellShopList.m in Sources */,
 				2F3F93EB19F7B0ED00080B05 /* FGalleryPhotoView.m in Sources */,
+				2FFD8BA81B098FC600245C8F /* FilterViewController.m in Sources */,
 				2F78665E19F6585400C9440C /* DXFaceView.m in Sources */,
+				2FFD8BA61B098FC600245C8F /* CTBView.m in Sources */,
 				669037D819D912A80018EC44 /* UIImage+ImageWithColor.m in Sources */,
 				4F8BB3311A076D2900C23E39 /* UIResponder+Router.m in Sources */,
 				4FCA71BC19E7B79600BE6F0D /* UIImage+BlurredFrame.m in Sources */,
@@ -1268,6 +1286,7 @@
 				4FC3D7C719FE5CE600980CFC /* MJRefreshFooterView.m in Sources */,
 				4FCA71BD19E7B79600BE6F0D /* UIImage+ImageEffects.m in Sources */,
 				66277F7219D80EE4003282B3 /* ZNWebViewController.m in Sources */,
+				2FFD8BA71B098FC600245C8F /* CTCBar.m in Sources */,
 				2F78666119F6585400C9440C /* FacialView.m in Sources */,
 				4FC3D7C519FE5CE600980CFC /* MJRefreshBaseView.m in Sources */,
 				4FC3D7C619FE5CE600980CFC /* MJRefreshConst.m in Sources */,
@@ -1360,6 +1379,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Ihandy Co., Ltd.";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1398,6 +1418,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Ihandy Co., Ltd.";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1438,7 +1459,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zouni/Zouni-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Zouni/Zouni-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Zouni/Vendors/ShareSDK/Extend/SinaWeiboSDK",
@@ -1496,7 +1517,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zouni/Zouni-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Zouni/Zouni-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Zouni/Vendors/ShareSDK/Extend/SinaWeiboSDK",

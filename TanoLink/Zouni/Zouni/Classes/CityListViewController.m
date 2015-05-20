@@ -65,7 +65,8 @@
 #pragma 初始化数据
 -(void) initData{
     _dataMutableArray = [[NSMutableArray alloc]init];
-    [self performSelector:@selector(loadServerData) withObject:nil afterDelay:0.0f];
+//    [self performSelector:@selector(loadServerData) withObject:nil afterDelay:0.0f];
+    [self loadServerData];
 }
 #pragma 下拉加载最新数据
 -(void)loadNewData{
@@ -127,14 +128,14 @@
     NSDictionary *cityModelDic = (NSDictionary *)[_dataMutableArray objectAtIndex:indexPath.row];
     NSError *err = nil;
     CityModel *cityModel = [[CityModel alloc]initWithDictionary:cityModelDic error:&err];
-//    ShopListViewController *shopListVC = [[ShopListViewController alloc]init];
-//    shopListVC.cityModel = cityModel;
-    // 跳转到店铺列表
-//    [self.navigationController pushViewController:shopListVC animated:YES];
+    ShopListViewController *shopListVC = [[ShopListViewController alloc]init];
+    shopListVC.cityModel = cityModel;
+//     跳转到店铺列表
+    [self.navigationController pushViewController:shopListVC animated:YES];
     
-    MainViewController *mainViewController = [[MainViewController alloc] init];
-    mainViewController.cityModel = cityModel;
-    [self.navigationController pushViewController:mainViewController animated:YES];
+//    MainViewController *mainViewController = [[MainViewController alloc] init];
+//    mainViewController.cityModel = cityModel;
+//    [self.navigationController pushViewController:mainViewController animated:YES];
     
 //    MainViewController *mainViewController = [[MainViewController alloc] init];
 //    ZNBaseNavigationController *cityNavController = [[ZNBaseNavigationController alloc]initWithRootViewController:mainViewController];

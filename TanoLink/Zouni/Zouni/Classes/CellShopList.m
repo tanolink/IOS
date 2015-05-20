@@ -23,15 +23,15 @@
     UILabel *_labScore;
 //    店铺类型
     UILabel *_labShopClass;
-//    星星
+//  星星
     UIImageView *imgStarGray1;
     UIImageView *imgStarGray2;
     UIImageView *imgStarGray3;
     UIImageView *imgStarGray4;
     UIImageView *imgStarGray5;
-//    星星数组
+//  星星数组
     NSMutableArray *_mutArrayStars;
-//    按钮描述
+//  按钮描述
     UILabel *_labShopDetail;
     UILabel *_labShopMap;
     UILabel *_labCoupon;
@@ -40,35 +40,45 @@
     UIImageView *imageSplit1;
     UIImageView *imageSplit2;
     
-//    点评层
+//  点评描述
     UILabel *_labDescription;
-    
+//  点评背景
+    UIView *_viewDescBg;
 }
 - (void)awakeFromNib {}
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 }
 -(void) setCellDataForModel:(ShopModel *) shopModel{
-    [_labShopName setText:shopModel.shopName];
-    [_labScore setText:[NSString stringWithFormat:@"%@分",shopModel.score]];
-    [_labShopClass setText:shopModel.shopClass];
-    NSURL *caseurl = [NSURL URLWithString:shopModel.image];
+    [_labShopName setText:shopModel.ShopName];
+//    [_labShopClass setText:shopModel.shopClass];  // 后台暂时没有分类，先使用英文名称
+    [_labShopClass setText:shopModel.ShopENName];
+    NSString *imageUrl = @"";
+    if ([shopModel.Images count]>0) {
+        imageUrl =shopModel.Images[0];
+    }
+    NSURL *caseurl = [NSURL URLWithString:imageUrl];
     [_imgView sd_setBackgroundImageWithURL:caseurl forState:UIControlStateNormal
                           placeholderImage:[UIImage imageNamed:@"default_userhead"]];
     //处理星星
-    int stars = (int)[shopModel.score integerValue];
+    int stars = (int)[shopModel.Score integerValue];
     for (int i=0 ; i< stars ;i++) {
        UIImageView *imgV = (UIImageView*)_mutArrayStars[i];
         [imgV setImage:[UIImage imageNamed:@"xing02"]];
+    }
+    if(stars>0){
+        [_labScore setText:[NSString stringWithFormat:@"%@分",shopModel.Score]];
+    }else{
+        [_labScore setText:@"0分"];
     }
     NSString *startStr = @"点评：";
     NSString *descContent = [NSString stringWithFormat:@"%@%@",startStr,shopModel.desc];
     NSRange startRange = [descContent rangeOfString:startStr];
     NSMutableAttributedString * attributedString1 = [[NSMutableAttributedString alloc] initWithString:descContent];
     NSMutableParagraphStyle * paragraphStyle1 = [[NSMutableParagraphStyle alloc] init];
-    [paragraphStyle1 setLineSpacing:2];
+    [paragraphStyle1 setLineSpacing:4];
     [paragraphStyle1 setLineBreakMode:NSLineBreakByTruncatingTail];
-    [attributedString1 setAttributes:@{NSForegroundColorAttributeName:[UIColor grayColor],
+    [attributedString1 setAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor],
                                        NSFontAttributeName:DEFAULT_FONT(10),
                                        NSParagraphStyleAttributeName:paragraphStyle1
                                        } range:startRange];
@@ -80,7 +90,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         _labShopName = [[UILabel alloc]initWithFrame:CGRectZero];
-        [_labShopName setFont:DEFAULT_FONT(13)];
+        [_labShopName setFont:DEFAULT_FONT(12)];
         [_labShopName setNumberOfLines:0];
         [_labShopName setTextColor:[UIColor whiteColor]];
         [_labShopName setLineBreakMode:NSLineBreakByTruncatingTail];
@@ -125,6 +135,7 @@
         [_labShopDetail setText:@"商家详情"];
         [_labShopDetail setFont:DEFAULT_FONT(11)];
         [_labShopDetail setTextAlignment:NSTextAlignmentCenter];
+        [_labShopDetail setTextColor:RGBCOLOR(102,102,102)];
         
         self._btnShopMap = [[UIButton alloc]initWithFrame:CGRectZero];
         [self._btnShopMap setImage:[UIImage imageNamed:@"list_icon02"] forState:UIControlStateNormal];
@@ -132,6 +143,7 @@
         [_labShopMap setText:@"地图"];
         [_labShopMap setFont:DEFAULT_FONT(11)];
         [_labShopMap setTextAlignment:NSTextAlignmentCenter];
+        [_labShopMap setTextColor:RGBCOLOR(102,102,102)];
 
         self._btnCoupon = [[UIButton alloc]initWithFrame:CGRectZero];
         [self._btnCoupon setImage:[UIImage imageNamed:@"list_icon03"] forState:UIControlStateNormal];
@@ -139,12 +151,16 @@
         [_labCoupon setText:@"领取优惠券"];
         [_labCoupon setFont:DEFAULT_FONT(11)];
         [_labCoupon setTextAlignment:NSTextAlignmentCenter];
+        [_labCoupon setTextColor:RGBCOLOR(102,102,102)];
         
         _labDescription = [[UILabel alloc]initWithFrame:CGRectZero];
         [_labDescription setFont:DEFAULT_FONT(10)];
         [_labDescription setTextAlignment:NSTextAlignmentLeft];
-        [_labDescription setBackgroundColor:RGBCOLOR(240,240,240)];
         [_labDescription setNumberOfLines:0];
+        [_labDescription setTextColor:[UIColor grayColor]];
+        
+        _viewDescBg = [[UIView alloc]initWithFrame:CGRectZero];
+        [_viewDescBg setBackgroundColor:RGBCOLOR(240,240,240)];
         
         imageSplit1 = [[UIImageView alloc]initWithFrame:CGRectZero];
         [imageSplit1 setImage:[UIImage imageNamed:@"split"]];
@@ -159,26 +175,34 @@
         [_shadeView addSubview:_labShopDetail];
         [_shadeView addSubview:_labShopMap];
         [_shadeView addSubview:_labCoupon];
+        [_viewDescBg addSubview:_labDescription];
+        
         [self.contentView addSubview:_shadeView];
         [self.contentView addSubview:self._btnCoupon];
         [self.contentView addSubview:self._btnShopMap];
         [self.contentView addSubview:self._btnShopDetail];
-        [self.contentView addSubview:_labDescription];
+        [self.contentView addSubview:_viewDescBg];
         [self.contentView addSubview:imageSplit1];
         [self.contentView addSubview:imageSplit2];
         
         // corlor test
 //        [_btnShopDetail setBackgroundColor:[UIColor orangeColor]];
 //        [_btnShopMap setBackgroundColor:[UIColor redColor]];
+        
 //        [_labShopDetail setBackgroundColor:[UIColor purpleColor]];
 //        [_labCoupon setBackgroundColor:[UIColor greenColor]];
+        
+//        [_labDescription setBackgroundColor:[UIColor orangeColor]];
+//        [_labScore setBackgroundColor:[UIColor greenColor]];
+        
     }
     return self;
 }
 -(void)layoutSubviews{
     [super layoutSubviews];
     [_imgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.contentView).offset(10);
+//        make.top.equalTo(self.contentView).offset(10);
+        make.top.equalTo(self.contentView);
         make.left.equalTo(self.contentView);
         make.right.equalTo(self.contentView);
         make.height.equalTo(@(516/3-20));
@@ -269,22 +293,27 @@
         make.size.equalTo(_labShopDetail);
     }];
     
-    [_labDescription mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_labShopDetail.mas_bottom).offset(14/2);
-        make.height.equalTo(@50);
+    [_viewDescBg mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_labShopDetail.mas_bottom).offset(10);
+        make.bottom.equalTo(self.contentView).offset(-10);
         make.left.equalTo(self.contentView).offset(10);
         make.right.equalTo(self.contentView).offset(-10);
     }];
     
+    [_labDescription mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_viewDescBg).offset(6);
+        make.height.equalTo(_viewDescBg).offset(-10);
+        make.left.equalTo(_viewDescBg).offset(5);
+        make.right.equalTo(_viewDescBg).offset(-5);
+    }];
+    
     [imageSplit1 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_imgView.mas_bottom).offset(6);
-//        make.left.equalTo(_btnShopDetail.mas_right).offset(30);
         make.left.equalTo(self.contentView).offset(self.contentView.frame.size.width/3);
-        make.height.equalTo(@60);
+        make.bottom.equalTo(_viewDescBg.mas_top).offset(-4);
     }];
     [imageSplit2 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(imageSplit1);
-//        make.left.equalTo(_btnCoupon).offset(-30);
         make.right.equalTo(self.contentView).offset(-self.contentView.frame.size.width/3);
         make.height.equalTo(imageSplit1);
     }];

@@ -18,11 +18,13 @@
 #define JR_BASE_URL   @"http://182.92.108.45/"
 #else
 /*外网测试地址*/
-#define JR_BASE_URL   @"http://...:/"
+//#define JR_BASE_URL   @"http://...:/"
 #endif
 
 
 #define TestHeaderMD5 @"0,5848e1a72107f97600dc3c3f917d58f4"
+//#define TestHeaderMD5 @"0,1bf304dc01310c6b0aa7983ecc9e4d35"
+
 
 /*发现*/
 #define ZN_CITYLIST_API                 @"api/Cities"                      /*城市列表*/
@@ -40,8 +42,6 @@ typedef void (^ZNObjectBlock)(id resultObj,NSString *msg,ZNRespModel *respModel)
 @interface ZNApi : NSObject
 
 + (void )invokePost:(NSString *)URLString parameters:(id)parameters completion: (ZNObjectBlock)completeBlock;
-
-+ (void )invokePostOne:(NSString *)URLString parameters:(id)parameters completion: (ZNObjectBlock)completeBlock;
 
 + (void )invokeGet:(NSString *)URLString parameters:(id)parameters completion: (ZNObjectBlock)completeBlock;
 

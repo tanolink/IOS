@@ -30,10 +30,10 @@
     self.delegate = self;
     [self setTitle:@"走你"];
 
-    NSArray *tarbarItems = @[@{@"title":@"发现",@"imgStr":@"tabbar_case",@"imgHlStr":@"tabbar_case_hl"},
-                             @{@"title":@"攻略",@"imgStr":@"tabbar_subject",@"imgHlStr":@"tabbar_subject_hl"},
-                             @{@"title":@"工具",@"imgStr":@"tabbar_demands",@"imgHlStr":@"tabbar_demands_hl"},
-                             @{@"title":@"我的",@"imgStr":@"tabbar_designer",@"imgHlStr":@"tabbar_designer_hl"}];
+    NSArray *tarbarItems = @[@{@"title":@"发现",@"imgStr":@"tab01_a",@"imgHlStr":@"tab01_b"},
+                             @{@"title":@"攻略",@"imgStr":@"tab02_a",@"imgHlStr":@"tab02_b"},
+                             @{@"title":@"工具",@"imgStr":@"tab03_a",@"imgHlStr":@"tab03_b"},
+                             @{@"title":@"我的",@"imgStr":@"tab04_a",@"imgHlStr":@"tab04_b"}];
     
     ShopListViewController *shopListVC = [[ShopListViewController alloc]init];
     ZNBaseNavigationController *shopListNavController = [[ZNBaseNavigationController alloc]initWithRootViewController:shopListVC];
@@ -59,7 +59,8 @@
         navController.tabBarItem.tag = index;
         UIOffset offset = [navController.tabBarItem titlePositionAdjustment];
         [navController.tabBarItem setTitlePositionAdjustment:UIOffsetMake(offset.horizontal, offset.vertical - 3.f)];
-        navController.tabBarItem.imageInsets = UIEdgeInsetsMake(-3.f, 0, 3.f, 0);
+//        navController.tabBarItem.imageInsets = UIEdgeInsetsMake(-3.f, 0, 3.f, 0);
+        navController.tabBarItem.imageInsets = UIEdgeInsetsMake(3,3,3,3);
         [self unSelectedTapTabBarItems:navController.tabBarItem];
         [self selectedTapTabBarItems:navController.tabBarItem];
     }

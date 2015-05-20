@@ -17,18 +17,45 @@
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
+//    [super viewDidLoad];
+//    
+//    self.delegate = self;
+//    UIImage *image = nil;
+//    if (JRSystemVersionGreaterOrEqualThan(7.0)) {
+//        [[UINavigationBar appearance] setBarTintColor:[UIColor blackColor]];
+//         [[UINavigationBar appearance] setBarStyle:UIBarStyleBlackTranslucent ];
+//        
+//        NSMutableDictionary *titleBarAttributes = [NSMutableDictionary dictionaryWithDictionary: [[UINavigationBar appearance] titleTextAttributes]];
+//        [titleBarAttributes setValue:DEFAULT_BOLD_FONT(16) forKey:UITextAttributeFont];
+//        [[UINavigationBar appearance] setTitleTextAttributes:titleBarAttributes];
+//
+//    } else {
+//        image = [UIImage imageNamed:@"titleBar"];
+//        [[UIApplication sharedApplication]setStatusBarStyle:UIStatusBarStyleBlackOpaque];
+//    }
+//    
+//    if (image &&[self.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)]) {
+//        [self.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
+//    }
+//    if ([self respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+//        self.interactivePopGestureRecognizer.delegate = self;
+//    }
+    
     
     self.delegate = self;
     UIImage *image = nil;
     if (JRSystemVersionGreaterOrEqualThan(7.0)) {
+        //        [[UINavigationBar appearance] setBarTintColor:RGBCOLOR(28,161,230)];
         [[UINavigationBar appearance] setBarTintColor:[UIColor blackColor]];
-         [[UINavigationBar appearance] setBarStyle:UIBarStyleBlackTranslucent ];
+        
+        //[[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"navigation_bar_background"] forBarMetrics:UIBarMetricsDefault];
+        [[UINavigationBar appearance] setBarStyle:UIBarStyleBlackTranslucent];
+        //self.navigationBar.translucent = NO;
         
         NSMutableDictionary *titleBarAttributes = [NSMutableDictionary dictionaryWithDictionary: [[UINavigationBar appearance] titleTextAttributes]];
-        [titleBarAttributes setValue:DEFAULT_BOLD_FONT(16) forKey:UITextAttributeFont];
+        [titleBarAttributes setValue:DEFAULT_BOLD_FONT(18) forKey:UITextAttributeFont];
         [[UINavigationBar appearance] setTitleTextAttributes:titleBarAttributes];
-
+        
     } else {
         image = [UIImage imageNamed:@"titleBar"];
         [[UIApplication sharedApplication]setStatusBarStyle:UIStatusBarStyleBlackOpaque];
@@ -38,8 +65,11 @@
         [self.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
     }
     if ([self respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
-        self.interactivePopGestureRecognizer.delegate = self;
+        //self.interactivePopGestureRecognizer.delegate = self;
     }
+    
+    
+    
 }
 
 - (void)didReceiveMemoryWarning
