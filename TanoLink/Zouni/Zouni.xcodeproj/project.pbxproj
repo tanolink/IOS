@@ -1459,7 +1459,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zouni/Zouni-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Zouni/Zouni-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Zouni/Vendors/ShareSDK/Extend/SinaWeiboSDK",
@@ -1517,7 +1517,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zouni/Zouni-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/Zouni/Zouni-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Zouni/Vendors/ShareSDK/Extend/SinaWeiboSDK",

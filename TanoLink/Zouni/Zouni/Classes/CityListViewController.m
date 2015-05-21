@@ -41,7 +41,7 @@
 -(void)BuildUI{
     [self setTitle:@"选择城市"];
     // 是否显示返回按钮
-    if(YES){
+    if(self.isNeedBack){
         [self setBackBarButton];
     }
     [_gTableView setBackgroundColor:[UIColor grayColor]];
@@ -128,18 +128,13 @@
     NSDictionary *cityModelDic = (NSDictionary *)[_dataMutableArray objectAtIndex:indexPath.row];
     NSError *err = nil;
     CityModel *cityModel = [[CityModel alloc]initWithDictionary:cityModelDic error:&err];
-    ShopListViewController *shopListVC = [[ShopListViewController alloc]init];
-    shopListVC.cityModel = cityModel;
-//     跳转到店铺列表
-    [self.navigationController pushViewController:shopListVC animated:YES];
-    
-//    MainViewController *mainViewController = [[MainViewController alloc] init];
-//    mainViewController.cityModel = cityModel;
-//    [self.navigationController pushViewController:mainViewController animated:YES];
-    
-//    MainViewController *mainViewController = [[MainViewController alloc] init];
-//    ZNBaseNavigationController *cityNavController = [[ZNBaseNavigationController alloc]initWithRootViewController:mainViewController];
-//    [[UIApplication sharedApplication] keyWindow].rootViewController = cityNavController;
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setObject:cityModel.CityId forKey:@"CityId"];
+    [userDefaults setObject:cityModel.CityNameCN forKey:@"CityNameCN"];
+    [userDefaults synchronize];
+    MainViewController *mainViewController = [[MainViewController alloc] init];
+    mainViewController.cityModel = cityModel;
+    [[UIApplication sharedApplication] keyWindow].rootViewController = mainViewController;
 }
 
 -(UIView *)emptyView{

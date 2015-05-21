@@ -17,8 +17,8 @@
 
 - (void)viewDidLoad
 {
-//    [super viewDidLoad];
-//    
+    [super viewDidLoad];
+//
 //    self.delegate = self;
 //    UIImage *image = nil;
 //    if (JRSystemVersionGreaterOrEqualThan(7.0)) {

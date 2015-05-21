@@ -20,22 +20,20 @@
 @end
 
 @implementation MainViewController
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    [self BackButton];
-}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.delegate = self;
-    [self setTitle:@"走你"];
-
+    
+    [self setTitle:@"发现"];
     NSArray *tarbarItems = @[@{@"title":@"发现",@"imgStr":@"tab01_a",@"imgHlStr":@"tab01_b"},
                              @{@"title":@"攻略",@"imgStr":@"tab02_a",@"imgHlStr":@"tab02_b"},
                              @{@"title":@"工具",@"imgStr":@"tab03_a",@"imgHlStr":@"tab03_b"},
                              @{@"title":@"我的",@"imgStr":@"tab04_a",@"imgHlStr":@"tab04_b"}];
     
     ShopListViewController *shopListVC = [[ShopListViewController alloc]init];
+    shopListVC.cityModel = self.cityModel;
     ZNBaseNavigationController *shopListNavController = [[ZNBaseNavigationController alloc]initWithRootViewController:shopListVC];
     
     StrategyViewController *strategyViewController = [[StrategyViewController alloc]init];
@@ -53,57 +51,46 @@
         NSDictionary *tarbarItem = [tarbarItems objectAtIndex:index];
         UINavigationController *navController = self.viewControllers[index];
         UIImage *normalImage = [UIImage imageNamed:tarbarItem[@"imgStr"]];
+//        normalImage = [normalImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         UIImage *selectImage = [UIImage imageNamed:tarbarItem[@"imgHlStr"]];
+//        selectImage = [normalImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         [navController.tabBarItem setFinishedSelectedImage:selectImage withFinishedUnselectedImage:normalImage];
         navController.tabBarItem.title = tarbarItem[@"title"];
         navController.tabBarItem.tag = index;
         UIOffset offset = [navController.tabBarItem titlePositionAdjustment];
         [navController.tabBarItem setTitlePositionAdjustment:UIOffsetMake(offset.horizontal, offset.vertical - 3.f)];
-//        navController.tabBarItem.imageInsets = UIEdgeInsetsMake(-3.f, 0, 3.f, 0);
+//        navController.tabBarItem.imageInsets = UIEdgeInsetsMake(3.f,0,-3.f,0);
         navController.tabBarItem.imageInsets = UIEdgeInsetsMake(3,3,3,3);
+
         [self unSelectedTapTabBarItems:navController.tabBarItem];
         [self selectedTapTabBarItems:navController.tabBarItem];
     }
-    
-}
-
--(void) BackButton {
-    NSString *aTitle = self.cityModel.CityNameCN;
-    UIFont * font=DEFAULT_FONT(13);
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    CGSize size = [aTitle sizeWithFont:font constrainedToSize:CGSizeMake(ScreenWidth, 30)];
-    CGRect rect = CGRectMake(0, 0, size.width, 30);
-    UIImage *image = [UIImage imageNamed:@""];
-    if (image) {
-        rect = CGRectMake(0, 0, MIN(22.f,  image.size.width)/*25.f*/, MIN( image.size.height,22.f )/*25.f*/);
-    }
-    button.frame = rect;
-    [button setTitle:aTitle forState:UIControlStateNormal];
-    button.titleLabel.font = font;
-    [button setTitleColor:[UIColor colorWithWhite:1.000 alpha:1.000] forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor colorWithRed:0.953 green:0.948 blue:0.959 alpha:1.000] forState:UIControlStateHighlighted];
-    [button setBackgroundImage:image forState:UIControlStateNormal];
-    //    [button setBackgroundImage:highligteImage forState:UIControlStateHighlighted];
-    button.imageView.contentMode = UIViewContentModeScaleToFill;
-    [button addTarget:self action:@selector(goBack) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
-}
-
-
--(void)goBack {
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)unSelectedTapTabBarItems:(UITabBarItem *)tabbarItem
 {
-    [tabbarItem setTitleTextAttributes:@{NSFontAttributeName: DEFAULT_FONT(11), NSForegroundColorAttributeName:[UIColor blackColor] } forState:UIControlStateNormal ];
+    [tabbarItem setTitleTextAttributes:@{NSFontAttributeName: DEFAULT_FONT(11),
+                                         NSForegroundColorAttributeName:RGBCOLOR(135,150,157)}
+                                        forState:UIControlStateNormal ];
     
 }
 
 -(void)selectedTapTabBarItems:(UITabBarItem *)tabbarItem
 {
-    [tabbarItem setTitleTextAttributes:@{NSFontAttributeName: DEFAULT_FONT(11), NSForegroundColorAttributeName:[UIColor colorWithRed:0.068 green:0.331 blue:0.641 alpha:1.000] } forState:UIControlStateSelected];
+    [tabbarItem setTitleTextAttributes:@{NSFontAttributeName: DEFAULT_FONT(11),
+                                         NSForegroundColorAttributeName:RGBCOLOR(254, 130, 0)}
+                                        forState:UIControlStateSelected];
 }
+
+//-(void)unSelectedTapTabBarItems:(UITabBarItem *)tabbarItem
+//{
+//    [tabbarItem setTitleTextAttributes:@{NSFontAttributeName: DEFAULT_FONT(11), NSForegroundColorAttributeName:[UIColor blackColor] } forState:UIControlStateNormal ];
+//}
+//
+//-(void)selectedTapTabBarItems:(UITabBarItem *)tabbarItem
+//{
+//    [tabbarItem setTitleTextAttributes:@{NSFontAttributeName: DEFAULT_FONT(11), NSForegroundColorAttributeName:[UIColor colorWithRed:0.068 green:0.331 blue:0.641 alpha:1.000] } forState:UIControlStateSelected];
+//}
 
 
 - (void)didReceiveMemoryWarning

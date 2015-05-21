@@ -154,7 +154,7 @@
         [_labCoupon setTextColor:RGBCOLOR(102,102,102)];
         
         _labDescription = [[UILabel alloc]initWithFrame:CGRectZero];
-        [_labDescription setFont:DEFAULT_FONT(10)];
+        [_labDescription setFont:DEFAULT_FONT(11)];
         [_labDescription setTextAlignment:NSTextAlignmentLeft];
         [_labDescription setNumberOfLines:0];
         [_labDescription setTextColor:[UIColor grayColor]];

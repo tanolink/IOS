@@ -37,11 +37,19 @@ static NSString *const kAPIKey = @"AIzaSyBUyVmigb163ipK0MyITVJt76RR0XBwnKk";
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
 
-//    MainViewController *mainViewController = [[MainViewController alloc] init];
-//    self.window.rootViewController = mainViewController;
-    CityListViewController *cityListVC = [[CityListViewController alloc]init];
-    ZNBaseNavigationController *cityNavController = [[ZNBaseNavigationController alloc]initWithRootViewController:cityListVC];
-    self.window.rootViewController = cityNavController;
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if([userDefaults objectForKey:@"CityId"]){
+        MainViewController *mainViewController = [[MainViewController alloc] init];
+        CityModel *cityModel = [CityModel new];
+        cityModel.CityNameCN = [userDefaults objectForKey:@"CityNameCN"];
+        cityModel.CityId = [userDefaults objectForKey:@"CityId"];
+        mainViewController.cityModel = cityModel;
+        self.window.rootViewController = mainViewController;
+    }else{
+        CityListViewController *cityListVC = [[CityListViewController alloc]init];
+        ZNBaseNavigationController *cityNavController = [[ZNBaseNavigationController alloc]initWithRootViewController:cityListVC];
+        self.window.rootViewController = cityNavController;
+    }
     
 //    [[NSNotificationCenter defaultCenter] addObserver:self
 //                                             selector:@selector(loginStateChange:)
@@ -56,7 +64,7 @@ static NSString *const kAPIKey = @"AIzaSyBUyVmigb163ipK0MyITVJt76RR0XBwnKk";
     [self.window makeKeyAndVisible];
     
 
-    [self initPushService :launchOptions];
+//    [self initPushService :launchOptions];
     return YES;
 }
 

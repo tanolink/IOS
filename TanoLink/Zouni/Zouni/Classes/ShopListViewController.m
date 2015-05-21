@@ -49,17 +49,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setBackBarButton];
+//    [self setLeftNabBar];
     [self setRightButton];
     [self BuildUI];
     [self initData];
 }
 #pragma 初始化页面
 -(void)BuildUI{
-    [self setTitle:@"走你"];
-    // 是否显示返回按钮
-    if(YES){
-        [self setBackBarButton];
-    }
+    [self setTitle:@"发现"];
+    
     // 初始化筛选导航栏
     [self initTBar];
     // 初始化表格
@@ -84,12 +82,73 @@
     }];
     [self.view addSubview:_gTableView];
 }
+-(void) setBackBarButton{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *aTitle = [userDefaults objectForKey:@"CityNameCN"];
+    
+    [self setBackBarButtonItemTitle:aTitle target:self action:@selector(goToSelectCity)];
+    
+//    UIButton *button = [self buttonWithTitle:aTitle image:[UIImage imageNamed:@"arrow_down"]  highligted:[UIImage imageNamed:@"arrow_down"]  target:self action:@selector(goToSelectCity)];
+//    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
+    
+//    UIFont * font =  DEFAULT_FONT(12);
+//    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+//    CGRect rect = CGRectMake(0, 0,60,30);
+//    UIImage *image = [UIImage imageNamed:@"arrow_down"];
+//    button.frame = rect;
+//    [button setTitle:aTitle forState:UIControlStateNormal];
+//    button.titleLabel.font = font;
+//    [button setBackgroundImage:image forState:UIControlStateNormal];
+////    [button setTitleEdgeInsets:UIEdgeInsetsMake(0,0,0,50)];
+//    button.imageEdgeInsets = UIEdgeInsetsMake(5,5,0,0);
+//    button.imageView.contentMode = UIViewContentModeScaleToFill;
+//    [button addTarget:self action:@selector(goToSelectCity) forControlEvents:UIControlEventTouchUpInside];
+//    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
+}
+-(void) setLeftNabBar{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *aTitle = [userDefaults objectForKey:@"CityNameCN"];
+    UIView *rightItemView = [[UIView alloc]initWithFrame:CGRectMake(0,0,76,44)];
+    UILabel *labCheck = [[UILabel alloc]init];
+    [labCheck setText:aTitle];
+    [labCheck setTextColor:[UIColor whiteColor]];
+    [labCheck setFont:DEFAULT_FONT(13)];
+    [labCheck setBackgroundColor:[UIColor clearColor]];
+    labCheck.frame = CGRectMake(0,0,30,44);
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    CGRect rect = CGRectMake(CGRectGetMaxX(labCheck.frame),(44-18)/2,18,18);
+    button.imageEdgeInsets = UIEdgeInsetsMake(3,3,3,3);
+    button.frame = rect;
+    [button setTitleColor:[UIColor colorWithWhite:1.000 alpha:1.000] forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor colorWithRed:0.953 green:0.948 blue:0.959 alpha:1.000] forState:UIControlStateHighlighted];
+    [button setBackgroundImage:[UIImage imageNamed:@"arrow_down"] forState:UIControlStateNormal];
+    button.imageView.contentMode = UIViewContentModeScaleToFill;
+    [rightItemView addSubview:button];
+    [rightItemView addSubview:labCheck];
+    
+    [labCheck setBackgroundColor:[UIColor orangeColor]];
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithCustomView:rightItemView];
+    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                                                                   target:nil action:nil];
+    negativeSpacer.width = -12;
+    self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:negativeSpacer,rightItem,nil];
+}
+
+-(void) goToSelectCity{
+    CityListViewController *cityListVC = [[CityListViewController alloc]init];
+    cityListVC.isNeedBack = YES;
+//    ZNBaseNavigationController *cityNavController = [[ZNBaseNavigationController alloc]initWithRootViewController:cityListVC];
+//    [[UIApplication sharedApplication] keyWindow].rootViewController = cityNavController;
+    
+    [self.navigationController pushViewController:cityListVC animated:YES];
+    
+}
+
 #pragma mark - 初始化筛选栏
 -(void)initTBar{
     _barheight = 40;
 //    self.defaultChoiceSelType = @"";
 //    self.defaultChoiceSelSort= @"";
-    [self defaultchocieDic];
     NSArray *ctbData = @[@[@"类型",@"tab_arrow"],@[@"排序",@"tab_arrow"]];
     headerView = [[CTCBar alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width,_barheight) andArrData:ctbData bSpera:YES andBlock:^(NSUInteger idx) {
         if (idx == 0) {
@@ -100,14 +159,6 @@
             [self.chocieViewType closePopupWindow];
         }
     }];
-}
-
--(NSMutableDictionary *) defaultchocieDic {
-    if (!_defaultchocieDic) {
-        _defaultchocieDic = [NSMutableDictionary dictionary];
-        self.defaultchocieDic[@"0"] = @"";// 全部
-    }
-    return _defaultchocieDic;
 }
 
 -(CTBView*)chocieViewType {

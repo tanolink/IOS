@@ -9,5 +9,5 @@
 #import "ZNBaseViewController.h"
 
 @interface CityListViewController : ZNBaseViewController<UITableViewDataSource,UITableViewDelegate>
-
+@property(nonatomic,assign) BOOL isNeedBack;
 @end
