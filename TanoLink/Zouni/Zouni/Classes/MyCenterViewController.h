@@ -8,6 +8,6 @@
 
 #import "ZNBaseViewController.h"
 
-@interface MyCenterViewController : ZNBaseViewController
+@interface MyCenterViewController : ZNBaseViewController<UITableViewDataSource,UITableViewDelegate>
 
 @end

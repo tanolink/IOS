@@ -20,51 +20,37 @@
 #import "ZNBaseNavigationController.h"
 #import <GoogleMaps/GoogleMaps.h>
 
+#import "InterfaceViewController.h"
+
+
 @implementation ZNAppDelegate
 static NSString *const kAPIKey = @"AIzaSyBUyVmigb163ipK0MyITVJt76RR0XBwnKk";
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    
-      [GMSServices provideAPIKey:kAPIKey];
-    
-    
-    /*参数为ShareSDK官网中添加应用后得到的AppKey*/
-//    _viewDelegate = [[AGViewDelegate alloc] init];
-    
-//    [ShareSDK registerApp:shareSdkAppKey];
-//    [self registerAllSocialApp];
+    [GMSServices provideAPIKey:kAPIKey];
     [[AFNetworkReachabilityManager sharedManager]startMonitoring];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
-
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    if([userDefaults objectForKey:@"CityId"]){
-        MainViewController *mainViewController = [[MainViewController alloc] init];
-        CityModel *cityModel = [CityModel new];
-        cityModel.CityNameCN = [userDefaults objectForKey:@"CityNameCN"];
-        cityModel.CityId = [userDefaults objectForKey:@"CityId"];
-        mainViewController.cityModel = cityModel;
-        self.window.rootViewController = mainViewController;
+    // 调试接口
+    if(NO){
+        InterfaceViewController *interfaceTest = [InterfaceViewController new];
+        self.window.rootViewController = interfaceTest;
     }else{
-        CityListViewController *cityListVC = [[CityListViewController alloc]init];
-        ZNBaseNavigationController *cityNavController = [[ZNBaseNavigationController alloc]initWithRootViewController:cityListVC];
-        self.window.rootViewController = cityNavController;
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        if([userDefaults objectForKey:@"CityId"]){
+            MainViewController *mainViewController = [[MainViewController alloc] init];
+            CityModel *cityModel = [CityModel new];
+            cityModel.CityNameCN = [userDefaults objectForKey:@"CityNameCN"];
+            cityModel.CityId = [userDefaults objectForKey:@"CityId"];
+            mainViewController.cityModel = cityModel;
+            self.window.rootViewController = mainViewController;
+        }else{
+            CityListViewController *cityListVC = [[CityListViewController alloc]init];
+            ZNBaseNavigationController *cityNavController = [[ZNBaseNavigationController alloc]initWithRootViewController:cityListVC];
+            self.window.rootViewController = cityNavController;
+        }
     }
-    
-//    [[NSNotificationCenter defaultCenter] addObserver:self
-//                                             selector:@selector(loginStateChange:)
-//                                                 name:KNOTIFICATION_LOGINCHANGE
-//                                               object:nil];
-//
-//    
-//    [[IQKeyboardManager sharedManager] setEnable:YES];
-//    [[IQKeyboardManager sharedManager] setEnableAutoToolbar:NO];
-//    [[IQKeyboardManager sharedManager] setShouldShowTextFieldPlaceholder:YES];
-
     [self.window makeKeyAndVisible];
-    
-
-//    [self initPushService :launchOptions];
     return YES;
 }
 

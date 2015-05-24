@@ -300,10 +300,10 @@
     NSError *err = nil;
     ShopModel *shopModel = [[ShopModel alloc]initWithDictionary:shopModelDic error:&err];
     [cell setCellDataForModel:shopModel];
-    
     // 事件
     [cell._btnShopDetail handleControlEvent:UIControlEventTouchUpInside withBlock:^{
         ShopDetailViewController *shopDetailVC = [[ShopDetailViewController alloc]init];
+        shopDetailVC.shopModel = shopModel;
         [self.navigationController pushViewController:shopDetailVC animated:YES];
     }];
     [cell._btnShopMap handleControlEvent:UIControlEventTouchUpInside withBlock:^{

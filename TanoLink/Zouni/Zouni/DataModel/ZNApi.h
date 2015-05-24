@@ -22,19 +22,20 @@
 #endif
 
 
-#define TestHeaderMD5 @"0,5848e1a72107f97600dc3c3f917d58f4"
-//#define TestHeaderMD5 @"0,1bf304dc01310c6b0aa7983ecc9e4d35"
-
+#define DefaultHeaderMD5 @"0,5848e1a72107f97600dc3c3f917d58f4"
+#define DefautlKey @"1bf304dc01310c6b0aa7983ecc9e4d35"
 
 /*发现*/
 #define ZN_CITYLIST_API                 @"api/Cities"                      /*城市列表*/
 #define ZN_SHOPLIST_API                 @"api/ShopList"                    /*城市下的店铺列表*/
-#define ZN_SHOPDETAIL_API               @"api/ShopDetail"
+#define ZN_SHOPDETAIL_API               @"api/ShopDetail"                  /*店铺详情*/
+#define ZN_ADDFAVORITE_API              @"api/AddFavorite"                 /*增加收藏*/
+#define ZN_DELFAVORITES_API             @"api/DelFavorites"                /*取消店铺收藏，单个、多个*/
+#define ZN_COUPON_API                   @"api/Coupon"                      /*优惠券*/ //shopId=1&invitationCode=aaa
 
 /*我的个人中心*/
-
-/*登录注册*/
-#define ZN_LOGIN_API                  @"member/login.json"                      /*登录接口*/
+#define ZN_LOGIN_API                    @"api/login"                       /*登录*/   // email=gdw&password=
+#define ZN_REPWD_API                    @"api/repwd"                       /*修改密码*/ //email=&password=&code=8761
 
 
 typedef void (^ZNObjectBlock)(id resultObj,NSString *msg,ZNRespModel *respModel);
@@ -48,4 +49,5 @@ typedef void (^ZNObjectBlock)(id resultObj,NSString *msg,ZNRespModel *respModel)
 + (instancetype)sharedInstance;
 
 @property (nonatomic, strong) AFHTTPRequestOperationManager *manager;
+@property (nonatomic, strong) NSString *headerPermit;
 @end

@@ -35,4 +35,6 @@
 -(void)setLogBackBarButton:(NSString *)imgStr target:(id)target action:(SEL)action;
 -(void)setNoLogBackBarButton;
 -(void)rightAction;
+-(void) createLineByWidth:(float) width withParentContainer:(UIView *)paretView;
+
 @end

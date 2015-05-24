@@ -96,6 +96,12 @@ extern NSString *const kNeedLoginErrStr;
 
 #define DEFAULT_BOLD_FONT(fontSize) [UIFont boldSystemFontOfSize:fontSize]
 
+#define ZN_FONNT_01_BLACK  [UIColor colorWithRed:(CGFloat)51/255.0 green:(CGFloat)51/255.0 blue:(CGFloat)51/255.0 alpha:1]
+#define ZN_FONNT_02_GRAY  [UIColor colorWithRed:(CGFloat)102/255.0 green:(CGFloat)102/255.0 blue:(CGFloat)102/255.0 alpha:1]
+#define ZN_FONNT_03_LIGHTGRAY  [UIColor colorWithRed:(CGFloat)153/255.0 green:(CGFloat)153/255.0 blue:(CGFloat)153/255.0 alpha:1]
+#define ZN_FONNT_04_ORANGE  [UIColor colorWithRed:(CGFloat)254/255.0 green:(CGFloat)153/255.0 blue:0 alpha:1]
+#define ZN_BACKGROUND_COLOR  [UIColor colorWithRed:(CGFloat)240/255.0 green:(CGFloat)240/255.0 blue:(CGFloat)240/255.0 alpha:1]
+#define ZN_BORDER_LINE_COLOR  [UIColor colorWithRed:(CGFloat)215/255.0 green:(CGFloat)215/255.0 blue:(CGFloat)215/255.0 alpha:1]
 
 @interface ZNAppUtil : NSObject
 
@@ -117,4 +123,5 @@ extern NSString *const kNeedLoginErrStr;
 +(id)loadObjFromFile:(NSString *)fileName;
 +(NSString *)objToJsonStr:(id)obj;
 
++(NSString *)toMd5:(NSString *) md5;
 @end

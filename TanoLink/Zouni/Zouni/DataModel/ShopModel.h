@@ -19,7 +19,7 @@
 @property (nonatomic, strong) NSString <Optional>*Coupon;
 @property (nonatomic, strong) NSString <Optional>*ShopPhone;
 @property (nonatomic, strong) NSString <Optional>*Translate;
-@property (nonatomic, strong) NSString <Optional>*shopClass;
+@property (nonatomic, strong) NSString <Optional>*ShopClass;
 @property (nonatomic, strong) NSString <Optional>*Address;
 @property (nonatomic, strong) NSString <Optional>*PX;
 @property (nonatomic, strong) NSString <Optional>*ShopName;
@@ -31,4 +31,5 @@
 @property (nonatomic, strong) NSString <Optional>*JSLocation;
 @property (nonatomic, strong) NSString <Optional>*hours;
 @property (nonatomic, strong) NSString <Optional>*website;
+@property (nonatomic, strong) NSString <Optional>*distance;
 @end

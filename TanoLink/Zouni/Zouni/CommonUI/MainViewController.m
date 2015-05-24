@@ -60,7 +60,7 @@
         UIOffset offset = [navController.tabBarItem titlePositionAdjustment];
         [navController.tabBarItem setTitlePositionAdjustment:UIOffsetMake(offset.horizontal, offset.vertical - 3.f)];
 //        navController.tabBarItem.imageInsets = UIEdgeInsetsMake(3.f,0,-3.f,0);
-        navController.tabBarItem.imageInsets = UIEdgeInsetsMake(3,3,3,3);
+//        navController.tabBarItem.imageInsets = UIEdgeInsetsMake(3,3,3,3);
 
         [self unSelectedTapTabBarItems:navController.tabBarItem];
         [self selectedTapTabBarItems:navController.tabBarItem];

@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		2B0365E882154361A3D7598E /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B7A4F8B1F5C642EDA1561C5F /* libPods.a */; };
+		2F151C951B1021AE000818AD /* InterfaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F151C941B1021AE000818AD /* InterfaceViewController.m */; };
+		2F151C981B109475000818AD /* CellShopDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F151C971B109475000818AD /* CellShopDetail.m */; };
+		2F151C9C1B10C60D000818AD /* CExpandHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F151C9B1B10C60D000818AD /* CExpandHeader.m */; };
+		2F151C9F1B10EAA4000818AD /* MyInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F151C9E1B10EAA4000818AD /* MyInfoViewController.m */; };
 		2F3F93EA19F7B0ED00080B05 /* FGalleryPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F3F93E319F7B0ED00080B05 /* FGalleryPhoto.m */; };
 		2F3F93EB19F7B0ED00080B05 /* FGalleryPhotoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F3F93E519F7B0ED00080B05 /* FGalleryPhotoView.m */; };
 		2F3F93EC19F7B0ED00080B05 /* FGalleryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F3F93E719F7B0ED00080B05 /* FGalleryViewController.m */; };
@@ -187,6 +191,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2F151C931B1021AD000818AD /* InterfaceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterfaceViewController.h; sourceTree = "<group>"; };
+		2F151C941B1021AE000818AD /* InterfaceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InterfaceViewController.m; sourceTree = "<group>"; };
+		2F151C961B109475000818AD /* CellShopDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellShopDetail.h; sourceTree = "<group>"; };
+		2F151C971B109475000818AD /* CellShopDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CellShopDetail.m; sourceTree = "<group>"; };
+		2F151C9A1B10C60D000818AD /* CExpandHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CExpandHeader.h; sourceTree = "<group>"; };
+		2F151C9B1B10C60D000818AD /* CExpandHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CExpandHeader.m; sourceTree = "<group>"; };
+		2F151C9D1B10EAA4000818AD /* MyInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyInfoViewController.h; sourceTree = "<group>"; };
+		2F151C9E1B10EAA4000818AD /* MyInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyInfoViewController.m; sourceTree = "<group>"; };
 		2F3F93E219F7B0ED00080B05 /* FGalleryPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGalleryPhoto.h; sourceTree = "<group>"; };
 		2F3F93E319F7B0ED00080B05 /* FGalleryPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGalleryPhoto.m; sourceTree = "<group>"; };
 		2F3F93E419F7B0ED00080B05 /* FGalleryPhotoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGalleryPhotoView.h; sourceTree = "<group>"; };
@@ -505,6 +517,15 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		2F151C991B10C60D000818AD /* HeaderView */ = {
+			isa = PBXGroup;
+			children = (
+				2F151C9A1B10C60D000818AD /* CExpandHeader.h */,
+				2F151C9B1B10C60D000818AD /* CExpandHeader.m */,
+			);
+			path = HeaderView;
+			sourceTree = "<group>";
+		};
 		2F3F93E119F7B0ED00080B05 /* Gallery */ = {
 			isa = PBXGroup;
 			children = (
@@ -696,6 +717,8 @@
 				2FFD8B9B1B08F14800245C8F /* ShopDetailViewController.m */,
 				2FFD8B9D1B08F75100245C8F /* CouponViewController.h */,
 				2FFD8B9E1B08F75100245C8F /* CouponViewController.m */,
+				2F151C961B109475000818AD /* CellShopDetail.h */,
+				2F151C971B109475000818AD /* CellShopDetail.m */,
 			);
 			name = Discovery;
 			sourceTree = "<group>";
@@ -723,6 +746,8 @@
 			children = (
 				2FE762951B03234E00B598FF /* MyCenterViewController.h */,
 				2FE762961B03234E00B598FF /* MyCenterViewController.m */,
+				2F151C9D1B10EAA4000818AD /* MyInfoViewController.h */,
+				2F151C9E1B10EAA4000818AD /* MyInfoViewController.m */,
 			);
 			name = MyCenter;
 			sourceTree = "<group>";
@@ -917,6 +942,7 @@
 		6665313519C80B41005096E7 /* Vendors */ = {
 			isa = PBXGroup;
 			children = (
+				2F151C991B10C60D000818AD /* HeaderView */,
 				2FBF21191A14BF8100E29500 /* Reachability */,
 				4F632E291A08C04C001F65C6 /* jpushsdk */,
 				2F3F93E119F7B0ED00080B05 /* Gallery */,
@@ -944,6 +970,8 @@
 				2FE7628A1B02EA4700B598FF /* CityListModel.m */,
 				2FFD8B971B076AA000245C8F /* ShopModel.h */,
 				2FFD8B981B076AA000245C8F /* ShopModel.m */,
+				2F151C931B1021AD000818AD /* InterfaceViewController.h */,
+				2F151C941B1021AE000818AD /* InterfaceViewController.m */,
 			);
 			path = DataModel;
 			sourceTree = "<group>";
@@ -1265,6 +1293,7 @@
 				2F78665D19F6585400C9440C /* DXMessageToolBar.m in Sources */,
 				2F78666219F6585400C9440C /* DXChatBarMoreView.m in Sources */,
 				669037D919D912A80018EC44 /* UIImage+Screenshot.m in Sources */,
+				2F151C9F1B10EAA4000818AD /* MyInfoViewController.m in Sources */,
 				4FC3D7CB19FE5CE600980CFC /* UIView+MJExtension.m in Sources */,
 				2FFD8B961B073F6C00245C8F /* CellShopList.m in Sources */,
 				2F3F93EB19F7B0ED00080B05 /* FGalleryPhotoView.m in Sources */,
@@ -1273,6 +1302,7 @@
 				2FFD8BA61B098FC600245C8F /* CTBView.m in Sources */,
 				669037D819D912A80018EC44 /* UIImage+ImageWithColor.m in Sources */,
 				4F8BB3311A076D2900C23E39 /* UIResponder+Router.m in Sources */,
+				2F151C951B1021AE000818AD /* InterfaceViewController.m in Sources */,
 				4FCA71BC19E7B79600BE6F0D /* UIImage+BlurredFrame.m in Sources */,
 				4F374D0319F8DBBC00208111 /* UIImage+Resize.m in Sources */,
 				4F444CBC19E909C500F3DE8F /* BaseTableViewCell.m in Sources */,
@@ -1280,6 +1310,7 @@
 				4F444CC519E9204F00F3DE8F /* BaseLabel.m in Sources */,
 				4F66D7B819F4C379005AD387 /* BaseTableView.m in Sources */,
 				4F18A7C419EBF0B200BED27D /* ChineseToPinyin.m in Sources */,
+				2F151C9C1B10C60D000818AD /* CExpandHeader.m in Sources */,
 				6671B05619C8246700E07676 /* ZNBaseViewController.m in Sources */,
 				4F67DBC119EB80D900AB977C /* JSBadgeView.m in Sources */,
 				2FE762901B031E3500B598FF /* StrategyViewController.m in Sources */,
@@ -1311,6 +1342,7 @@
 				2F3F93EA19F7B0ED00080B05 /* FGalleryPhoto.m in Sources */,
 				4FC3D7C819FE5CE600980CFC /* MJRefreshHeaderView.m in Sources */,
 				2FE7629A1B0327D400B598FF /* ShopListViewController.m in Sources */,
+				2F151C981B109475000818AD /* CellShopDetail.m in Sources */,
 				668B1C0819D12B7300EAF748 /* JGProgressHUD+Add.m in Sources */,
 				6622A51F19D5386000DF95C8 /* UIColor+AppColor.m in Sources */,
 				4F444CB819E908F000F3DE8F /* SRSlimeView.m in Sources */,

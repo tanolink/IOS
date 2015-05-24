@@ -7,7 +7,8 @@
 //
 
 #import "ZNBaseViewController.h"
-
-@interface ShopDetailViewController : ZNBaseViewController
-
+#import "ShopModel.h"
+#import "CellShopDetail.h"
+@interface ShopDetailViewController : ZNBaseViewController<UITableViewDelegate,UITableViewDataSource>
+@property(nonatomic,strong)ShopModel *shopModel;
 @end

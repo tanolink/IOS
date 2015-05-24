@@ -9,7 +9,6 @@
 #import "CellShopList.h"
 #import "ShopModel.h"
 #import "UIButton+WebCache.h"
-#import "UIButton+Block.h"
 #import "ShopDetailViewController.h"
 
 @implementation CellShopList{
@@ -157,7 +156,7 @@
         [_labDescription setFont:DEFAULT_FONT(11)];
         [_labDescription setTextAlignment:NSTextAlignmentLeft];
         [_labDescription setNumberOfLines:0];
-        [_labDescription setTextColor:[UIColor grayColor]];
+        [_labDescription setTextColor:ZN_FONNT_03_LIGHTGRAY];
         
         _viewDescBg = [[UIView alloc]initWithFrame:CGRectZero];
         [_viewDescBg setBackgroundColor:RGBCOLOR(240,240,240)];

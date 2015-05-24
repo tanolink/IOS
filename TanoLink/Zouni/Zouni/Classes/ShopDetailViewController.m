@@ -7,41 +7,54 @@
 //
 
 #import "ShopDetailViewController.h"
+#import "ZNAppUtil.h"
 
-@interface ShopDetailViewController ()
 
+@interface ShopDetailViewController (){
+    /**
+     * 显示表格控件
+     */
+    UITableView *_gTableView;
+}
 @end
-
 @implementation ShopDetailViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-//    [self showHudInView:self.view hint:nil];
-//    __weak typeof(self) weakSelf = self;
-    NSDictionary *requestDic = [[NSDictionary alloc]initWithObjectsAndKeys:@"4",@"shopId",nil];
-    [ZNApi invokePost:ZN_SHOPDETAIL_API parameters:requestDic completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
-        if (resultObj) {
-            NSArray *dic = (NSArray *)resultObj;
-            NSLog(@"%@",dic);
-        }
-//        [weakSelf hideHud];
-    }];
+    [self.view setBackgroundColor:[UIColor whiteColor]];
+    [self setBackBarButton];
+    _gTableView = [[UITableView alloc]initWithFrame:CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height)];
+    [_gTableView setDelegate:self];
+    [_gTableView setDataSource:self];
+    [_gTableView setTableFooterView:[[UIView alloc]init]];
+    [_gTableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
+    if([_gTableView respondsToSelector:@selector(setSeparatorInset:)]){
+        [_gTableView setSeparatorInset:UIEdgeInsetsZero];
+    }
+    [self.view addSubview:_gTableView];
 }
-
+#pragma mark tableview datasource
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 1;
+}
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return 1;
+}
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    static NSString *Indentifier = @"cellInd";
+    CellShopDetail *cell = [tableView dequeueReusableCellWithIdentifier:Indentifier];
+    if (!cell) {
+        cell = [[CellShopDetail alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:Indentifier];
+    }
+    cell.shopModel = self.shopModel;
+    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    return cell;
+}
+#pragma mark - tableview delegate methods
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 550.00f;
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 @end

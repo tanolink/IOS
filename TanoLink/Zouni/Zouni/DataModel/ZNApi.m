@@ -22,14 +22,13 @@
     });
     return sharedInstance;
 }
-
 -(id)init {
     self = [super init];
     if (self) {
         AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc]initWithBaseURL:[NSURL URLWithString:JR_BASE_URL]];
-//        AFJSONRequestSerializer *requestSerializer = [AFJSONRequestSerializer serializerWithWritingOptions:NSJSONWritingPrettyPrinted];
-         AFHTTPRequestSerializer *requestSerializer = [AFHTTPRequestSerializer serializer];
-        [requestSerializer setValue:TestHeaderMD5 forHTTPHeaderField:@"permit"];
+//      AFJSONRequestSerializer *requestSerializer = [AFJSONRequestSerializer serializerWithWritingOptions:NSJSONWritingPrettyPrinted];
+        AFHTTPRequestSerializer *requestSerializer = [AFHTTPRequestSerializer serializer];
+        [requestSerializer setValue:DefaultHeaderMD5 forHTTPHeaderField:@"permit"];
         [requestSerializer setTimeoutInterval:60];
         [manager setRequestSerializer:requestSerializer];
         [manager setResponseSerializer:[AFJSONResponseSerializer serializerWithReadingOptions:NSJSONReadingAllowFragments]];
@@ -40,6 +39,10 @@
 }
 
 + (void )invokePost:(NSString *)URLString parameters:(id)parameters completion: (ZNObjectBlock)completeBlock {
+    if([ZNApi sharedInstance].headerPermit){
+        [[ZNApi sharedInstance].manager.requestSerializer setValue:[ZNApi sharedInstance].headerPermit forHTTPHeaderField:@"permit"];
+        NSLog(@"===============permit===========%@",[[ZNApi sharedInstance].manager.requestSerializer valueForHTTPHeaderField:@"permit"]);
+    }
     AFHTTPRequestOperationManager *manager  = [ZNApi sharedInstance].manager;
     NSLog(@"请求接口：%@\n参数：%@",[[NSURL URLWithString:URLString relativeToURL:manager.baseURL] absoluteString], parameters);
     [manager POST:URLString parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {

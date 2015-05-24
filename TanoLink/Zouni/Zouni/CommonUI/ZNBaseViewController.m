@@ -225,5 +225,21 @@
 -(void) footerRereshing {
 
 }
+/*底部划线*/
+
+-(void) createLineByWidth:(float) width withParentContainer:(UIView *)paretView{
+    UIView *_lineView = [[UIView alloc] init];
+    _lineView.backgroundColor = ZN_BORDER_LINE_COLOR;
+    [paretView addSubview:_lineView];
+    if(!width){
+        width = 0.5f;
+    }
+    [_lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(paretView.mas_bottom).offset(-width);
+        make.left.equalTo(paretView);
+        make.right.equalTo(paretView);
+    }];
+}
+
 
 @end
