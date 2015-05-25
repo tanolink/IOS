@@ -69,10 +69,7 @@
     [_gTableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
     [_gTableView setAllowsSelection:NO];
     _gTableView.tableHeaderView = headerView;
-    
-    if([_gTableView respondsToSelector:@selector(setSeparatorInset:)]){
-        [_gTableView setSeparatorInset:UIEdgeInsetsZero];
-    }
+    _gTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     __weak typeof(self) weakSelf = self;
     [_gTableView addHeaderWithCallback:^{
         [weakSelf loadNewData];
@@ -269,7 +266,6 @@
     [_gTableView reloadData];
     [_gTableView headerEndRefreshing];
     [_gTableView footerEndRefreshing];
-
 }
 #pragma mark tableview datasource
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{

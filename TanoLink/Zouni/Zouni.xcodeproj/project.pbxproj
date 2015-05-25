@@ -12,6 +12,10 @@
 		2F151C981B109475000818AD /* CellShopDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F151C971B109475000818AD /* CellShopDetail.m */; };
 		2F151C9C1B10C60D000818AD /* CExpandHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F151C9B1B10C60D000818AD /* CExpandHeader.m */; };
 		2F151C9F1B10EAA4000818AD /* MyInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F151C9E1B10EAA4000818AD /* MyInfoViewController.m */; };
+		2F151CA31B117D9E000818AD /* InviteCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F151CA21B117D9E000818AD /* InviteCodeViewController.m */; };
+		2F151CA61B118CFB000818AD /* ViewShaker.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F151CA51B118CFB000818AD /* ViewShaker.m */; };
+		2F151CA91B1191BC000818AD /* MyFavoriteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F151CA81B1191BC000818AD /* MyFavoriteViewController.m */; };
+		2F151CAC1B119310000818AD /* CouponDescViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F151CAB1B119310000818AD /* CouponDescViewController.m */; };
 		2F3F93EA19F7B0ED00080B05 /* FGalleryPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F3F93E319F7B0ED00080B05 /* FGalleryPhoto.m */; };
 		2F3F93EB19F7B0ED00080B05 /* FGalleryPhotoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F3F93E519F7B0ED00080B05 /* FGalleryPhotoView.m */; };
 		2F3F93EC19F7B0ED00080B05 /* FGalleryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F3F93E719F7B0ED00080B05 /* FGalleryViewController.m */; };
@@ -122,7 +126,6 @@
 		4F8BB3201A074A3F00C23E39 /* NSDate+Category.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F8BB31D1A074A3F00C23E39 /* NSDate+Category.m */; };
 		4F8BB3211A074A3F00C23E39 /* NSDateFormatter+Category.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F8BB31F1A074A3F00C23E39 /* NSDateFormatter+Category.m */; };
 		4F8BB3311A076D2900C23E39 /* UIResponder+Router.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F8BB3301A076D2900C23E39 /* UIResponder+Router.m */; };
-		4F9E38AA19F6A1DE00784113 /* MicrosoftYaHei.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4F9E38A919F6A1DE00784113 /* MicrosoftYaHei.ttf */; };
 		4FB8FE7E19E7A57A0058A736 /* LoginBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FB8FE7D19E7A57A0058A736 /* LoginBaseViewController.m */; };
 		4FC3D7C419FE5CE600980CFC /* MJRefresh.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4FC3D7B419FE5CE600980CFC /* MJRefresh.bundle */; };
 		4FC3D7C519FE5CE600980CFC /* MJRefreshBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FC3D7B719FE5CE600980CFC /* MJRefreshBaseView.m */; };
@@ -199,6 +202,14 @@
 		2F151C9B1B10C60D000818AD /* CExpandHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CExpandHeader.m; sourceTree = "<group>"; };
 		2F151C9D1B10EAA4000818AD /* MyInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyInfoViewController.h; sourceTree = "<group>"; };
 		2F151C9E1B10EAA4000818AD /* MyInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyInfoViewController.m; sourceTree = "<group>"; };
+		2F151CA11B117D9E000818AD /* InviteCodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InviteCodeViewController.h; sourceTree = "<group>"; };
+		2F151CA21B117D9E000818AD /* InviteCodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InviteCodeViewController.m; sourceTree = "<group>"; };
+		2F151CA41B118CFB000818AD /* ViewShaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewShaker.h; sourceTree = "<group>"; };
+		2F151CA51B118CFB000818AD /* ViewShaker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewShaker.m; sourceTree = "<group>"; };
+		2F151CA71B1191BC000818AD /* MyFavoriteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyFavoriteViewController.h; sourceTree = "<group>"; };
+		2F151CA81B1191BC000818AD /* MyFavoriteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyFavoriteViewController.m; sourceTree = "<group>"; };
+		2F151CAA1B119310000818AD /* CouponDescViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CouponDescViewController.h; sourceTree = "<group>"; };
+		2F151CAB1B119310000818AD /* CouponDescViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CouponDescViewController.m; sourceTree = "<group>"; };
 		2F3F93E219F7B0ED00080B05 /* FGalleryPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGalleryPhoto.h; sourceTree = "<group>"; };
 		2F3F93E319F7B0ED00080B05 /* FGalleryPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FGalleryPhoto.m; sourceTree = "<group>"; };
 		2F3F93E419F7B0ED00080B05 /* FGalleryPhotoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FGalleryPhotoView.h; sourceTree = "<group>"; };
@@ -362,7 +373,6 @@
 		4F8BB31F1A074A3F00C23E39 /* NSDateFormatter+Category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDateFormatter+Category.m"; sourceTree = "<group>"; };
 		4F8BB32F1A076D2900C23E39 /* UIResponder+Router.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIResponder+Router.h"; sourceTree = "<group>"; };
 		4F8BB3301A076D2900C23E39 /* UIResponder+Router.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIResponder+Router.m"; sourceTree = "<group>"; };
-		4F9E38A919F6A1DE00784113 /* MicrosoftYaHei.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MicrosoftYaHei.ttf; sourceTree = "<group>"; };
 		4FB8FE7C19E7A57A0058A736 /* LoginBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginBaseViewController.h; sourceTree = "<group>"; };
 		4FB8FE7D19E7A57A0058A736 /* LoginBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginBaseViewController.m; sourceTree = "<group>"; };
 		4FC3D7B419FE5CE600980CFC /* MJRefresh.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MJRefresh.bundle; sourceTree = "<group>"; };
@@ -719,6 +729,8 @@
 				2FFD8B9E1B08F75100245C8F /* CouponViewController.m */,
 				2F151C961B109475000818AD /* CellShopDetail.h */,
 				2F151C971B109475000818AD /* CellShopDetail.m */,
+				2F151CAA1B119310000818AD /* CouponDescViewController.h */,
+				2F151CAB1B119310000818AD /* CouponDescViewController.m */,
 			);
 			name = Discovery;
 			sourceTree = "<group>";
@@ -748,6 +760,10 @@
 				2FE762961B03234E00B598FF /* MyCenterViewController.m */,
 				2F151C9D1B10EAA4000818AD /* MyInfoViewController.h */,
 				2F151C9E1B10EAA4000818AD /* MyInfoViewController.m */,
+				2F151CA11B117D9E000818AD /* InviteCodeViewController.h */,
+				2F151CA21B117D9E000818AD /* InviteCodeViewController.m */,
+				2F151CA71B1191BC000818AD /* MyFavoriteViewController.h */,
+				2F151CA81B1191BC000818AD /* MyFavoriteViewController.m */,
 			);
 			name = MyCenter;
 			sourceTree = "<group>";
@@ -909,7 +925,6 @@
 		6665310719C80ABA005096E7 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				4F9E38A919F6A1DE00784113 /* MicrosoftYaHei.ttf */,
 				4F7E4EFB1A08C9BF006FE9AB /* sound.caf */,
 				6665310819C80ABA005096E7 /* Zouni-Info.plist */,
 				6665310919C80ABA005096E7 /* InfoPlist.strings */,
@@ -991,6 +1006,8 @@
 		6665313819C80B41005096E7 /* CommonUI */ = {
 			isa = PBXGroup;
 			children = (
+				2F151CA41B118CFB000818AD /* ViewShaker.h */,
+				2F151CA51B118CFB000818AD /* ViewShaker.m */,
 				2FFD8BA01B098FC600245C8F /* CTBView.h */,
 				2FFD8BA11B098FC600245C8F /* CTBView.m */,
 				2FFD8BA21B098FC600245C8F /* CTCBar.h */,
@@ -1168,7 +1185,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2F78666A19F6585400C9440C /* chatBar_keyboardSelected.png in Resources */,
-				4F9E38AA19F6A1DE00784113 /* MicrosoftYaHei.ttf in Resources */,
 				2F78668C19F6585400C9440C /* messageToolbarBg@2x.png in Resources */,
 				2F78666519F6585400C9440C /* chatBar_face@2x.png in Resources */,
 				2F78668419F6585400C9440C /* chatBar_more_location.png in Resources */,
@@ -1291,6 +1307,7 @@
 				2FE762971B03234E00B598FF /* MyCenterViewController.m in Sources */,
 				2F78669C19F664C000C9440C /* MBProgressHUD+Add.m in Sources */,
 				2F78665D19F6585400C9440C /* DXMessageToolBar.m in Sources */,
+				2F151CAC1B119310000818AD /* CouponDescViewController.m in Sources */,
 				2F78666219F6585400C9440C /* DXChatBarMoreView.m in Sources */,
 				669037D919D912A80018EC44 /* UIImage+Screenshot.m in Sources */,
 				2F151C9F1B10EAA4000818AD /* MyInfoViewController.m in Sources */,
@@ -1301,6 +1318,7 @@
 				2F78665E19F6585400C9440C /* DXFaceView.m in Sources */,
 				2FFD8BA61B098FC600245C8F /* CTBView.m in Sources */,
 				669037D819D912A80018EC44 /* UIImage+ImageWithColor.m in Sources */,
+				2F151CA31B117D9E000818AD /* InviteCodeViewController.m in Sources */,
 				4F8BB3311A076D2900C23E39 /* UIResponder+Router.m in Sources */,
 				2F151C951B1021AE000818AD /* InterfaceViewController.m in Sources */,
 				4FCA71BC19E7B79600BE6F0D /* UIImage+BlurredFrame.m in Sources */,
@@ -1309,12 +1327,14 @@
 				2F78668F19F65B3B00C9440C /* XHMessageTextView.m in Sources */,
 				4F444CC519E9204F00F3DE8F /* BaseLabel.m in Sources */,
 				4F66D7B819F4C379005AD387 /* BaseTableView.m in Sources */,
+				2F151CA61B118CFB000818AD /* ViewShaker.m in Sources */,
 				4F18A7C419EBF0B200BED27D /* ChineseToPinyin.m in Sources */,
 				2F151C9C1B10C60D000818AD /* CExpandHeader.m in Sources */,
 				6671B05619C8246700E07676 /* ZNBaseViewController.m in Sources */,
 				4F67DBC119EB80D900AB977C /* JSBadgeView.m in Sources */,
 				2FE762901B031E3500B598FF /* StrategyViewController.m in Sources */,
 				4FC3D7C719FE5CE600980CFC /* MJRefreshFooterView.m in Sources */,
+				2F151CA91B1191BC000818AD /* MyFavoriteViewController.m in Sources */,
 				4FCA71BD19E7B79600BE6F0D /* UIImage+ImageEffects.m in Sources */,
 				66277F7219D80EE4003282B3 /* ZNWebViewController.m in Sources */,
 				2FFD8BA71B098FC600245C8F /* CTCBar.m in Sources */,

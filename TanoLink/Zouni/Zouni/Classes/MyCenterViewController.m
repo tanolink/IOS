@@ -12,6 +12,7 @@
 #import "UIButton+Block.h"
 #import "UIButton+WebCache.h"
 #import "MyInfoViewController.h"
+#import "InviteCodeViewController.h"
 
 @interface MyCenterViewController (){
     CExpandHeader *_header;
@@ -149,7 +150,9 @@
     }else if(indexPath.row == 2){
         
     }else if(indexPath.row == 3){
-        
+        // 邀请码
+        InviteCodeViewController *inviteCodeVC = [InviteCodeViewController new];
+        [self.navigationController pushViewController:inviteCodeVC animated:YES];
     }else if(indexPath.row == 4){
         
     }

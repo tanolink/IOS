@@ -52,10 +52,10 @@
 
 - (void)setRightBarButtonItemTitle:(NSString *)aTitle target:(id)target action:(SEL)action
 {
-    [self setRightBarSystemButtonItemTitle:aTitle target:target action:action];
+//    [self setRightBarSystemButtonItemTitle:aTitle target:target action:action];
     
-    /*UIButton *button = [self buttonWithTitle:aTitle image:nil highligted:nil target:target action:action];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];*/
+    UIButton *button = [self buttonWithTitle:aTitle image:nil highligted:nil target:target action:action];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
 }
 
 - (void)setRightBarButtonItemImage:(NSString *)imageName target:(id)target action:(SEL)action
@@ -226,7 +226,6 @@
 
 }
 /*底部划线*/
-
 -(void) createLineByWidth:(float) width withParentContainer:(UIView *)paretView{
     UIView *_lineView = [[UIView alloc] init];
     _lineView.backgroundColor = ZN_BORDER_LINE_COLOR;

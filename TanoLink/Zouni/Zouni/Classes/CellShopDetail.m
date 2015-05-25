@@ -40,7 +40,9 @@
     // 店铺描述
     UILabel *_labShopDesc;
     UILabel *_txtShopDesc;
+    
     // 店铺网址
+    UIView *_lineShopWebsite;
     UILabel *_labShopWebsite;
     UILabel *_labShopWebsiteAr;
 }
@@ -131,6 +133,9 @@
     [_txtShopDesc setTextAlignment:NSTextAlignmentLeft];
     [_txtShopDesc setNumberOfLines:0];
     
+    _lineShopWebsite = [[UIView alloc] init];
+    _lineShopWebsite.backgroundColor = ZN_BORDER_LINE_COLOR;
+    
     _labShopWebsite = [[UILabel alloc]initWithFrame:CGRectZero];
     [_labShopWebsite setFont:DEFAULT_BOLD_FONT(15)];
     [_labShopWebsite setNumberOfLines:0];
@@ -165,6 +170,7 @@
     [self.contentView addSubview: mapView_];
     [self.contentView addSubview:_labShopDesc];
     [self.contentView addSubview:_txtShopDesc];
+    [self.contentView addSubview:_lineShopWebsite];
     [self.contentView addSubview:_labShopWebsite];
     [self.contentView addSubview:_labShopWebsiteAr];
     
@@ -273,10 +279,18 @@
         make.top.equalTo(_labShopDesc.mas_bottom).offset(8);
         make.left.equalTo(_labShopDesc);
         make.height.equalTo(@50);
-        make.right.equalTo(self.contentView.mas_right).offset(24/3);
+        make.right.equalTo(self.contentView.mas_right).offset(-24/3);
     }];
-    [_labShopWebsite mas_makeConstraints:^(MASConstraintMaker *make) {
+    
+    [_lineShopWebsite mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.equalTo(@.5);
+        make.left.equalTo(self.contentView);
+        make.right.equalTo(self.contentView);
         make.top.equalTo(_txtShopDesc.mas_bottom).offset(8);
+    }];
+    
+    [_labShopWebsite mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_lineShopWebsite.mas_bottom).offset(8);
         make.left.equalTo(_labShopDesc);
         make.size.equalTo(_labShopDesc);
     }];
