@@ -7,7 +7,8 @@
 //
 
 #import "ZNBaseViewController.h"
+#import "ShopModel.h"
 
 @interface CouponViewController : ZNBaseViewController
-
+@property (nonatomic,strong) ShopModel *shopModel;
 @end

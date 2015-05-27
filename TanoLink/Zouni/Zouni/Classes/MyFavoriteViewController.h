@@ -8,6 +8,6 @@
 
 #import "ZNBaseViewController.h"
 
-@interface MyFavoriteViewController : ZNBaseViewController
+@interface MyFavoriteViewController : ZNBaseViewController<UITableViewDelegate,UITableViewDataSource>
 
 @end

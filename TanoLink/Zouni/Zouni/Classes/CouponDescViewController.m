@@ -21,12 +21,14 @@
     [self setBackBarButton];
     [self.view setBackgroundColor:ZN_BACKGROUND_COLOR];
     UILabel *labDesc = [[UILabel alloc]initWithFrame:CGRectZero];
-    [labDesc setFont:DEFAULT_FONT(15)];
+    [labDesc setFont:DEFAULT_FONT(12)];
     [labDesc setTextColor:ZN_FONNT_01_BLACK];
     [labDesc setText:@"详细规则："];
     UILabel *labContent = [[UILabel alloc]initWithFrame:CGRectZero];
-    [labDesc setFont:DEFAULT_FONT(12)];
-    [labDesc setTextColor:ZN_FONNT_02_GRAY];
+    [labContent setFont:DEFAULT_FONT(12)];
+    [labContent setTextColor:ZN_FONNT_02_GRAY];
+    [labContent setTextAlignment:NSTextAlignmentLeft];
+    
     [self.view addSubview:labDesc];
     [self.view addSubview:labContent];
     
@@ -41,26 +43,16 @@
         make.top.equalTo(labDesc.mas_bottom).offset(15);
         make.left.equalTo(labDesc);
         make.right.equalTo(self.view).offset(-15);
-        make.bottom.equalTo(self.view);
+        make.height.equalTo(@15);
+        // ==================================这里要改成自适应高度
+//        make.bottom.equalTo(self.view);
     }];
     
-    [labContent setText:@"优惠活动。。。"];
+    [labContent setText:@"优惠活动:打印优惠券可以享受%5优惠"];
 
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 @end

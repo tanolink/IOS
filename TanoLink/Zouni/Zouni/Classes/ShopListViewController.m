@@ -202,7 +202,8 @@
     _pageNumber = 0;
     _pageSize = 12;
     _dataMutableArray = [[NSMutableArray alloc]init];
-    [self performSelector:@selector(loadServerData) withObject:nil afterDelay:0.0f];
+//    [self performSelector:@selector(loadServerData) withObject:nil afterDelay:0.0f];
+    [self loadServerData];
 }
 #pragma 下拉加载最新数据
 -(void)loadNewData{

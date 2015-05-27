@@ -13,6 +13,7 @@
 #import "UIButton+WebCache.h"
 #import "MyInfoViewController.h"
 #import "InviteCodeViewController.h"
+#import "MyFavoriteViewController.h"
 
 @interface MyCenterViewController (){
     CExpandHeader *_header;
@@ -35,7 +36,7 @@
 }
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -146,7 +147,9 @@
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if(indexPath.row == 1){
-        
+        // 我的收藏
+        MyFavoriteViewController *myFavoiteVC = [[MyFavoriteViewController alloc]init];
+        [self.navigationController pushViewController:myFavoiteVC animated:YES];
     }else if(indexPath.row == 2){
         
     }else if(indexPath.row == 3){

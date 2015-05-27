@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Zouni/Classes/ShopListViewController.m"
-            timestampString = "454174745.539257"
+            timestampString = "454373916.796584"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "234"
-            endingLineNumber = "234"
+            startingLineNumber = "235"
+            endingLineNumber = "235"
             landmarkName = "-loadServerData"
             landmarkType = "5">
          </BreakpointContent>
