@@ -8,7 +8,7 @@
 
 #import "ShopDetailViewController.h"
 #import "ZNAppUtil.h"
-
+#import "UMSocial.h"
 
 @interface ShopDetailViewController (){
     /**
@@ -23,6 +23,8 @@
     [super viewDidLoad];
     [self.view setBackgroundColor:[UIColor whiteColor]];
     [self setBackBarButton];
+//    [self setRightBarButtonItemImage:@"share" target:self action:@selector(showShareView)];
+    [self setRightBarButtonItemTitle:@"分享" target:self action:@selector(share)];
     _gTableView = [[UITableView alloc]initWithFrame:CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height)];
     [_gTableView setDelegate:self];
     [_gTableView setDataSource:self];
@@ -32,6 +34,15 @@
         [_gTableView setSeparatorInset:UIEdgeInsetsZero];
     }
     [self.view addSubview:_gTableView];
+}
+-(void) share{
+    [UMSocialSnsService presentSnsIconSheetView:self
+                                         appKey:@"556885e767e58e40ca001421"
+                                      shareText:@"你要分享的文字"
+                                     shareImage:[UIImage imageNamed:@"icon.png"]
+                                shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina,UMShareToWechatSession,UMShareToQQ,
+                                                 UMShareToQzone,UMShareToWechatTimeline,UMShareToEmail,nil]
+                                       delegate:nil];
 }
 #pragma mark tableview datasource
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{

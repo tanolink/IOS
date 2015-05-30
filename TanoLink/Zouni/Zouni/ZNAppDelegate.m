@@ -21,12 +21,14 @@
 #import <GoogleMaps/GoogleMaps.h>
 
 #import "InterfaceViewController.h"
-
+#import "UMSocial.h"
 
 @implementation ZNAppDelegate
 static NSString *const kAPIKey = @"AIzaSyBUyVmigb163ipK0MyITVJt76RR0XBwnKk";
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [UMSocialData setAppKey:@"556885e767e58e40ca001421"];
+    
     [GMSServices provideAPIKey:kAPIKey];
     [[AFNetworkReachabilityManager sharedManager]startMonitoring];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];

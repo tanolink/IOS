@@ -87,8 +87,7 @@ extern NSString *const kNeedLoginErrStr;
 
 #define kImageHeaderHeight 54
 
-
-#define DEFAULT_FONT_FAMILY @"MicrosoftYaHei"
+#define DEFAULT_FONT_FAMILY @"AppleGothic"
 
 #define DEFAULT_FONT(fontSize) [UIFont fontWithName:DEFAULT_FONT_FAMILY size:fontSize]
 

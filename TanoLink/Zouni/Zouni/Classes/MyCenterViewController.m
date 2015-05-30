@@ -14,6 +14,7 @@
 #import "MyInfoViewController.h"
 #import "InviteCodeViewController.h"
 #import "MyFavoriteViewController.h"
+#import "SettingViewController.h"
 
 @interface MyCenterViewController (){
     CExpandHeader *_header;
@@ -97,7 +98,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 5;
+    return 4;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *cellIdentifier = @"cellValue1";
@@ -112,12 +113,9 @@
         cell.textLabel.text = @"我的收藏";
         cell.imageView.image = [UIImage imageNamed:@"my_collection_icon"];
     }else if(indexPath.row == 2){
-        cell.textLabel.text = @"最近浏览";
-        cell.imageView.image = [UIImage imageNamed:@"my_record_icon"];
-    }else if(indexPath.row == 3){
         cell.textLabel.text = @"邀请码";
         cell.imageView.image = [UIImage imageNamed:@"my_code_icon"];
-    }else if(indexPath.row == 4){
+    }else if(indexPath.row == 3){
         cell.textLabel.text = @"设置";
         cell.imageView.image = [UIImage imageNamed:@"my_set_icon"];
     }
@@ -151,13 +149,13 @@
         MyFavoriteViewController *myFavoiteVC = [[MyFavoriteViewController alloc]init];
         [self.navigationController pushViewController:myFavoiteVC animated:YES];
     }else if(indexPath.row == 2){
-        
-    }else if(indexPath.row == 3){
         // 邀请码
         InviteCodeViewController *inviteCodeVC = [InviteCodeViewController new];
         [self.navigationController pushViewController:inviteCodeVC animated:YES];
-    }else if(indexPath.row == 4){
-        
+    }else if(indexPath.row == 3){
+        // 设置
+        SettingViewController *settingVC = [SettingViewController new];
+        [self.navigationController pushViewController: settingVC animated:YES];
     }
 }
 
