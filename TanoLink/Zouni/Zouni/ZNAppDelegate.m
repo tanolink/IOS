@@ -7,17 +7,12 @@
 //
 
 #import "ZNAppDelegate.h"
-//#import "WeiboSDK.h"
-//#import "WXApi.h"
-//#import "WeiboApi.h"
-//#import <TencentOpenAPI/TencentOAuth.h>
-//#import <TencentOpenAPI/QQApiInterface.h>
-//#import <ShareSDK/ShareSDK.h>
 #import "ZNAppUtil.h"
 #import "ZNClientInfo.h"
 #import "APService.h"
 #import "CityListViewController.h"
-#import "ZNBaseNavigationController.h"
+#import "MyCenterViewController.h"
+#import "ShopListViewController.h"
 #import <GoogleMaps/GoogleMaps.h>
 
 #import "InterfaceViewController.h"
@@ -40,12 +35,19 @@ static NSString *const kAPIKey = @"AIzaSyBUyVmigb163ipK0MyITVJt76RR0XBwnKk";
     }else{
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         if([userDefaults objectForKey:@"CityId"]){
-            MainViewController *mainViewController = [[MainViewController alloc] init];
+//            MainViewController *mainViewController = [[MainViewController alloc] init];
+//            CityModel *cityModel = [CityModel new];
+//            cityModel.CityNameCN = [userDefaults objectForKey:@"CityNameCN"];
+//            cityModel.CityId = [userDefaults objectForKey:@"CityId"];
+//            mainViewController.cityModel = cityModel;
+//            self.window.rootViewController = mainViewController;
+            ShopListViewController *shopListVC = [ShopListViewController new];
             CityModel *cityModel = [CityModel new];
             cityModel.CityNameCN = [userDefaults objectForKey:@"CityNameCN"];
             cityModel.CityId = [userDefaults objectForKey:@"CityId"];
-            mainViewController.cityModel = cityModel;
-            self.window.rootViewController = mainViewController;
+            shopListVC.cityModel = cityModel;
+            ZNBaseNavigationController *shopNavController = [[ZNBaseNavigationController alloc]initWithRootViewController:shopListVC];
+            self.window.rootViewController = shopNavController;
         }else{
             CityListViewController *cityListVC = [[CityListViewController alloc]init];
             ZNBaseNavigationController *cityNavController = [[ZNBaseNavigationController alloc]initWithRootViewController:cityListVC];
@@ -56,67 +58,6 @@ static NSString *const kAPIKey = @"AIzaSyBUyVmigb163ipK0MyITVJt76RR0XBwnKk";
     return YES;
 }
 
--(void)registerAllSocialApp {
-//    
-//    //当使用新浪微博客户端分享的时候需要按照下面的方法来初始化新浪的平台
-//    [ShareSDK  connectSinaWeiboWithAppKey:SINAWEIBOAppKey
-//                                appSecret:SINAWEIBOAppSecret
-//                              redirectUri:SINAWEIBOREDIRECTURI
-//                              weiboSDKCls:[WeiboSDK class]];
-//    
-//    //添加腾讯微博应用 注册网址 http://dev.t.qq.com
-//    [ShareSDK connectTencentWeiboWithAppKey:TencentWeiboAppKey
-//                                  appSecret:TencentWeiboAppKeySecret
-//                                redirectUri:TencentWeiboREDIRECTURI
-//                                   wbApiCls:[WeiboApi class]];
-//
-//    
-//    //添加微信应用 注册网址 http://open.weixin.qq.com
-//    [ShareSDK connectWeChatWithAppId:WXSDKAppKey appSecret:WXSDKAppSecret wechatCls:[WXApi class]];
-//    
-//    
-//    //添加QQ空间应用  注册网址  http://connect.qq.com/intro/login/
-//    [ShareSDK connectQZoneWithAppKey:QQHLSDKAppKey
-//                           appSecret:QQHLSDKAppSecret
-//                   qqApiInterfaceCls:[QQApiInterface class]
-//                     tencentOAuthCls:[TencentOAuth class]];
-//    
-//    /*手机QQ开发者平台注册的appId*/
-//    //添加QQ应用  注册网址  http://mobile.qq.com/api/
-//    [ShareSDK connectQQWithQZoneAppKey:QQHLSDKAppKey
-//                     qqApiInterfaceCls:[QQApiInterface class]
-//                       tencentOAuthCls:[TencentOAuth class]];
-//
-////    /*服务器托管模式初始化时*/
-////    //导入QQ互联和QQ好友分享需要的外部库类型，如果不需要QQ空间SSO和QQ好友分享可以不调用此方法
-////    [ShareSDK importQQClass:[QQApiInterface class]
-////            tencentOAuthCls:[TencentOAuth class]];
-//    
-//    
-//    //添加网易微博应用 注册网址  http://open.t.163.com
-//    [ShareSDK connect163WeiboWithAppKey:@"T5EI7BXe13vfyDuy"
-//                              appSecret:@"gZxwyNOvjFYpxwwlnuizHRRtBRZ2lV1j"
-//                            redirectUri:@"http://www.shareSDK.cn"];
-}
-
-//- (BOOL)application:(UIApplication *)application  handleOpenURL:(NSURL *)url
-//{
-//    /*微信委托,如果没有集成微信SDK，可以传入nil*/
-//    return [ShareSDK handleOpenURL:url
-//                        wxDelegate:self];
-//}
-
-//- (BOOL)application:(UIApplication *)application
-//            openURL:(NSURL *)url
-//  sourceApplication:(NSString *)sourceApplication
-//         annotation:(id)annotation
-//{
-//    return [ShareSDK handleOpenURL:url
-//                 sourceApplication:sourceApplication
-//                        annotation:annotation
-//                        wxDelegate:self];
-//}
-
 -(void)loginStateChange : (NSNotification *)notification{
     [[ZNClientInfo sharedClinetInfo]clearGuidAndToken];
     self.window.rootViewController = [[MainViewController alloc] init];
@@ -124,7 +65,7 @@ static NSString *const kAPIKey = @"AIzaSyBUyVmigb163ipK0MyITVJt76RR0XBwnKk";
 //    ZNBaseNavigationController *loginNav = [[ZNBaseNavigationController alloc]initWithRootViewController:loginVC];
 //    MainViewController *mainVC = (MainViewController*)self.window.rootViewController;
 //    [mainVC.selectedViewController presentViewController:loginNav animated:YES completion:nil];
-
+    
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application

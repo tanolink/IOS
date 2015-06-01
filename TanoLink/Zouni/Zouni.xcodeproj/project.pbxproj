@@ -90,6 +90,10 @@
 		2F78669D19F664C000C9440C /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F78669B19F664C000C9440C /* MBProgressHUD.m */; };
 		2F9B9BDD1B1968D50018C82B /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F9B9BDC1B1968D50018C82B /* AboutUsViewController.m */; };
 		2F9B9BE01B196B910018C82B /* FeedBackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F9B9BDF1B196B910018C82B /* FeedBackViewController.m */; };
+		2F9B9BE41B1AD4310018C82B /* ChangeNickNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F9B9BE31B1AD4310018C82B /* ChangeNickNameViewController.m */; };
+		2F9B9BE71B1AD5420018C82B /* BindEmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F9B9BE61B1AD5420018C82B /* BindEmailViewController.m */; };
+		2F9B9BEA1B1AD55B0018C82B /* BindMobileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F9B9BE91B1AD55B0018C82B /* BindMobileViewController.m */; };
+		2F9B9BED1B1AD5E30018C82B /* ChangePwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F9B9BEC1B1AD5E30018C82B /* ChangePwdViewController.m */; };
 		2FBF211C1A14BF8100E29500 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FBF211B1A14BF8100E29500 /* Reachability.m */; };
 		2FE762851B01F5F900B598FF /* CityListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FE762841B01F5F900B598FF /* CityListViewController.m */; };
 		2FE762881B01FA4800B598FF /* GoogleMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FE762871B01FA4800B598FF /* GoogleMapViewController.m */; };
@@ -137,7 +141,6 @@
 		4F66D7B819F4C379005AD387 /* BaseTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F66D7B719F4C379005AD387 /* BaseTableView.m */; };
 		4F67DBC119EB80D900AB977C /* JSBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F67DBBF19EB80D900AB977C /* JSBadgeView.m */; };
 		4F7E4EFA1A08C8AF006FE9AB /* libPushSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F7E4EF91A08C8AF006FE9AB /* libPushSDK.a */; };
-		4F7E4EFC1A08C9BF006FE9AB /* sound.caf in Resources */ = {isa = PBXBuildFile; fileRef = 4F7E4EFB1A08C9BF006FE9AB /* sound.caf */; };
 		4F8BB3201A074A3F00C23E39 /* NSDate+Category.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F8BB31D1A074A3F00C23E39 /* NSDate+Category.m */; };
 		4F8BB3211A074A3F00C23E39 /* NSDateFormatter+Category.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F8BB31F1A074A3F00C23E39 /* NSDateFormatter+Category.m */; };
 		4F8BB3311A076D2900C23E39 /* UIResponder+Router.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F8BB3301A076D2900C23E39 /* UIResponder+Router.m */; };
@@ -329,6 +332,15 @@
 		2F9B9BDC1B1968D50018C82B /* AboutUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutUsViewController.m; sourceTree = "<group>"; };
 		2F9B9BDE1B196B910018C82B /* FeedBackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedBackViewController.h; sourceTree = "<group>"; };
 		2F9B9BDF1B196B910018C82B /* FeedBackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedBackViewController.m; sourceTree = "<group>"; };
+		2F9B9BE11B1AC2CB0018C82B /* shake_sound.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = shake_sound.caf; sourceTree = "<group>"; };
+		2F9B9BE21B1AD4310018C82B /* ChangeNickNameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangeNickNameViewController.h; sourceTree = "<group>"; };
+		2F9B9BE31B1AD4310018C82B /* ChangeNickNameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangeNickNameViewController.m; sourceTree = "<group>"; };
+		2F9B9BE51B1AD5420018C82B /* BindEmailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BindEmailViewController.h; sourceTree = "<group>"; };
+		2F9B9BE61B1AD5420018C82B /* BindEmailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BindEmailViewController.m; sourceTree = "<group>"; };
+		2F9B9BE81B1AD55B0018C82B /* BindMobileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BindMobileViewController.h; sourceTree = "<group>"; };
+		2F9B9BE91B1AD55B0018C82B /* BindMobileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BindMobileViewController.m; sourceTree = "<group>"; };
+		2F9B9BEB1B1AD5E30018C82B /* ChangePwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangePwdViewController.h; sourceTree = "<group>"; };
+		2F9B9BEC1B1AD5E30018C82B /* ChangePwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangePwdViewController.m; sourceTree = "<group>"; };
 		2FBF211A1A14BF8100E29500 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		2FBF211B1A14BF8100E29500 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		2FE762831B01F5F900B598FF /* CityListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CityListViewController.h; sourceTree = "<group>"; };
@@ -411,7 +423,6 @@
 		4F67DBBF19EB80D900AB977C /* JSBadgeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSBadgeView.m; path = ../Classes/JSBadgeView.m; sourceTree = "<group>"; };
 		4F7E4EF81A08C8AF006FE9AB /* APService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APService.h; sourceTree = "<group>"; };
 		4F7E4EF91A08C8AF006FE9AB /* libPushSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libPushSDK.a; sourceTree = "<group>"; };
-		4F7E4EFB1A08C9BF006FE9AB /* sound.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = sound.caf; sourceTree = "<group>"; };
 		4F8BB31C1A074A3F00C23E39 /* NSDate+Category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Category.h"; sourceTree = "<group>"; };
 		4F8BB31D1A074A3F00C23E39 /* NSDate+Category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Category.m"; sourceTree = "<group>"; };
 		4F8BB31E1A074A3F00C23E39 /* NSDateFormatter+Category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDateFormatter+Category.h"; sourceTree = "<group>"; };
@@ -863,6 +874,14 @@
 				2F9B9BDC1B1968D50018C82B /* AboutUsViewController.m */,
 				2F9B9BDE1B196B910018C82B /* FeedBackViewController.h */,
 				2F9B9BDF1B196B910018C82B /* FeedBackViewController.m */,
+				2F9B9BE21B1AD4310018C82B /* ChangeNickNameViewController.h */,
+				2F9B9BE31B1AD4310018C82B /* ChangeNickNameViewController.m */,
+				2F9B9BE51B1AD5420018C82B /* BindEmailViewController.h */,
+				2F9B9BE61B1AD5420018C82B /* BindEmailViewController.m */,
+				2F9B9BE81B1AD55B0018C82B /* BindMobileViewController.h */,
+				2F9B9BE91B1AD55B0018C82B /* BindMobileViewController.m */,
+				2F9B9BEB1B1AD5E30018C82B /* ChangePwdViewController.h */,
+				2F9B9BEC1B1AD5E30018C82B /* ChangePwdViewController.m */,
 			);
 			name = MyCenter;
 			sourceTree = "<group>";
@@ -1024,7 +1043,7 @@
 		6665310719C80ABA005096E7 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				4F7E4EFB1A08C9BF006FE9AB /* sound.caf */,
+				2F9B9BE11B1AC2CB0018C82B /* shake_sound.caf */,
 				6665310819C80ABA005096E7 /* Zouni-Info.plist */,
 				6665310919C80ABA005096E7 /* InfoPlist.strings */,
 				6665310C19C80ABA005096E7 /* main.m */,
@@ -1343,7 +1362,6 @@
 				2F78668519F6585400C9440C /* chatBar_more_location@2x.png in Resources */,
 				2F78667C19F6585400C9440C /* chatBar_colorMore_photo@2x.png in Resources */,
 				2F457D2D1B18BE5C009CB24C /* UMSCommentInputControlleriPad.xib in Resources */,
-				4F7E4EFC1A08C9BF006FE9AB /* sound.caf in Resources */,
 				2F78667A19F6585400C9440C /* chatBar_colorMore_location@2x.png in Resources */,
 				2F78668219F6585400C9440C /* chatBar_more_cameraSelected.png in Resources */,
 			);
@@ -1397,8 +1415,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2F9B9BE71B1AD5420018C82B /* BindEmailViewController.m in Sources */,
 				4FC3D7C919FE5CE600980CFC /* UIScrollView+MJExtension.m in Sources */,
 				669037D719D912A80018EC44 /* UIImage+Blur.m in Sources */,
+				2F9B9BE41B1AD4310018C82B /* ChangeNickNameViewController.m in Sources */,
 				4F45B3B519F0F39300E74E6E /* NSDictionary+Uitls.m in Sources */,
 				668B1C1119D17C9D00EAF748 /* UIViewController+DismissKeyboard.m in Sources */,
 				2FBF211C1A14BF8100E29500 /* Reachability.m in Sources */,
@@ -1411,6 +1431,7 @@
 				4F444CB719E908F000F3DE8F /* SRRefreshView.m in Sources */,
 				4F392CE119EF72C7005E909E /* ZNApi.m in Sources */,
 				4F629A7419F6397D00122CB5 /* SVSegmentedControl.m in Sources */,
+				2F9B9BED1B1AD5E30018C82B /* ChangePwdViewController.m in Sources */,
 				2F3F93EC19F7B0ED00080B05 /* FGalleryViewController.m in Sources */,
 				4FB8FE7E19E7A57A0058A736 /* LoginBaseViewController.m in Sources */,
 				2F3F93ED19F7B0ED00080B05 /* RootViewController.m in Sources */,
@@ -1459,6 +1480,7 @@
 				6671B05319C823E000E07676 /* ZNAppUtil.m in Sources */,
 				6671B05019C8203800E07676 /* ZNBaseNavigationController.m in Sources */,
 				2FE7628B1B02EA4700B598FF /* CityListModel.m in Sources */,
+				2F9B9BEA1B1AD55B0018C82B /* BindMobileViewController.m in Sources */,
 				2FE762881B01FA4800B598FF /* GoogleMapViewController.m in Sources */,
 				2FE762931B031F8100B598FF /* ToolViewController.m in Sources */,
 				2F6900571A0A1CB30032EEC0 /* UIButton+Block.m in Sources */,

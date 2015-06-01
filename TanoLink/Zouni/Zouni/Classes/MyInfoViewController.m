@@ -1,6 +1,6 @@
 //
 //  MyInfoViewController.m
-//  Zouni
+//  个人信息
 //
 //  Created by aokuny on 15/5/24.
 //  Copyright (c) 2015年 TanoLink. All rights reserved.
@@ -8,13 +8,17 @@
 
 #import "MyInfoViewController.h"
 #import "CityListViewController.h"
+#import "ChangeNickNameViewController.h"
+#import "ChangePwdViewController.h"
+#import "BindEmailViewController.h"
+#import "BindMobileViewController.h"
 
 @interface MyInfoViewController (){
     UITableView *_gTableView;
 }
+@property (strong, nonatomic) UIImagePickerController *imagePicker;
 
 @end
-
 @implementation MyInfoViewController
 
 - (void)viewDidLoad {
@@ -84,6 +88,7 @@
             headerBtn.layer.borderWidth = 2.f;
             headerBtn.layer.borderColor = [[UIColor colorWithWhite:1.000 alpha:0.800]CGColor];
             [headerBtn setImage:[UIImage imageNamed:@"default_avatar"] forState:UIControlStateNormal];
+            [headerBtn addTarget:self action:@selector(getPhotoFunction) forControlEvents:UIControlEventTouchUpInside];
             [cell.contentView addSubview:headerBtn];
             [headerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.width.equalTo(@(headerSize));
@@ -119,6 +124,7 @@
             }];
         }
         [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [cell.textLabel setFont:DEFAULT_FONT(14)];
         [cell.textLabel setTextColor:ZN_FONNT_02_GRAY];
         [cell.detailTextLabel setFont:DEFAULT_FONT(14)];
@@ -152,6 +158,7 @@
         [btnLoginOut mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.equalTo(cell.contentView);
             make.centerY.equalTo(cell);
+            make.width.equalTo(cell);
         }];
         UIView *_lineView = [[UIView alloc] init];
         _lineView.backgroundColor = ZN_BORDER_LINE_COLOR;
@@ -162,6 +169,7 @@
             make.left.equalTo(cell.mas_left);
             make.right.equalTo(cell);
         }];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
 }
@@ -196,30 +204,119 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
-        if(indexPath.row == 1){
-
-        }else if(indexPath.row == 2){
-
-        }else if(indexPath.row == 4){
-
-        }
-    }else{
-        if (indexPath.row == 0) {
-           
+        if(indexPath.row == 0){
+            // 头像
+//            [self getPhotoFunction];
         }else if(indexPath.row == 1){
+            // 昵称
+            ChangeNickNameViewController *changeNickNameVC = [ChangeNickNameViewController new];
+            [self.navigationController pushViewController:changeNickNameVC animated:YES];
+        }else if(indexPath.row == 2){
+            // 常住地
             
+        }
+    }else if(indexPath.section == 1){
+        if (indexPath.row == 0) {
+            // 手机
+            BindMobileViewController *bindMobileVC = [BindMobileViewController new];
+            bindMobileVC.oldMobileStr = @"15901437555";
+            [self.navigationController pushViewController:bindMobileVC animated:YES];
+        }else if(indexPath.row == 1){
+            // 邮箱
+            BindEmailViewController *bindEmailVC = [BindEmailViewController new];
+            bindEmailVC.oldMobileStr = @"aokuny@126.com";
+            [self.navigationController pushViewController:bindEmailVC animated:YES];
         }else if (indexPath.row == 2) {
-            
-        } else if(indexPath.row == 3){
-            
+            // 修改密码
+            ChangePwdViewController *changePwdVC = [ChangePwdViewController new];
+            [self.navigationController pushViewController:changePwdVC animated:YES];
         }
     }
 }
-#pragma mark -
+
+
+#pragma mark - action
+- (UIImagePickerController *)imagePicker
+{
+    if (_imagePicker == nil) {
+        _imagePicker = [[UIImagePickerController alloc] init];
+        _imagePicker.delegate = self;
+    }
+    
+    return _imagePicker;
+}
+- (void)moreViewPhotoAction
+{
+    // 弹出照片选择
+    self.imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    self.imagePicker.mediaTypes = @[(NSString *)kUTTypeImage];
+    self.imagePicker.allowsEditing = YES;
+    [self presentViewController:self.imagePicker animated:YES completion:NULL];
+}
+
+- (void)moreViewTakePicAction
+{
+#if TARGET_IPHONE_SIMULATOR
+    [JGProgressHUD showHintStr:@"模拟器不支持拍照"];
+#elif TARGET_OS_IPHONE
+    self.imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    self.imagePicker.mediaTypes = @[(NSString *)kUTTypeImage];
+    self.imagePicker.allowsEditing = YES;
+    [self presentViewController:self.imagePicker animated:YES completion:NULL];
+#endif
+}
+
+
+#pragma mark - UIActionSheetDelegate
+
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        [self moreViewPhotoAction];
+    } else if(buttonIndex == 0) {
+        [self moreViewTakePicAction];
+    }
+}
+
+#pragma mark - UIImagePickerControllerDelegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    UIImage *orgImage = info[UIImagePickerControllerEditedImage];
+    [picker dismissViewControllerAnimated:YES completion:nil];
+    
+    // 选择照片后重新生上传新图片
+//    [self showHudInView:self.view hint:@"正在上传"];
+    [JGProgressHUD showHintStr:@"正在上传头像..."];
+
+//    dispatch_queue_t urls_queue = dispatch_queue_create("com.jrzj.com", NULL);
+//    __block MyInfoViewController* weakSelf = self;
+//    [self showHudInView:self.view hint:nil];
+//    dispatch_async(urls_queue, ^{
+//        NSURL *fileUrl = [JRClientInfo JR_addStoreNamed:@"feedBack"];
+//        [UIImageJPEGRepresentation(orgImage, 1) writeToURL:fileUrl atomically:YES ];
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [weakSelf hideHud];
+//            [weakSelf setImage:orgImage imageFilePath:fileUrl];
+//        });
+//    });
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    [self.imagePicker dismissViewControllerAnimated:YES completion:nil];
+}
+-(void)getPhotoFunction {
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"拍照",@"从手机相册选择", nil];
+    [actionSheet showInView:self.navigationController.view];
+    
+}
+
+#pragma mark - 清除图片缓存
 - (void)clearTmpPics
 {
     [[SDImageCache sharedImageCache] clearDisk];
     [[SDImageCache sharedImageCache] clearMemory];
+    [_gTableView reloadData];
 }
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {

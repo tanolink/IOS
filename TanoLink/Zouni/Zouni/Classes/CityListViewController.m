@@ -132,9 +132,14 @@
     [userDefaults setObject:cityModel.CityId forKey:@"CityId"];
     [userDefaults setObject:cityModel.CityNameCN forKey:@"CityNameCN"];
     [userDefaults synchronize];
-    MainViewController *mainViewController = [[MainViewController alloc] init];
-    mainViewController.cityModel = cityModel;
-    [[UIApplication sharedApplication] keyWindow].rootViewController = mainViewController;
+//    MainViewController *mainViewController = [[MainViewController alloc] init];
+//    mainViewController.cityModel = cityModel;
+//    [[UIApplication sharedApplication] keyWindow].rootViewController = mainViewController;
+
+    ShopListViewController *shopListVC = [ShopListViewController new];
+    shopListVC.cityModel = cityModel;
+    ZNBaseNavigationController *shopNavController = [[ZNBaseNavigationController alloc]initWithRootViewController:shopListVC];
+    [[UIApplication sharedApplication] keyWindow].rootViewController = shopNavController;
 }
 
 -(UIView *)emptyView{
