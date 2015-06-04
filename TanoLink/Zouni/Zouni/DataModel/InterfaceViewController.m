@@ -18,23 +18,30 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    // 接口  ZN_ADDFAVORITE_API
+//    [ZNApi invokePost:ZN_CITYLIST_API parameters:nil completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
+//        if (resultObj) {
+//            NSDictionary *dic = (NSDictionary *)resultObj;
+//            
+//        }
+//    }];
     
-    // login
-    NSDictionary *requestDic = [[NSDictionary alloc]initWithObjectsAndKeys:
-                                @"tntshaka@gmail.com",@"email",@"888888",@"password",nil];
-    [ZNApi invokePost:ZN_LOGIN_API parameters:requestDic completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
-        if (resultObj) {
-            NSDictionary *dic = (NSDictionary *)resultObj;
-            NSString *strKey = [NSString stringWithFormat:@"%@%@",[dic objectForKey:@"objectId"],DefautlKey];
-            NSString *strMd5  = [ZNAppUtil toMd5:strKey];
-            NSLog(@"============== %@",strMd5);
-            NSString *permit = [NSString stringWithFormat:@"%@,%@",[dic objectForKey:@"objectId"],strMd5];
-            NSLog(@"permit:%@",permit);
-            ZNApi.sharedInstance.headerPermit = permit;
-            [self beginInterfaceData];
-        }
-    }];
+//    // 接口  ZN_ADDFAVORITE_API
+//    
+//    // login
+//    NSDictionary *requestDic = [[NSDictionary alloc]initWithObjectsAndKeys:
+//                                @"tntshaka@gmail.com",@"email",@"888888",@"password",nil];
+//    [ZNApi invokePost:ZN_LOGIN_API parameters:requestDic completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
+//        if (resultObj) {
+//            NSDictionary *dic = (NSDictionary *)resultObj;
+//            NSString *strKey = [NSString stringWithFormat:@"%@%@",[dic objectForKey:@"objectId"],DefautlKey];
+//            NSString *strMd5  = [ZNAppUtil toMd5:strKey];
+//            NSLog(@"============== %@",strMd5);
+//            NSString *permit = [NSString stringWithFormat:@"%@,%@",[dic objectForKey:@"objectId"],strMd5];
+//            NSLog(@"permit:%@",permit);
+//            ZNApi.sharedInstance.headerPermit = permit;
+//            [self beginInterfaceData];
+//        }
+//    }];
 }
 -(void) beginInterfaceData {
     NSDictionary *requestDic1 = [[NSDictionary alloc]initWithObjectsAndKeys:

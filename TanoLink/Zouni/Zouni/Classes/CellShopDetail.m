@@ -7,6 +7,7 @@
 //
 
 #import "CellShopDetail.h"
+#import "UIButton+Block.h"
 
 @implementation CellShopDetail{
 //    UIView *_bgScrollView;
@@ -107,6 +108,16 @@
     
     _btnShopFavorite = [[UIButton alloc]initWithFrame:CGRectZero];
     [_btnShopFavorite setImage:[UIImage imageNamed:@"view_noCollection"] forState:UIControlStateNormal];
+    [_btnShopFavorite setImage:[UIImage imageNamed:@"view_selCollection"] forState:UIControlStateSelected];
+    [_btnShopFavorite handleControlEvent:UIControlEventTouchUpInside withBlock:^{
+        if(_btnShopFavorite.selected){
+            [JGProgressHUD showSuccessStr:@"取消收藏成功！"];
+        }else{
+            [JGProgressHUD showSuccessStr:@"收藏成功！"];
+        }
+        _btnShopFavorite.selected = !_btnShopFavorite.selected;
+    }];
+    
     _labFavorite = [[UILabel alloc] initWithFrame: CGRectZero];
     [_labFavorite setFont:DEFAULT_FONT(10)];
     [_labFavorite setTextColor:ZN_FONNT_03_LIGHTGRAY];
@@ -302,17 +313,17 @@
     
 }
 -(void)initData{
-    //    [self showHudInView:self.view hint:nil];
-    //    __weak typeof(self) weakSelf = self;
-    //    NSDictionary *requestDic = [[NSDictionary alloc]initWithObjectsAndKeys:@"4",@"shopId",nil];
-    //    [ZNApi invokePost:ZN_SHOPDETAIL_API parameters:requestDic completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
-    //        if (resultObj) {
-    //            NSArray *shopModelDic = (NSArray *)resultObj;
-    //            NSError *err;
-    //            ShopModel *shopModel = [[ShopModel alloc]initWithDictionary:shopModelDic error:&err];
-    //        }
-    //        [weakSelf hideHud];
-    //    }];
+//        [self showHudInView:self.view hint:nil];
+//        __weak typeof(self) weakSelf = self;
+        NSDictionary *requestDic = [[NSDictionary alloc]initWithObjectsAndKeys:@"4",@"shopId",nil];
+        [ZNApi invokePost:ZN_SHOPDETAIL_API parameters:requestDic completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
+            if (resultObj) {
+                NSArray *shopModelDic = (NSArray *)resultObj;
+                NSLog(@"%@",shopModelDic);
+//                NSError *err;
+//                ShopModel *shopModel = [[ShopModel alloc]initWithDictionary:shopModelDic error:&err];
+            }
+        }];
     ShopModel *shopModel = self.shopModel;
     [_labShopName setText:shopModel.ShopName];
     [_labShopClass setText:shopModel.ShopENName];
@@ -344,6 +355,8 @@
     
     _txtShopDesc.text = shopModel.desc;
     _labShopWebsiteAr.text = shopModel.website;
+    
+    _btnShopFavorite.selected = shopModel.FavoriteStatus.intValue;
     
 }
 

@@ -94,7 +94,14 @@
 		2F9B9BE71B1AD5420018C82B /* BindEmailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F9B9BE61B1AD5420018C82B /* BindEmailViewController.m */; };
 		2F9B9BEA1B1AD55B0018C82B /* BindMobileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F9B9BE91B1AD55B0018C82B /* BindMobileViewController.m */; };
 		2F9B9BED1B1AD5E30018C82B /* ChangePwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F9B9BEC1B1AD5E30018C82B /* ChangePwdViewController.m */; };
+		2F9B9BF11B1C92F30018C82B /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F9B9BF01B1C92F30018C82B /* LoginViewController.m */; };
+		2F9B9BF41B1C978A0018C82B /* UIButton+Vertical.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F9B9BF31B1C978A0018C82B /* UIButton+Vertical.m */; };
+		2F9B9BF71B1C98200018C82B /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F9B9BF61B1C98200018C82B /* RegisterViewController.m */; };
+		2F9B9BFA1B1C997C0018C82B /* RetakePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F9B9BF91B1C997C0018C82B /* RetakePasswordViewController.m */; };
 		2FBF211C1A14BF8100E29500 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FBF211B1A14BF8100E29500 /* Reachability.m */; };
+		2FCFBC331B1E05350042B729 /* PickView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FCFBC321B1E05350042B729 /* PickView.m */; };
+		2FCFBC351B1E086D0042B729 /* city.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2FCFBC341B1E086D0042B729 /* city.plist */; };
+		2FCFBC381B1FF5C70042B729 /* RegisterSuccessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FCFBC371B1FF5C70042B729 /* RegisterSuccessViewController.m */; };
 		2FE762851B01F5F900B598FF /* CityListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FE762841B01F5F900B598FF /* CityListViewController.m */; };
 		2FE762881B01FA4800B598FF /* GoogleMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FE762871B01FA4800B598FF /* GoogleMapViewController.m */; };
 		2FE7628B1B02EA4700B598FF /* CityListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FE7628A1B02EA4700B598FF /* CityListModel.m */; };
@@ -341,8 +348,21 @@
 		2F9B9BE91B1AD55B0018C82B /* BindMobileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BindMobileViewController.m; sourceTree = "<group>"; };
 		2F9B9BEB1B1AD5E30018C82B /* ChangePwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangePwdViewController.h; sourceTree = "<group>"; };
 		2F9B9BEC1B1AD5E30018C82B /* ChangePwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangePwdViewController.m; sourceTree = "<group>"; };
+		2F9B9BEF1B1C92F30018C82B /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		2F9B9BF01B1C92F30018C82B /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		2F9B9BF21B1C978A0018C82B /* UIButton+Vertical.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Vertical.h"; sourceTree = "<group>"; };
+		2F9B9BF31B1C978A0018C82B /* UIButton+Vertical.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Vertical.m"; sourceTree = "<group>"; };
+		2F9B9BF51B1C98200018C82B /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
+		2F9B9BF61B1C98200018C82B /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
+		2F9B9BF81B1C997C0018C82B /* RetakePasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RetakePasswordViewController.h; sourceTree = "<group>"; };
+		2F9B9BF91B1C997C0018C82B /* RetakePasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RetakePasswordViewController.m; sourceTree = "<group>"; };
 		2FBF211A1A14BF8100E29500 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		2FBF211B1A14BF8100E29500 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		2FCFBC311B1E05350042B729 /* PickView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PickView.h; sourceTree = "<group>"; };
+		2FCFBC321B1E05350042B729 /* PickView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PickView.m; sourceTree = "<group>"; };
+		2FCFBC341B1E086D0042B729 /* city.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = city.plist; sourceTree = "<group>"; };
+		2FCFBC361B1FF5C70042B729 /* RegisterSuccessViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterSuccessViewController.h; sourceTree = "<group>"; };
+		2FCFBC371B1FF5C70042B729 /* RegisterSuccessViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterSuccessViewController.m; sourceTree = "<group>"; };
 		2FE762831B01F5F900B598FF /* CityListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CityListViewController.h; sourceTree = "<group>"; };
 		2FE762841B01F5F900B598FF /* CityListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CityListViewController.m; sourceTree = "<group>"; };
 		2FE762861B01FA4800B598FF /* GoogleMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleMapViewController.h; sourceTree = "<group>"; };
@@ -805,6 +825,23 @@
 			path = MBProgressHUD;
 			sourceTree = "<group>";
 		};
+		2F9B9BEE1B1C92B00018C82B /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				2F9B9BF21B1C978A0018C82B /* UIButton+Vertical.h */,
+				2F9B9BF31B1C978A0018C82B /* UIButton+Vertical.m */,
+				2F9B9BEF1B1C92F30018C82B /* LoginViewController.h */,
+				2F9B9BF01B1C92F30018C82B /* LoginViewController.m */,
+				2F9B9BF51B1C98200018C82B /* RegisterViewController.h */,
+				2F9B9BF61B1C98200018C82B /* RegisterViewController.m */,
+				2F9B9BF81B1C997C0018C82B /* RetakePasswordViewController.h */,
+				2F9B9BF91B1C997C0018C82B /* RetakePasswordViewController.m */,
+				2FCFBC361B1FF5C70042B729 /* RegisterSuccessViewController.h */,
+				2FCFBC371B1FF5C70042B729 /* RegisterSuccessViewController.m */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
 		2FBF21191A14BF8100E29500 /* Reachability */ = {
 			isa = PBXGroup;
 			children = (
@@ -1043,6 +1080,7 @@
 		6665310719C80ABA005096E7 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				2FCFBC341B1E086D0042B729 /* city.plist */,
 				2F9B9BE11B1AC2CB0018C82B /* shake_sound.caf */,
 				6665310819C80ABA005096E7 /* Zouni-Info.plist */,
 				6665310919C80ABA005096E7 /* InfoPlist.strings */,
@@ -1113,6 +1151,7 @@
 		6665313719C80B41005096E7 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				2F9B9BEE1B1C92B00018C82B /* Login */,
 				2FE762941B03232F00B598FF /* MyCenter */,
 				2FE7628D1B031DEC00B598FF /* Strategy */,
 				2FE7628C1B031D6400B598FF /* Tool */,
@@ -1125,6 +1164,8 @@
 		6665313819C80B41005096E7 /* CommonUI */ = {
 			isa = PBXGroup;
 			children = (
+				2FCFBC311B1E05350042B729 /* PickView.h */,
+				2FCFBC321B1E05350042B729 /* PickView.m */,
 				2F151CA41B118CFB000818AD /* ViewShaker.h */,
 				2F151CA51B118CFB000818AD /* ViewShaker.m */,
 				2FFD8BA01B098FC600245C8F /* CTBView.h */,
@@ -1330,6 +1371,7 @@
 				2F78667019F6585400C9440C /* chatBar_record.png in Resources */,
 				2F78667819F6585400C9440C /* chatBar_colorMore_camera@2x.png in Resources */,
 				2F457D311B18BE5C009CB24C /* UMSnsAccountViewController.xib in Resources */,
+				2FCFBC351B1E086D0042B729 /* city.plist in Resources */,
 				2F457D2F1B18BE5C009CB24C /* UMShareEditViewControlleriPad.xib in Resources */,
 				2F78668719F6585400C9440C /* chatBar_more_locationSelected@2x.png in Resources */,
 				2FE762A11B0367AB00B598FF /* GoogleMaps.bundle in Resources */,
@@ -1416,6 +1458,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2F9B9BE71B1AD5420018C82B /* BindEmailViewController.m in Sources */,
+				2F9B9BF41B1C978A0018C82B /* UIButton+Vertical.m in Sources */,
 				4FC3D7C919FE5CE600980CFC /* UIScrollView+MJExtension.m in Sources */,
 				669037D719D912A80018EC44 /* UIImage+Blur.m in Sources */,
 				2F9B9BE41B1AD4310018C82B /* ChangeNickNameViewController.m in Sources */,
@@ -1471,6 +1514,7 @@
 				66277F7219D80EE4003282B3 /* ZNWebViewController.m in Sources */,
 				2FFD8BA71B098FC600245C8F /* CTCBar.m in Sources */,
 				2F78666119F6585400C9440C /* FacialView.m in Sources */,
+				2FCFBC381B1FF5C70042B729 /* RegisterSuccessViewController.m in Sources */,
 				4FC3D7C519FE5CE600980CFC /* MJRefreshBaseView.m in Sources */,
 				4FC3D7C619FE5CE600980CFC /* MJRefreshConst.m in Sources */,
 				2FFD8B9F1B08F75100245C8F /* CouponViewController.m in Sources */,
@@ -1479,11 +1523,14 @@
 				4F5E958219EE631200A2A5B9 /* DatePickerViewController.m in Sources */,
 				6671B05319C823E000E07676 /* ZNAppUtil.m in Sources */,
 				6671B05019C8203800E07676 /* ZNBaseNavigationController.m in Sources */,
+				2F9B9BF71B1C98200018C82B /* RegisterViewController.m in Sources */,
 				2FE7628B1B02EA4700B598FF /* CityListModel.m in Sources */,
 				2F9B9BEA1B1AD55B0018C82B /* BindMobileViewController.m in Sources */,
+				2FCFBC331B1E05350042B729 /* PickView.m in Sources */,
 				2FE762881B01FA4800B598FF /* GoogleMapViewController.m in Sources */,
 				2FE762931B031F8100B598FF /* ToolViewController.m in Sources */,
 				2F6900571A0A1CB30032EEC0 /* UIButton+Block.m in Sources */,
+				2F9B9BFA1B1C997C0018C82B /* RetakePasswordViewController.m in Sources */,
 				2F78669D19F664C000C9440C /* MBProgressHUD.m in Sources */,
 				4F3B55BD19FA582C006DF19F /* UITableView+NXEmptyView.m in Sources */,
 				2FE762851B01F5F900B598FF /* CityListViewController.m in Sources */,
@@ -1507,6 +1554,7 @@
 				6665310D19C80ABA005096E7 /* main.m in Sources */,
 				2F9B9BDD1B1968D50018C82B /* AboutUsViewController.m in Sources */,
 				2F9B9BE01B196B910018C82B /* FeedBackViewController.m in Sources */,
+				2F9B9BF11B1C92F30018C82B /* LoginViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

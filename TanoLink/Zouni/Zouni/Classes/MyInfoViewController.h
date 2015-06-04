@@ -7,7 +7,7 @@
 //
 
 #import "ZNBaseViewController.h"
-
-@interface MyInfoViewController : ZNBaseViewController<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate>
+#import "PickView.h"
+@interface MyInfoViewController : ZNBaseViewController<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextFieldDelegate,UIGestureRecognizerDelegate,ZHPickViewDelegate>
 
 @end

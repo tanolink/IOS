@@ -50,8 +50,8 @@
 }
 -(void) setCellDataForModel:(ShopModel *) shopModel{
     [_labShopName setText:shopModel.ShopName];
-//    [_labShopClass setText:shopModel.shopClass];  // 后台暂时没有分类，先使用英文名称
-    [_labShopClass setText:shopModel.ShopENName];
+    [_labShopClass setText:shopModel.ShopClass];
+//    [_labShopClass setText:shopModel.ShopENName]; // 后台暂时没有分类，先使用英文名称
     NSString *imageUrl = @"";
     if ([shopModel.Images count]>0) {
         imageUrl =shopModel.Images[0];

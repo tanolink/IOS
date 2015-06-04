@@ -12,13 +12,16 @@
 #import "ZNAppUtil.h"
 #import "Reachability.h"
 
-#define MACRO_PRODUCT 1
+// 应用ID 发布itunes时生成的ID
+#define ZN_APPID @"414478124"
+
+//#define MACRO_PRODUCT 1
 //测试账号chensl2
 #ifdef                MACRO_PRODUCT
 #define JR_BASE_URL   @"http://182.92.108.45/"
 #else
 /*外网测试地址*/
-//#define JR_BASE_URL   @"http://...:/"
+#define JR_BASE_URL   @"http://115.28.166.35:8888"
 #endif
 
 
@@ -36,6 +39,9 @@
 /*我的个人中心*/
 #define ZN_LOGIN_API                    @"api/login"                       /*登录*/   // email=gdw&password=
 #define ZN_REPWD_API                    @"api/repwd"                       /*修改密码*/ //email=&password=&code=8761
+#define ZN_VERIFY_EMAIL_API             @"api/verify"                      /*邮箱获取验证码*/ //email=gaodawei@cxtech360.com
+#define ZN_REGISTER_EMIL_API            @"api/register"
+/*注册*///?email=gdw&password=72461588280e06b9b948a49dd99debfa&code=23dg
 
 
 typedef void (^ZNObjectBlock)(id resultObj,NSString *msg,ZNRespModel *respModel);

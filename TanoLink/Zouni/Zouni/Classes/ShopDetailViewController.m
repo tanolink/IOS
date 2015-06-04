@@ -34,6 +34,7 @@
         [_gTableView setSeparatorInset:UIEdgeInsetsZero];
     }
     [self.view addSubview:_gTableView];
+
 }
 -(void) share{
     [UMSocialSnsService presentSnsIconSheetView:self

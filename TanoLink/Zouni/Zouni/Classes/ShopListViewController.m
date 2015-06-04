@@ -100,26 +100,44 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *aTitle = [userDefaults objectForKey:@"CityNameCN"];
 
-    UIButton* actionCityButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0,40, 40)];
+//    UIButton* actionCityButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0,40, 40)];
+    UIButton* actionCityButton = [[UIButton alloc]initWithFrame:CGRectZero];
+
     [actionCityButton setTitle:aTitle forState:UIControlStateNormal];
     actionCityButton.tag=0;
     actionCityButton.titleLabel.font = DEFAULT_FONT(15);
+    [actionCityButton.titleLabel setTextAlignment:NSTextAlignmentRight];
+    actionCityButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+
     [actionCityButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [actionCityButton addTarget:self action:@selector(goToSelectCity) forControlEvents:UIControlEventTouchUpInside];
     
     UIButton* classicAction = [self buttonWithTitle:nil image:[UIImage imageNamed:@"arrow_down"]  highligted:[UIImage imageNamed:@"arrow_down"]  target:self action:@selector(goToSelectCity)];
     classicAction.tag=1;
     
-    UIView* titleView = [[UIView alloc]initWithFrame:CGRectMake(0, 0,60, 40)];
+    UIView* titleView = [[UIView alloc]initWithFrame:CGRectMake(0, 0,200, 40)];
     [titleView addSubview:actionCityButton];
     [titleView addSubview:classicAction];
     self.navigationItem.titleView=titleView;
+    [actionCityButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(titleView);
+        make.centerX.equalTo(titleView).offset(-15);
+        make.width.equalTo(@60);
+        make.height.equalTo(@40);
+    }];
+    
     [classicAction mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(actionCityButton);
-        make.left.equalTo(actionCityButton.mas_right);
+        make.left.equalTo(actionCityButton.mas_right).offset(4);
         make.width.equalTo(@10);
         make.height.equalTo(@10);
     }];
+    
+    // test color
+//    [actionCityButton setBackgroundColor:[UIColor orangeColor]];
+//    [classicAction setBackgroundColor:[UIColor greenColor]];
+//    [titleView setBackgroundColor:[UIColor redColor]];
+    
 }
 -(void) goToMyCenter{
     MyCenterViewController *myCenterVC = [MyCenterViewController new];
@@ -189,7 +207,7 @@
 
 #pragma 初始化数据
 -(void) initData{
-    _pageNumber = 0;
+    _pageNumber = 1;
     _pageSize = 12;
     _dataMutableArray = [[NSMutableArray alloc]init];
 //    [self performSelector:@selector(loadServerData) withObject:nil afterDelay:0.0f];
@@ -211,10 +229,9 @@
     [self showHudInView:self.view hint:nil];
     __weak typeof(self) weakSelf = self;
     NSDictionary *requestDic = [[NSDictionary alloc]initWithObjectsAndKeys:
-//                                [NSString stringWithFormat:@"%d",_pageSize],@"size",
-                                @"20",@"size",
-                                @"1",@"page",
-                                @"4",@"cityId",
+                                [NSString stringWithFormat:@"%d",_pageSize],@"size",
+                                [NSString stringWithFormat:@"%d",_pageNumber],@"page",
+                                self.cityModel.CityId,@"cityId",
 //                                @"",@"px",@"",@"py",
 //                                @"0",@"comments",
                                 @"500",@"distance",

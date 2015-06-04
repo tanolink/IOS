@@ -12,9 +12,13 @@
 #import "ChangePwdViewController.h"
 #import "BindEmailViewController.h"
 #import "BindMobileViewController.h"
+#import "ZNBaseNavigationController.h"
+#import "PickView.h"
 
 @interface MyInfoViewController (){
     UITableView *_gTableView;
+    ZHPickView *_pickview;
+    UITextField *_textFieldCity;
 }
 @property (strong, nonatomic) UIImagePickerController *imagePicker;
 
@@ -36,6 +40,14 @@
     _gTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 
     [self.view addSubview:_gTableView];
+    
+    
+//    //    //Tap Touch
+//    UITapGestureRecognizer *_tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cancelClick)];
+//    _tapGesture.delegate = self;
+//    _tapGesture.numberOfTapsRequired = 1;
+//    _tapGesture.numberOfTouchesRequired = 1;
+//    [self.view addGestureRecognizer:_tapGesture];
 
 }
 - (void)didReceiveMemoryWarning {
@@ -103,7 +115,29 @@
         }else if(indexPath.row == 2){
             // 常住地
             cell.textLabel.text = @"常住地";
-            cell.detailTextLabel.text = @"东京";
+            _pickview=[[ZHPickView alloc] initPickviewWithPlistName:@"city" isHaveNavControler:NO];
+            _pickview.delegate = self;
+            [_pickview setTag:indexPath.row+10000];
+            
+            _textFieldCity = [[UITextField alloc]init];
+            [_textFieldCity setDelegate:self];
+            [_textFieldCity setTag:indexPath.row+10000];
+            _textFieldCity.placeholder = @"请选择";
+            [_textFieldCity setText:@"北京 朝阳"];
+
+            [_textFieldCity setTextAlignment:NSTextAlignmentRight];
+            [_textFieldCity setBackgroundColor:[UIColor whiteColor]];
+            [_textFieldCity setTextColor:[UIColor grayColor]];
+            [_textFieldCity setFont:DEFAULT_FONT(15)];
+            [cell addSubview:_textFieldCity];
+            _textFieldCity.inputView = _pickview;
+            _textFieldCity.inputAccessoryView = nil;
+            [_textFieldCity mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(cell.mas_top);
+                make.width.equalTo(@170);
+                make.height.equalTo(@44);
+                make.right.equalTo(cell.mas_right).offset(-32);
+            }];
         }
         return cell;
     }
@@ -213,7 +247,6 @@
             [self.navigationController pushViewController:changeNickNameVC animated:YES];
         }else if(indexPath.row == 2){
             // 常住地
-            
         }
     }else if(indexPath.section == 1){
         if (indexPath.row == 0) {
@@ -233,6 +266,25 @@
         }
     }
 }
+#pragma mark ZhpickVIewDelegate
+-(void)toobarDonBtnHaveClick:(ZHPickView *)pickView resultString:(NSString *)resultString{
+    [_textFieldCity setText:resultString];
+    [self.view endEditing:NO];
+    [_gTableView setContentOffset:CGPointMake(0, 0) animated:YES];
+}
+-(void)cancelClick{
+    [self.view endEditing:NO];
+    [_gTableView setContentOffset:CGPointMake(0, 0) animated:YES];
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    ZHPickView *pickView = (ZHPickView *)textField.inputView;
+    [pickView setDefaultSelectedWithValue:_textFieldCity.text];
+}
+- (BOOL)textFieldShouldReturn:(UITextField *)sender {
+    [_gTableView setContentOffset:CGPointMake(0, 0) animated:YES];
+    return YES;
+}
 
 
 #pragma mark - action
@@ -242,7 +294,6 @@
         _imagePicker = [[UIImagePickerController alloc] init];
         _imagePicker.delegate = self;
     }
-    
     return _imagePicker;
 }
 - (void)moreViewPhotoAction
@@ -324,7 +375,13 @@
         if (buttonIndex == 0) {
             return;
         }else if(buttonIndex == 1){
-            [[UIApplication sharedApplication] delegate].window.rootViewController = [[CityListViewController alloc] init];;
+            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+            [userDefaults setBool:NO forKey:@"loginState"];
+            [userDefaults synchronize];
+            CityListViewController *cityListVC = [[CityListViewController alloc]init];
+            ZNBaseNavigationController *cityNavController = [[ZNBaseNavigationController alloc]initWithRootViewController:cityListVC];
+
+            [[UIApplication sharedApplication] delegate].window.rootViewController = cityNavController;
         }
     }
     if (alertView.tag == 100003333) {

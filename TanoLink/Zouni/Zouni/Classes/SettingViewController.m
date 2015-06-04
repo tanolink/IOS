@@ -9,6 +9,7 @@
 #import "SettingViewController.h"
 #import "FeedBackViewController.h"
 #import "AboutUsViewController.h"
+#import "ZNAppUtil.h"
 
 @interface SettingViewController (){
     /**
@@ -44,7 +45,7 @@
     [self.view addSubview:_gTableView];
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 4;
+    return 5;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *cellIdentifier = @"cellValue1";
@@ -86,6 +87,9 @@
         
     }else if(indexPath.row == 3){
         cell.textLabel.text = @"关于我们";
+    }else if(indexPath.row == 4){
+        cell.textLabel.text = @"软件版本";
+        cell.detailTextLabel.text = [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleVersionKey];
     }
     [cell.textLabel setFont:DEFAULT_FONT(14)];
     [cell.textLabel setTextColor:ZN_FONNT_02_GRAY];
@@ -115,6 +119,9 @@
         // 关于我们
         AboutUsViewController *aboutUsVC = [AboutUsViewController new];
         [self.navigationController pushViewController:aboutUsVC animated:YES];
+    }else if(indexPath.row == 4){
+        // 软件更新
+        [self checkVersion];
     }
 }
 -(void) share{
@@ -126,6 +133,58 @@
                                                  UMShareToQzone,UMShareToWechatTimeline,UMShareToEmail,nil]
                                        delegate:nil];
 }
+#pragma mark 版本更新
+-(void) checkVersion{
+    [self showHudInView:self.view hint:@"正在检查版本..."];
+    NSString *urlStr =[NSString stringWithFormat:@"http://itunes.apple.com/lookup?id=%@",ZN_APPID];
+    
+    [ZNApi invokeGet:urlStr parameters:nil completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
+        if (resultObj) {
+            NSString *versionNative = @"";
+            NSArray *configData = [resultObj valueForKey:@"results"];
+            for (id config in configData){
+                versionNative = [config valueForKey:@"version"];
+            }
+            NSString *localVersionKey =[[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleVersionKey];
+            if (localVersionKey.intValue < versionNative.intValue){
+                NSString *msgcontent = [NSString stringWithFormat:@"已经发现新版本，是否确定更新？\n 当前版本:V%@ \n最新版本:V%@",localVersionKey,versionNative];
+                // 退出/注销
+                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"发现新版本" message:msgcontent delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+                [alert setTag:100001111];
+                [alert setDelegate:self];
+                [alert show];
+            }else{
+                [JGProgressHUD showHintStr:@"当前为最新版本，暂无更新！"];
+            }
+        }
+        [self hideHud];
+     }];
+}
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (alertView.tag == 100001111) {
+        if (buttonIndex == 0) {
+            return;
+        }else if(buttonIndex == 1){
+            NSString *downloadUrl = [NSString stringWithFormat:@"https://itunes.apple.com/cn/app/bu-luo-chong-tu-clash-of-clans/id%@?mt=8",ZN_APPID];
+            NSURL *url = [NSURL URLWithString:downloadUrl];
+            if ([[UIApplication sharedApplication] canOpenURL:url]){
+                [[UIApplication sharedApplication] openURL:url];
+            } else {
+                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"系统更新" message:@"更新时出错，无法打开下载地址！" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                [alert show];
+            }
+        }
+    }else if (alertView.tag == 100003333) {
+        if (buttonIndex == 0) {
+            return;
+        }else if(buttonIndex == 1){
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:4 inSection:0];
+            [_gTableView cellForRowAtIndexPath:indexPath].detailTextLabel.text = @"正在清除中...";
+            [self performSelector:@selector(clearTmpPics) withObject:nil afterDelay:1];
+        }
+    }
+}
+
 - (void)clearTmpPics
 {
     [[SDImageCache sharedImageCache] clearDisk];
@@ -137,19 +196,6 @@
     UITableViewCell *cell = [_gTableView cellForRowAtIndexPath:indexPath];
     cell.detailTextLabel.text = @"无缓存";
     [JGProgressHUD showSuccessStr:@"清理完毕！"];
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (alertView.tag == 100003333) {
-        if (buttonIndex == 0) {
-            return;
-        }else if(buttonIndex == 1){
-            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:4 inSection:0];
-            [_gTableView cellForRowAtIndexPath:indexPath].detailTextLabel.text = @"正在清除中...";
-            [self performSelector:@selector(clearTmpPics) withObject:nil afterDelay:1];
-        }
-    }
 }
 
 - (void)didReceiveMemoryWarning {

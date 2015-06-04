@@ -15,6 +15,7 @@
 #import "InviteCodeViewController.h"
 #import "MyFavoriteViewController.h"
 #import "SettingViewController.h"
+#import "LoginViewController.h"
 
 @interface MyCenterViewController (){
     CExpandHeader *_header;
@@ -23,18 +24,31 @@
      */
     UITableView *_gTableView;
     /**
-     * 用户头像
+     * 用户头像背景
      */
     UIImageView *_imageHeader;
+    /**
+     * 用户头像
+     */
+    UIButton *headerBtn;
+    
+    // 用户名称
+    UIButton *btnUserName;
 }
 
 @end
 
 @implementation MyCenterViewController
-//-(void)viewWillAppear:(BOOL)animated{
-//    [super viewWillAppear:animated];
-//    [self.navigationController setNavigationBarHidden:YES animated:NO];
-//}
+-(void)viewWillAppear:(BOOL)animated{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if ([userDefaults boolForKey:@"loginState"]) {
+        [btnUserName setTitle:@"Alice Alarez" forState:UIControlStateNormal];
+        [headerBtn setImage:[UIImage imageNamed:@"register_success"] forState:UIControlStateNormal];
+    }else{
+        [btnUserName setTitle:@"点击登录" forState:UIControlStateNormal];
+        [headerBtn setImage:[UIImage imageNamed:@"default_avatar"] forState:UIControlStateNormal];
+    }
+}
 //-(void)viewDidDisappear:(BOOL)animated{
 //    [super viewDidDisappear:animated];
 //    [self.navigationController setNavigationBarHidden:NO animated:NO];
@@ -43,7 +57,6 @@
     [super viewDidLoad];
     [self setBackBarButton];
     [self setTitle:@"个人中心"];
-    
     
     [self.view setBackgroundColor:[UIColor whiteColor]];
     UIView *customView = [[UIView alloc] initWithFrame:CGRectMake(0,0,self.view.frame.size.width,470/2.5)];
@@ -68,13 +81,12 @@
     _header = [CExpandHeader expandWithScrollView:_gTableView expandView:customView];
     [self.view addSubview:_gTableView];
     
-    UIButton *headerBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    headerBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     float headerSize = 60;
     headerBtn.layer.cornerRadius = headerSize / 2.f;
     headerBtn.layer.masksToBounds = YES;
     headerBtn.layer.borderWidth = 2.f;
     headerBtn.layer.borderColor = [[UIColor colorWithWhite:1.000 alpha:0.800]CGColor];
-    [headerBtn setImage:[UIImage imageNamed:@"default_avatar"] forState:UIControlStateNormal];
     [customView addSubview:headerBtn];
     [headerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.equalTo(@(headerSize));
@@ -82,23 +94,30 @@
         make.centerX.equalTo(self.view);
         make.centerY.equalTo(customView).offset(-5);
     }];
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
-    [label setText:@"Alice Alarez"];
-    [label setFont:DEFAULT_FONT(16)];
-    [label setTextColor:[UIColor whiteColor]];
-    [customView addSubview:label];
-    [label mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(headerBtn.mas_bottom).offset(15);
+    btnUserName = [[UIButton alloc] initWithFrame:CGRectZero];
+    [btnUserName.titleLabel setFont:DEFAULT_FONT(16)];
+    [btnUserName.titleLabel setTextColor:[UIColor whiteColor]];
+    [customView addSubview:btnUserName];
+    [btnUserName mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(headerBtn.mas_bottom).offset(5);
         make.centerX.equalTo(headerBtn);
-        make.height.equalTo(@20);
+        make.height.equalTo(@40);
         make.width.equalTo(@100);
     }];
-    [headerBtn handleControlEvent:UIControlEventTouchUpInside withBlock:^{
+    
+    [headerBtn addTarget:self action:@selector(goCenterOrLogin) forControlEvents:UIControlEventTouchUpInside];
+    [btnUserName addTarget:self action:@selector(goCenterOrLogin) forControlEvents:UIControlEventTouchUpInside];
+}
+-(void) goCenterOrLogin{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if ([userDefaults boolForKey:@"loginState"]) {
         MyInfoViewController *myInfoVC = [MyInfoViewController new];
         [self.navigationController pushViewController:myInfoVC animated:YES];
-    }];
+    }else{
+        LoginViewController *loginVC = [LoginViewController new];
+        [self.navigationController pushViewController:loginVC animated:YES];
+    }
 }
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 4;
 }

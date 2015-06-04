@@ -10,6 +10,7 @@
 #import "ZNAppUtil.h"
 #import "CouponDescViewController.h"
 #import "UIButton+Block.h"
+#import "UMSocial.h"
 
 @interface CouponViewController (){
     // 白色背景
@@ -45,7 +46,6 @@
     // 分隔线
     UIImageView *_imageSplit;
     
-    
 }
 
 @end
@@ -59,7 +59,6 @@
     [self setTitle:@"优惠券"];
     [self buildUI];
     [self layoutUI];
-    
 }
 -(void)buildUI{
     _bgView = [UIView new];
@@ -127,7 +126,8 @@
     
     _btnShare = [UIButton buttonWithType:UIButtonTypeSystem];
     [_btnShare setTitle:@"分享" forState:UIControlStateNormal];
-    
+    [_btnShare addTarget:self action:@selector(share) forControlEvents:UIControlEventTouchUpInside];
+
     _btnSaveToAlbum = [UIButton buttonWithType:UIButtonTypeSystem];
     [_btnSaveToAlbum setTitle:@"保存到相册" forState: UIControlStateNormal];
     [_btnSaveToAlbum addTarget:self action:@selector(longPressSavaImage:) forControlEvents:UIControlEventTouchUpInside];
@@ -273,9 +273,19 @@
         make.top.equalTo(_bgView.mas_bottom).offset(48/3);
         make.right.equalTo(_bgView);
         make.width.equalTo(@100);
-        make.height.equalTo(@15);
+        make.height.equalTo(@30);
     }];
 
+}
+#pragma 分享
+-(void) share{
+    [UMSocialSnsService presentSnsIconSheetView:self
+                                         appKey:@"556885e767e58e40ca001421"
+                                      shareText:@"你要分享的文字"
+                                     shareImage:[UIImage imageNamed:@"icon.png"]
+                                shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina,UMShareToWechatSession,UMShareToQQ,
+                                                 UMShareToQzone,UMShareToWechatTimeline,UMShareToEmail,nil]
+                                       delegate:nil];
 }
 #pragma mark - 保存图片
 -(void) longPressSavaImage:(UILongPressGestureRecognizer *)longPress{
