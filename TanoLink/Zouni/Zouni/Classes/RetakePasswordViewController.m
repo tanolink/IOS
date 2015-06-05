@@ -7,7 +7,10 @@
 //
 
 #import "RetakePasswordViewController.h"
-
+#import "ZNAppUtil.h"
+#import "ViewShaker.h"
+#import <AudioToolbox/AudioToolbox.h>
+#import "TopTabBar.h"
 @interface RetakePasswordViewController ()
 
 @end
@@ -18,6 +21,10 @@
     [super viewDidLoad];
     [self setBackBarButton];
     [self setTitle:@"找回密码"];
+    
+    
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {

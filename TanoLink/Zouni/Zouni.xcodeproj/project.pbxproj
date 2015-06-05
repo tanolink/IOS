@@ -102,6 +102,7 @@
 		2FCFBC331B1E05350042B729 /* PickView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FCFBC321B1E05350042B729 /* PickView.m */; };
 		2FCFBC351B1E086D0042B729 /* city.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2FCFBC341B1E086D0042B729 /* city.plist */; };
 		2FCFBC381B1FF5C70042B729 /* RegisterSuccessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FCFBC371B1FF5C70042B729 /* RegisterSuccessViewController.m */; };
+		2FCFBC3B1B203E670042B729 /* TopTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FCFBC3A1B203E670042B729 /* TopTabBar.m */; };
 		2FE762851B01F5F900B598FF /* CityListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FE762841B01F5F900B598FF /* CityListViewController.m */; };
 		2FE762881B01FA4800B598FF /* GoogleMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FE762871B01FA4800B598FF /* GoogleMapViewController.m */; };
 		2FE7628B1B02EA4700B598FF /* CityListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FE7628A1B02EA4700B598FF /* CityListModel.m */; };
@@ -363,6 +364,8 @@
 		2FCFBC341B1E086D0042B729 /* city.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = city.plist; sourceTree = "<group>"; };
 		2FCFBC361B1FF5C70042B729 /* RegisterSuccessViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterSuccessViewController.h; sourceTree = "<group>"; };
 		2FCFBC371B1FF5C70042B729 /* RegisterSuccessViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterSuccessViewController.m; sourceTree = "<group>"; };
+		2FCFBC391B203E670042B729 /* TopTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopTabBar.h; sourceTree = "<group>"; };
+		2FCFBC3A1B203E670042B729 /* TopTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopTabBar.m; sourceTree = "<group>"; };
 		2FE762831B01F5F900B598FF /* CityListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CityListViewController.h; sourceTree = "<group>"; };
 		2FE762841B01F5F900B598FF /* CityListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CityListViewController.m; sourceTree = "<group>"; };
 		2FE762861B01FA4800B598FF /* GoogleMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleMapViewController.h; sourceTree = "<group>"; };
@@ -1188,6 +1191,8 @@
 				4F66D7B719F4C379005AD387 /* BaseTableView.m */,
 				4FDE8E8C19F4FC210074015E /* UIView+Addtions.h */,
 				4FDE8E8D19F4FC210074015E /* UIView+Addtions.m */,
+				2FCFBC391B203E670042B729 /* TopTabBar.h */,
+				2FCFBC3A1B203E670042B729 /* TopTabBar.m */,
 			);
 			path = CommonUI;
 			sourceTree = "<group>";
@@ -1548,6 +1553,7 @@
 				4F444CB819E908F000F3DE8F /* SRSlimeView.m in Sources */,
 				2FFD8B9C1B08F14800245C8F /* ShopDetailViewController.m in Sources */,
 				4F8BB3211A074A3F00C23E39 /* NSDateFormatter+Category.m in Sources */,
+				2FCFBC3B1B203E670042B729 /* TopTabBar.m in Sources */,
 				2F78669619F65C2400C9440C /* EmojiEmoticons.m in Sources */,
 				4FC3D7CA19FE5CE600980CFC /* UIScrollView+MJRefresh.m in Sources */,
 				2FE7629D1B03343D00B598FF /* CellCityList.m in Sources */,

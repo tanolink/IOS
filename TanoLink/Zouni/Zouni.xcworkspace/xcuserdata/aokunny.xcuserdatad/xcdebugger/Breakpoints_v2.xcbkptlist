@@ -74,27 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Zouni/DataModel/ZNApi.m"
-            timestampString = "454058289.136782"
+            timestampString = "455115908.798108"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "44"
-            endingLineNumber = "44"
-            landmarkName = "+invokePost:parameters:completion:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Zouni/DataModel/ZNApi.m"
-            timestampString = "454058511.320811"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "49"
-            endingLineNumber = "49"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
             landmarkName = "+invokePost:parameters:completion:"
             landmarkType = "5">
          </BreakpointContent>
@@ -121,13 +105,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Zouni/Classes/SettingViewController.m"
-            timestampString = "455097407.620489"
+            filePath = "Zouni/Classes/CellShopDetail.m"
+            timestampString = "455119632.324975"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "143"
-            endingLineNumber = "143"
-            landmarkName = "-checkVersion"
+            startingLineNumber = "113"
+            endingLineNumber = "113"
+            landmarkName = "-buildUI"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Zouni/Classes/CellShopDetail.m"
+            timestampString = "455120156.198095"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "341"
+            endingLineNumber = "341"
+            landmarkName = "-initData"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

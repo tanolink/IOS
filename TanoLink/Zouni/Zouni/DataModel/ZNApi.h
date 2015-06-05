@@ -35,6 +35,7 @@
 #define ZN_ADDFAVORITE_API              @"api/AddFavorite"                 /*增加收藏*/
 #define ZN_DELFAVORITES_API             @"api/DelFavorites"                /*取消店铺收藏，单个、多个*/
 #define ZN_COUPON_API                   @"api/Coupon"                      /*优惠券*/ //shopId=1&invitationCode=aaa
+#define ZN_MYFAVORITELIST_API           @"api/MyFavorites"                 /*我的收藏列表*/
 
 /*我的个人中心*/
 #define ZN_LOGIN_API                    @"api/login"                       /*登录*/   // email=gdw&password=

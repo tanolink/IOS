@@ -91,61 +91,55 @@
 
 #pragma mark 加载远程数据
 -(void) loadServerData{
-//    [self showHudInView:self.view hint:nil];
-//    __weak typeof(self) weakSelf = self;
-//    NSDictionary *requestDic = [[NSDictionary alloc]initWithObjectsAndKeys:
-//                                //                                [NSString stringWithFormat:@"%d",_pageSize],@"size",
-//                                @"20",@"size",
-//                                @"1",@"page",
-//                                @"4",@"cityId",
-//                                //                                @"",@"px",@"",@"py",
-//                                //                                @"0",@"comments",
-//                                @"500",@"distance",
-//                                //                                @"1",@"shopClass",
-//                                @"5",@"sort",
-//                                nil];
-//    [ZNApi invokePost:ZN_SHOPLIST_API parameters:requestDic completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
-//        if (resultObj) {
-//            NSArray *dic = (NSArray *)resultObj;
-//            NSLog(@"%@",dic);
-//            [_dataMutableArray addObjectsFromArray:dic];
-//            [_gTableView reloadData];
-//            [_gTableView headerEndRefreshing];
-//            [_gTableView footerEndRefreshing];
-//            if ([_dataMutableArray count]==0) {
-//                _gTableView.nxEV_emptyView = [self emptyView];
-//            }
-//        }
-//        [weakSelf hideHud];
-//    }];
+    [self showHudInView:self.view hint:nil];
+    __weak typeof(self) weakSelf = self;
+    NSDictionary *requestDic = [[NSDictionary alloc]initWithObjectsAndKeys:
+                                [NSString stringWithFormat:@"%d",_pageSize],@"size",
+                                _pageNumber,@"page",
+                                @"5",@"comments",
+                                nil];
+    [ZNApi invokePost:ZN_MYFAVORITELIST_API parameters:requestDic completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
+        if (resultObj) {
+            NSArray *dic = (NSArray *)resultObj;
+            NSLog(@"%@",dic);
+            [_dataMutableArray addObjectsFromArray:dic];
+            [_gTableView reloadData];
+            [_gTableView headerEndRefreshing];
+            [_gTableView footerEndRefreshing];
+            if ([_dataMutableArray count]==0) {
+                _gTableView.nxEV_emptyView = [self emptyView];
+            }
+        }
+        [weakSelf hideHud];
+    }];
     
-        // 模拟返回数据
-        ShopModel *shopM1 = [ShopModel new];
-        shopM1.ShopID = @"8";
-        shopM1.ShopName = @"银座 Ginza";
-        shopM1.ShopClass = @"综合 服饰";
-        shopM1.ShopPhone = @"03-5816-0511";
-        shopM1.Coupon = @"1";
-        shopM1.comments = @"";
-        shopM1.desc = @"是日本东京中央区的一个主要商业区，以高级购物商店闻名。其是东京的一个代表性地区，是日本现代景点的代表，也是世界三大名街之一。17 世纪初叶这里开设，在新桥与京桥两桥间，以高级购物商店闻名，是东京其中一个代表性地区，同时也是日本有代表性的最大最繁华的商业街区。";
-        shopM1.Score = @"3.5";
-        shopM1.Address = @"日本东京中央区";
-        shopM1.PX = @"39";
-        shopM1.PY = @"116";
-        shopM1.Images = @[@"http://182.92.108.45/upload/2015/3/20/16/201504201630081429518608271.jpg"];
-        shopM1.Coupon = 0;
-        shopM1.FavoriteStatus = 0;
-        shopM1.website = @"http://www.donki.com/index.php";
-
-        ShopModel *shopM2 = [shopM1 copy];
-        shopM2.Score = @"5";
-        shopM2.ShopName = @"Apollon studio";
-        shopM2.Images = @[@"http://182.92.108.45/upload/2015/3/21/10/201504211043531429584233254.jpg"];
-    
-        [_dataMutableArray addObjectsFromArray:@[shopM1,shopM2]];
+//        // 模拟返回数据
+//        ShopModel *shopM1 = [ShopModel new];
+//        shopM1.ShopID = @"8";
+//        shopM1.ShopName = @"银座 Ginza";
+//        shopM1.ShopClass = @"综合 服饰";
+//        shopM1.ShopPhone = @"03-5816-0511";
+//        shopM1.Coupon = @"1";
+//        shopM1.comments = @"";
+//        shopM1.desc = @"是日本东京中央区的一个主要商业区，以高级购物商店闻名。其是东京的一个代表性地区，是日本现代景点的代表，也是世界三大名街之一。17 世纪初叶这里开设，在新桥与京桥两桥间，以高级购物商店闻名，是东京其中一个代表性地区，同时也是日本有代表性的最大最繁华的商业街区。";
+//        shopM1.Score = @"3.5";
+//        shopM1.Address = @"日本东京中央区";
+//        shopM1.PX = @"39";
+//        shopM1.PY = @"116";
+//        shopM1.Images = @[@"http://182.92.108.45/upload/2015/3/20/16/201504201630081429518608271.jpg"];
+//        shopM1.Coupon = 0;
+//        shopM1.FavoriteStatus = 0;
+//        shopM1.website = @"http://www.donki.com/index.php";
+//
+//        ShopModel *shopM2 = [shopM1 copy];
+//        shopM2.Score = @"5";
+//        shopM2.ShopName = @"Apollon studio";
+//        shopM2.Images = @[@"http://182.92.108.45/upload/2015/3/21/10/201504211043531429584233254.jpg"];
+//    
+//        [_dataMutableArray addObjectsFromArray:@[shopM1,shopM2]];
         [_gTableView reloadData];
-//    [_gTableView headerEndRefreshing];
-//    [_gTableView footerEndRefreshing];
+    [_gTableView headerEndRefreshing];
+    [_gTableView footerEndRefreshing];
 }
 #pragma mark tableview datasource
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -155,30 +149,30 @@
     return [_dataMutableArray count];
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    //    static NSString *Indentifier = @"cellInd";
-    //    CellShopList *cell = [tableView dequeueReusableCellWithIdentifier:Indentifier];
-    //    NSDictionary *cityModelDic = (NSDictionary *)[_dataMutableArray objectAtIndex:indexPath.row];
-    //    if (!cell) {
-    //        cell = [[CellShopList alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:Indentifier];
-    //    }
-    //    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-    //    NSError *err = nil;
-    //    ShopModel *shopModel = [[ShopModel alloc]initWithDictionary:cityModelDic error:&err];
-    //    [cell setCellDataForModel:shopModel];
-    //    return cell;
+        static NSString *Indentifier = @"cellInd";
+        CellShopList *cell = [tableView dequeueReusableCellWithIdentifier:Indentifier];
+        NSDictionary *cityModelDic = (NSDictionary *)[_dataMutableArray objectAtIndex:indexPath.row];
+        if (!cell) {
+            cell = [[CellShopList alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:Indentifier];
+        }
+        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+        NSError *err = nil;
+        ShopModel *shopModel = [[ShopModel alloc]initWithDictionary:cityModelDic error:&err];
+        [cell setCellDataForModel:shopModel];
+//        return cell;
     
-    static NSString *Indentifier = @"cellInd";
-    CellShopList *cell = [tableView dequeueReusableCellWithIdentifier:Indentifier];
-    if (!cell) {
-        cell = [[CellShopList alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:Indentifier];
-    }
-//    NSDictionary *shopModelDic = (NSDictionary *)[_dataMutableArray objectAtIndex:indexPath.row];
-//    NSError *err = nil;
-//    ShopModel *shopModel = [[ShopModel alloc]initWithDictionary:shopModelDic error:&err];
+//    static NSString *Indentifier = @"cellInd";
+//    CellShopList *cell = [tableView dequeueReusableCellWithIdentifier:Indentifier];
+//    if (!cell) {
+//        cell = [[CellShopList alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:Indentifier];
+//    }
+////    NSDictionary *shopModelDic = (NSDictionary *)[_dataMutableArray objectAtIndex:indexPath.row];
+////    NSError *err = nil;
+////    ShopModel *shopModel = [[ShopModel alloc]initWithDictionary:shopModelDic error:&err];
     
-    ShopModel *shopModel  = [_dataMutableArray objectAtIndex:indexPath.row];
+//    ShopModel *shopModel  = [_dataMutableArray objectAtIndex:indexPath.row];
+//    [cell setCellDataForModel:shopModel];
     
-    [cell setCellDataForModel:shopModel];
     // 事件
     [cell._btnShopDetail handleControlEvent:UIControlEventTouchUpInside withBlock:^{
         ShopDetailViewController *shopDetailVC = [[ShopDetailViewController alloc]init];

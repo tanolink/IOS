@@ -111,11 +111,25 @@
     [_btnShopFavorite setImage:[UIImage imageNamed:@"view_selCollection"] forState:UIControlStateSelected];
     [_btnShopFavorite handleControlEvent:UIControlEventTouchUpInside withBlock:^{
         if(_btnShopFavorite.selected){
-            [JGProgressHUD showSuccessStr:@"取消收藏成功！"];
+            NSDictionary *requestDic1 = [[NSDictionary alloc]initWithObjectsAndKeys:
+                                         self.shopModel.ShopID,@"shopId",nil];
+            [ZNApi invokePost:ZN_DELFAVORITES_API parameters:requestDic1 completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
+                if (resultObj) {
+                    [JGProgressHUD showSuccessStr:@"取消收藏成功！"];
+                    _btnShopFavorite.selected = !_btnShopFavorite.selected;
+                }
+            }];
         }else{
-            [JGProgressHUD showSuccessStr:@"收藏成功！"];
+            NSLog(@"%@",self.shopModel.ShopID);
+            NSDictionary *requestDic1 = [[NSDictionary alloc]initWithObjectsAndKeys:
+                                         @"shopId",nil];
+            [ZNApi invokePost:ZN_ADDFAVORITE_API parameters:requestDic1 completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
+                if (resultObj) {
+                    [JGProgressHUD showSuccessStr:@"收藏成功！"];
+                    _btnShopFavorite.selected = !_btnShopFavorite.selected;
+                }
+            }];
         }
-        _btnShopFavorite.selected = !_btnShopFavorite.selected;
     }];
     
     _labFavorite = [[UILabel alloc] initWithFrame: CGRectZero];

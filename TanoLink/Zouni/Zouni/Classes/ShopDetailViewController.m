@@ -23,8 +23,11 @@
     [super viewDidLoad];
     [self.view setBackgroundColor:[UIColor whiteColor]];
     [self setBackBarButton];
-//    [self setRightBarButtonItemImage:@"share" target:self action:@selector(showShareView)];
-    [self setRightBarButtonItemTitle:@"分享" target:self action:@selector(share)];
+    [self setRightBarButtonItemImage:@"share_icon" target:self action:@selector(share)];
+    
+//    UIBarButtonItem *btnAction = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(share)];
+//    self.navigationController.navigationItem.rightBarButtonItem = btnAction;
+    
     _gTableView = [[UITableView alloc]initWithFrame:CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height)];
     [_gTableView setDelegate:self];
     [_gTableView setDataSource:self];

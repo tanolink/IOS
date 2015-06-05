@@ -8,8 +8,7 @@
 
 #import "LoginViewController.h"
 #import "MyInfoViewController.h"
-//#import "ZNBaseNavigationController.h"
-
+#import "RegisterViewController.h"
 @interface LoginViewController (){
     UIImageView *iconUserName;
     UIImageView *iconPwd;
@@ -256,13 +255,27 @@
     }
     [self showHudInView:self.view hint:loadingHintStr];
     
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setBool:YES forKey:@"loginState"];
-    [userDefaults synchronize];
-    
-    MyInfoViewController *myInfo = [MyInfoViewController new];
-    [self.navigationController pushViewController:myInfo animated:YES];
-    
+    NSDictionary *requestDic = [[NSDictionary alloc]initWithObjectsAndKeys:
+                                accountTextField.text,@"email",
+                                [ZNAppUtil toMd5:passwordTextField.text],@"password",nil];
+        [ZNApi invokePost:ZN_LOGIN_API parameters:requestDic completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
+            if (resultObj) {
+                NSDictionary *dic = (NSDictionary *)resultObj;
+                NSString *strKey = [NSString stringWithFormat:@"%@%@",[dic objectForKey:@"objectId"],DefautlKey];
+                NSString *strMd5  = [ZNAppUtil toMd5:strKey];
+                NSLog(@"============== %@",strMd5);
+                NSString *permit = [NSString stringWithFormat:@"%@,%@",[dic objectForKey:@"objectId"],strMd5];
+                NSLog(@"permit:%@",permit);
+                ZNApi.sharedInstance.headerPermit = permit;
+                
+                NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+                [userDefaults setBool:YES forKey:@"loginState"];
+                [userDefaults synchronize];
+                
+                MyInfoViewController *myInfo = [MyInfoViewController new];
+                [self.navigationController pushViewController:myInfo animated:YES];
+            }
+        }];
 }
 
 -(void)doRegister {
@@ -274,8 +287,12 @@
     
 }
 -(void)retakePassword {
-    RetakePasswordViewController *retakePasswordVC =[[RetakePasswordViewController alloc]init];
-    [self.navigationController pushViewController:retakePasswordVC animated:YES];
+//    RetakePasswordViewController *retakePasswordVC =[[RetakePasswordViewController alloc]init];
+//    [self.navigationController pushViewController:retakePasswordVC animated:YES];
+    RegisterViewController *retakeRasspwdVC = [RegisterViewController new];
+    retakeRasspwdVC.isRemakePwd = YES;
+    [self.navigationController pushViewController:retakeRasspwdVC animated:YES];
+
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

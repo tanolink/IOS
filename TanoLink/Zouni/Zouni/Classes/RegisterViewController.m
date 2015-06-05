@@ -11,8 +11,11 @@
 #import "ViewShaker.h"
 #import <AudioToolbox/AudioToolbox.h>
 #import "RegisterSuccessViewController.h"
+#import "TopTabBar.h"
 
 @interface RegisterViewController (){
+    UIView *headerView;
+    
     UIImageView *iconEmail;
     UIImageView *iconCaptch;
     UIImageView *iconPwd;
@@ -20,7 +23,12 @@
     UITextField *_txfMobile;
     UITextField *_txfCaptch;
     UITextField *_txfPwd;
+    
+    UIView *_mobileViewContoller;
+    UIView *_emailViewController;
 }
+@property (nonatomic, assign) NSInteger count;
+@property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, strong) UIButton *getCaptchButton;
 @end
 static SystemSoundID shake_sound_id = 0;
@@ -29,35 +37,75 @@ static SystemSoundID shake_sound_id = 0;
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setBackBarButton];
-    [self setTitle:@"注册"];
-    
-    [self buildUI];
+    if (self.isRemakePwd) {
+        [self setTitle:@"找回密码"];
+    }else{
+        [self setTitle:@"注册"];
+    }
+    [self initTBar];
+    [self buildMobileUI];
+    [self buildEmailUI];
+    _emailViewController.hidden = NO;
+    _mobileViewContoller.hidden = YES;
 }
--(void)buildUI{
+#pragma mark - 初始化筛选栏
+-(void)initTBar{
+    float _barheight = 40;
+    NSArray *ctbData = @[@[@"手机注册",@""],@[@"邮箱注册",@""]];
+    headerView = [[TopTabBar alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width,_barheight) andArrData:ctbData bSpera:YES andBlock:^(NSUInteger idx) {
+        if (idx == 1000) {
+            // 手机注册
+            _emailViewController.hidden = YES;
+            _mobileViewContoller.hidden = NO;
+        } else if(idx == 1001){
+            // 邮箱注册
+            _emailViewController.hidden = NO;
+            _mobileViewContoller.hidden = YES;
+        }
+    }];
+    [self.view addSubview:headerView];
+    [headerView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view);
+        make.width.equalTo(self.view);
+        make.height.equalTo(@40);
+    }];
+}
+-(void)buildMobileUI{
+    _count=  60;
+    _timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(backTime:) userInfo:nil repeats:YES];
+    [_timer setFireDate:[NSDate distantFuture]];//定时器关闭
     
     [self.view setBackgroundColor:ZN_BACKGROUND_COLOR];
+    _mobileViewContoller = [UIView new];
+    [self.view addSubview:_mobileViewContoller];
+    [_mobileViewContoller mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(headerView.mas_bottom).offset(5);
+        make.left.equalTo(self.view);
+        make.right.equalTo(self.view);
+        make.bottom.equalTo(self.view);
+    }];
+    
     UIView *cellBackGroundView = [[UIView alloc]initWithFrame:CGRectZero];
     cellBackGroundView.layer.borderColor = ZN_BORDER_LINE_COLOR.CGColor;
     cellBackGroundView.layer.borderWidth = 0.5f;
     [cellBackGroundView setBackgroundColor:[UIColor whiteColor]];
     
     iconEmail = [[UIImageView alloc]initWithFrame:CGRectZero];
-    [iconEmail setImage:[UIImage imageNamed:@"email_icon"]];
+    [iconEmail setImage:[UIImage imageNamed:@"phone_icon"]];
     
     _txfMobile = [[UITextField alloc]initWithFrame:CGRectZero];
     [_txfMobile setDelegate:self];
     [_txfMobile setTextColor:ZN_FONNT_01_BLACK];
     [_txfMobile setFont:DEFAULT_FONT(14)];
-    [_txfMobile setPlaceholder:@"请输入您的邮箱账号"];
-    
-    [_txfMobile setText:@"aokuny@126.com"];
+    [_txfMobile setPlaceholder:@"请输入您的手机账号"];
+    [_txfMobile setText:@"15901437555"];
     
     [cellBackGroundView addSubview:iconEmail];
     [cellBackGroundView addSubview:_txfMobile];
-    [self.view addSubview:cellBackGroundView];
+    [_mobileViewContoller addSubview:cellBackGroundView];
     
     [cellBackGroundView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(18);
+        make.top.equalTo(_mobileViewContoller);
         make.height.equalTo(@44);
         make.width.equalTo(self.view);
     }];
@@ -89,7 +137,7 @@ static SystemSoundID shake_sound_id = 0;
     [_txfCaptch setFont:DEFAULT_FONT(14)];
     [cellBackGroundViewCaptch addSubview:_txfCaptch];
     [cellBackGroundViewCaptch addSubview:iconCaptch];
-    [self.view addSubview:cellBackGroundViewCaptch];
+    [_mobileViewContoller addSubview:cellBackGroundViewCaptch];
     [cellBackGroundViewCaptch mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(cellBackGroundView.mas_bottom).offset(-0.5f);
         make.height.equalTo(@44);
@@ -112,7 +160,7 @@ static SystemSoundID shake_sound_id = 0;
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.tag = 2;
     button.layer.masksToBounds = YES;
-    [button addTarget:self action:@selector(getCaptchAction:) forControlEvents:UIControlEventTouchUpInside];
+    [button addTarget:self action:@selector(getCapthcActionMobile:) forControlEvents:UIControlEventTouchUpInside];
     [button setTitle:@"获取验证码" forState:UIControlStateNormal];
     button.titleLabel.font = DEFAULT_FONT(14);
     button.layer.cornerRadius = 4;
@@ -140,7 +188,7 @@ static SystemSoundID shake_sound_id = 0;
     [_txfPwd setFont:DEFAULT_FONT(14)];
     [cellBackGroundViewPwd addSubview:_txfPwd];
     [cellBackGroundViewPwd addSubview:iconPwd];
-    [self.view addSubview:cellBackGroundViewPwd];
+    [_mobileViewContoller addSubview:cellBackGroundViewPwd];
     [cellBackGroundViewPwd mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(cellBackGroundViewCaptch.mas_bottom).offset(-0.5f);
         make.height.equalTo(@44);
@@ -167,7 +215,159 @@ static SystemSoundID shake_sound_id = 0;
     [btnVerify.titleLabel setTextColor:[UIColor whiteColor]];
     [btnVerify setBackgroundColor:ZN_FONNT_04_ORANGE];
     [btnVerify addTarget:self action:@selector(verifyMobile) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:btnVerify];
+    [_mobileViewContoller addSubview:btnVerify];
+    [btnVerify mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(cellBackGroundViewPwd.mas_bottom).offset(15);
+        make.centerX.equalTo(self.view);
+        make.width.equalTo(@(self.view.frame.size.width-40));
+        make.height.equalTo(@40);
+    }];
+}
+
+-(void)buildEmailUI{
+    
+    [self.view setBackgroundColor:ZN_BACKGROUND_COLOR];
+    _emailViewController = [UIView new];
+    [self.view addSubview:_emailViewController];
+    [_emailViewController mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(headerView.mas_bottom).offset(5);
+        make.left.equalTo(self.view);
+        make.right.equalTo(self.view);
+        make.bottom.equalTo(self.view);
+    }];
+    
+    UIView *cellBackGroundView = [[UIView alloc]initWithFrame:CGRectZero];
+    cellBackGroundView.layer.borderColor = ZN_BORDER_LINE_COLOR.CGColor;
+    cellBackGroundView.layer.borderWidth = 0.5f;
+    [cellBackGroundView setBackgroundColor:[UIColor whiteColor]];
+    
+    iconEmail = [[UIImageView alloc]initWithFrame:CGRectZero];
+    [iconEmail setImage:[UIImage imageNamed:@"email_icon"]];
+    
+    _txfMobile = [[UITextField alloc]initWithFrame:CGRectZero];
+    [_txfMobile setDelegate:self];
+    [_txfMobile setTextColor:ZN_FONNT_01_BLACK];
+    [_txfMobile setFont:DEFAULT_FONT(14)];
+    [_txfMobile setPlaceholder:@"请输入您的邮箱账号"];
+    
+    [_txfMobile setText:@"aokuny@126.com"];
+    
+    [cellBackGroundView addSubview:iconEmail];
+    [cellBackGroundView addSubview:_txfMobile];
+    [_emailViewController addSubview:cellBackGroundView];
+    
+    [cellBackGroundView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(headerView.mas_bottom).offset(10);
+        make.height.equalTo(@44);
+        make.width.equalTo(self.view);
+    }];
+    [iconEmail mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(cellBackGroundView).offset(10);
+        make.centerY.equalTo(cellBackGroundView);
+        make.width.equalTo(@20);
+        make.height.equalTo(@20);
+    }];
+    [_txfMobile mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(iconEmail.mas_right).offset(10);
+        make.centerY.equalTo(cellBackGroundView);
+        make.width.equalTo(@200);
+        make.height.equalTo(@20);
+    }];
+    
+    // 验证码
+    UIView *cellBackGroundViewCaptch = [[UIView alloc]initWithFrame:CGRectZero];
+    cellBackGroundViewCaptch.layer.borderColor = ZN_BORDER_LINE_COLOR.CGColor;
+    cellBackGroundViewCaptch.layer.borderWidth = 0.5f;
+    [cellBackGroundViewCaptch setBackgroundColor:[UIColor whiteColor]];
+    
+    iconCaptch = [[UIImageView alloc]initWithFrame:CGRectZero];
+    [iconCaptch setImage:[UIImage imageNamed:@"code_icon"]];
+    
+    _txfCaptch = [[UITextField alloc]initWithFrame:CGRectZero];
+    [_txfCaptch setDelegate:self];
+    [_txfCaptch setTextColor:ZN_FONNT_01_BLACK];
+    [_txfCaptch setFont:DEFAULT_FONT(14)];
+    [cellBackGroundViewCaptch addSubview:_txfCaptch];
+    [cellBackGroundViewCaptch addSubview:iconCaptch];
+    [_emailViewController addSubview:cellBackGroundViewCaptch];
+    [cellBackGroundViewCaptch mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(cellBackGroundView.mas_bottom).offset(-0.5f);
+        make.height.equalTo(@44);
+        make.width.equalTo(self.view);
+    }];
+    [iconCaptch mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(cellBackGroundViewCaptch).offset(10);
+        make.centerY.equalTo(cellBackGroundViewCaptch);
+        make.width.equalTo(@20);
+        make.height.equalTo(@20);
+    }];
+    [_txfCaptch mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(iconCaptch.mas_right).offset(10);
+        make.centerY.equalTo(cellBackGroundViewCaptch);
+        make.width.equalTo(@200);
+        make.height.equalTo(@20);
+    }];
+    _txfCaptch.placeholder = @"请输入邮箱中的验证码";
+    
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.tag = 3;
+    button.layer.masksToBounds = YES;
+    [button addTarget:self action:@selector(getCaptchAction:) forControlEvents:UIControlEventTouchUpInside];
+    [button setTitle:@"获取验证码" forState:UIControlStateNormal];
+    button.titleLabel.font = DEFAULT_FONT(14);
+    button.layer.cornerRadius = 4;
+    [button setBackgroundColor:ZN_FONNT_04_ORANGE];
+    [cellBackGroundViewCaptch addSubview:button];
+//    self.getCaptchButton  = button;
+    [button mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(cellBackGroundViewCaptch).offset(-10);
+        make.width.equalTo(@90);
+        make.height.equalTo(@30);
+        make.centerY.equalTo(cellBackGroundViewCaptch);
+    }];
+    
+    // 密码
+    UIView *cellBackGroundViewPwd = [[UIView alloc]initWithFrame:CGRectZero];
+    cellBackGroundViewPwd.layer.borderColor = ZN_BORDER_LINE_COLOR.CGColor;
+    cellBackGroundViewPwd.layer.borderWidth = 0.5f;
+    [cellBackGroundViewPwd setBackgroundColor:[UIColor whiteColor]];
+    iconPwd = [[UIImageView alloc]initWithFrame:CGRectZero];
+    [iconPwd setImage:[UIImage imageNamed:@"pw_icon"]];
+    
+    _txfPwd = [[UITextField alloc]initWithFrame:CGRectZero];
+    [_txfPwd setDelegate:self];
+    [_txfPwd setTextColor:ZN_FONNT_01_BLACK];
+    [_txfPwd setFont:DEFAULT_FONT(14)];
+    [cellBackGroundViewPwd addSubview:_txfPwd];
+    [cellBackGroundViewPwd addSubview:iconPwd];
+    [_emailViewController addSubview:cellBackGroundViewPwd];
+    [cellBackGroundViewPwd mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(cellBackGroundViewCaptch.mas_bottom).offset(-0.5f);
+        make.height.equalTo(@44);
+        make.width.equalTo(self.view);
+    }];
+    [iconPwd mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(cellBackGroundViewCaptch).offset(10);
+        make.centerY.equalTo(cellBackGroundViewPwd);
+        make.width.equalTo(@20);
+        make.height.equalTo(@20);
+    }];
+    [_txfPwd mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(iconPwd.mas_right).offset(10);
+        make.centerY.equalTo(cellBackGroundViewPwd);
+        make.width.equalTo(@200);
+        make.height.equalTo(@20);
+    }];
+    _txfPwd.placeholder = @"设置最少6位密码";
+    
+    UIButton *btnVerify = [UIButton buttonWithType:UIButtonTypeCustom];
+    btnVerify.layer.cornerRadius = 6;
+    [btnVerify setTitle:@"确   定" forState:UIControlStateNormal];
+    [btnVerify.titleLabel setFont:DEFAULT_FONT(15)];
+    [btnVerify.titleLabel setTextColor:[UIColor whiteColor]];
+    [btnVerify setBackgroundColor:ZN_FONNT_04_ORANGE];
+    [btnVerify addTarget:self action:@selector(verifyMobile) forControlEvents:UIControlEventTouchUpInside];
+    [_emailViewController addSubview:btnVerify];
     [btnVerify mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(cellBackGroundViewPwd.mas_bottom).offset(15);
         make.centerX.equalTo(self.view);
@@ -177,6 +377,27 @@ static SystemSoundID shake_sound_id = 0;
     
 }
 
+-(void)backTime:(NSTimer *)timer
+{
+    NSString *countString = [NSString stringWithFormat:@"%ld秒",(long)_count];
+    [self.getCaptchButton setTitle:countString forState:UIControlStateNormal];
+    _count--;
+    if (!_count) {
+        _count = 60;
+        [_timer setFireDate:[NSDate distantFuture]];//定时器关闭
+        self.getCaptchButton.enabled = YES;
+        [self.getCaptchButton setBackgroundColor:ZN_FONNT_04_ORANGE];
+        [self.getCaptchButton setTitle:@"重新发送" forState:UIControlStateNormal];
+    }
+}
+-(void)getCapthcActionMobile:(UIButton *)btn{
+    [self.view endEditing:YES];
+    self.getCaptchButton.enabled = NO;
+    self.getCaptchButton.layer.borderColor = [UIColor grayColor].CGColor;
+    [self.getCaptchButton setBackgroundColor:[UIColor grayColor]];
+    [_timer setFireDate:[NSDate distantPast]];//定时器开启
+    [self showHudInView:self.view hint:loadingHintStr];
+}
 
 -(void)getCaptchAction:(UIButton *)btn {
     if (_txfMobile.text.length>0){
@@ -193,14 +414,6 @@ static SystemSoundID shake_sound_id = 0;
     }else{
         [JGProgressHUD showErrorStr:@"请输入邮箱地址！"];
     }
-    
-    //    [self.view endEditing:YES];
-    //    NSString *mobileNum = self.oldMobileStr;
-    //    self.getCaptchButton.enabled = NO;
-    //    self.getCaptchButton.layer.borderColor = [UIColor grayColor].CGColor;
-    //    [self.getCaptchButton setBackgroundColor:[UIColor grayColor]];
-    //    [_timer setFireDate:[NSDate distantPast]];//定时器开启
-    //    [self showHudInView:self.view hint:loadingHintStr];
 }
 -(void)verifyMobile{
     if(!(_txfMobile.text.length > 0)){

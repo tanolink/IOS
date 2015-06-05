@@ -47,6 +47,9 @@
     NSLog(@"请求接口：%@\n参数：%@",[[NSURL URLWithString:URLString relativeToURL:manager.baseURL] absoluteString], parameters);
     [manager POST:URLString parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         ZNRespModel *respBody = [[ZNRespModel alloc]initWithDictionary:responseObject error:nil];
+        
+        NSLog(@"rrrrr:%@",respBody);
+
         if (!respBody) {
             completeBlock(nil,nil,nil);
             showAlertMessage(kServiceErrStr);

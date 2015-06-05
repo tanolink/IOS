@@ -9,5 +9,5 @@
 #import "ZNBaseViewController.h"
 
 @interface RegisterViewController : ZNBaseViewController<UITextFieldDelegate>
-
+@property (nonatomic, assign) BOOL *isRemakePwd;
 @end
