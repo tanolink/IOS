@@ -23,7 +23,7 @@
     [super viewDidLoad];
     [self.view setBackgroundColor:[UIColor whiteColor]];
     [self setBackBarButton];
-    [self setRightBarButtonItemImage:@"share_icon" target:self action:@selector(share)];
+//    [self setRightBarButtonItemImage:@"share_icon" target:self action:@selector(share)];
     
 //    UIBarButtonItem *btnAction = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(share)];
 //    self.navigationController.navigationItem.rightBarButtonItem = btnAction;
@@ -37,7 +37,6 @@
         [_gTableView setSeparatorInset:UIEdgeInsetsZero];
     }
     [self.view addSubview:_gTableView];
-
 }
 -(void) share{
     [UMSocialSnsService presentSnsIconSheetView:self
@@ -60,6 +59,8 @@
     CellShopDetail *cell = [tableView dequeueReusableCellWithIdentifier:Indentifier];
     if (!cell) {
         cell = [[CellShopDetail alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:Indentifier];
+            cell.shopID = [NSString stringWithFormat:@"%@",self.shopId];
+//        [cell setCellDataForModel:self.shopModel];
     }
     cell.shopModel = self.shopModel;
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];

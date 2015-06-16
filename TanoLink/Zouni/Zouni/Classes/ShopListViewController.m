@@ -7,7 +7,8 @@
 //
 
 #import "ShopListViewController.h"
-#import "GoogleMapViewController.h"
+//#import "GoogleMapViewController.h"
+#import "AppleMapViewController.h"
 #import "CellShopList.h"
 #import "ShopModel.h"
 #import "UIButton+Block.h"
@@ -253,24 +254,7 @@
         [weakSelf hideHud];
     }];
 
-//    // 模拟返回数据
-//    ShopModel *shopM1 = [ShopModel new];
-//    shopM1.shopID = @"123";
-//    shopM1.shopName = @"银座 Ginza";
-//    shopM1.shopClass = @"综合 服饰";
-//    shopM1.shopPhone = @"13855559999";
-//    shopM1.coupon = @"1";
-//    shopM1.comments = @"";
-//    shopM1.desc = @"是日本东京中央区的一个主要商业区，以高级购物商店闻名。其是东京的一个代表性地区，是日本现代景点的代表，也是世界三大名街之一。17 世纪初叶这里开设，在新桥与京桥两桥间，以高级购物商店闻名，是东京其中一个代表性地区，同时也是日本有代表性的最大最繁华的商业街区。";
-//    shopM1.score = @"3.5";
-//    shopM1.address = @"日本东京中央区";
-//    shopM1.pX = @"39";
-//    shopM1.pY = @"116";
-//    shopM1.image = @"http://182.92.108.45/upload/2015/3/20/16/201504201630081429518608271.jpg";
-//    
-//    ShopModel *shopM2 = [shopM1 copy];
-//    shopM2.score = @"5";
-//    [_dataMutableArray addObjectsFromArray:@[shopM1,shopM2]];
+
     [_gTableView reloadData];
     [_gTableView headerEndRefreshing];
     [_gTableView footerEndRefreshing];
@@ -283,18 +267,7 @@
     return [_dataMutableArray count];
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-//    static NSString *Indentifier = @"cellInd";
-//    CellShopList *cell = [tableView dequeueReusableCellWithIdentifier:Indentifier];
-//    NSDictionary *cityModelDic = (NSDictionary *)[_dataMutableArray objectAtIndex:indexPath.row];
-//    if (!cell) {
-//        cell = [[CellShopList alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:Indentifier];
-//    }
-//    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-//    NSError *err = nil;
-//    ShopModel *shopModel = [[ShopModel alloc]initWithDictionary:cityModelDic error:&err];
-//    [cell setCellDataForModel:shopModel];
-//    return cell;
-    
+
     static NSString *Indentifier = @"cellInd";
     CellShopList *cell = [tableView dequeueReusableCellWithIdentifier:Indentifier];
     if (!cell) {
@@ -311,14 +284,16 @@
         [self.navigationController pushViewController:shopDetailVC animated:YES];
     }];
     [cell._btnShopMap handleControlEvent:UIControlEventTouchUpInside withBlock:^{
-        GoogleMapViewController *gmapVC = [[GoogleMapViewController alloc]init];
+//        GoogleMapViewController *gmapVC = [[GoogleMapViewController alloc]init];
+        AppleMapViewController *appleMapVC = [AppleMapViewController new];
+
         NSDictionary *dicPXY = [[NSDictionary alloc]initWithObjectsAndKeys:shopModel.PX,@"PX",shopModel.PY,@"PY",
                              shopModel.ShopENName,@"Desc",shopModel.ShopName,@"Title",
                              nil];
-        gmapVC.PXYList = @[dicPXY];
-        gmapVC.mainPY = shopModel.PY;
-        gmapVC.mainPX = shopModel.PY;
-        [self.navigationController pushViewController:gmapVC animated:YES];
+        appleMapVC.PXYList = @[dicPXY];
+        appleMapVC.mainPY = shopModel.PY;
+        appleMapVC.mainPX = shopModel.PY;
+        [self.navigationController pushViewController:appleMapVC animated:YES];
     }];
     [cell._btnCoupon handleControlEvent:UIControlEventTouchUpInside withBlock:^{
         CouponViewController *couponVC = [[CouponViewController alloc]init];
@@ -361,19 +336,20 @@
 }
 
 -(void) pushToGoogleMap{
-    GoogleMapViewController *gooleMapVC = [[GoogleMapViewController alloc]init];
+//    GoogleMapViewController *gooleMapVC = [[GoogleMapViewController alloc]init];
+    
+    AppleMapViewController *appleMapVC = [AppleMapViewController new];
     
     NSDictionary *dicPXY = [[NSDictionary alloc]initWithObjectsAndKeys:@"35.66",@"PX",@"139.73",@"PY",
-                            @"Donkihotei ropponki",@"Desc",@"Donkihotei",@"Title",nil];
+                            @"Donkihotei ropponki",@"Desc",@"1111111",@"Title",nil];
     NSDictionary *dicPXY1 = [[NSDictionary alloc]initWithObjectsAndKeys:@"35.71",@"PX",@"139.77",@"PY",
-                             @"Donkihotei ueno",@"Desc",@"Donkihotei",@"Title",nil];
+                             @"Donkihotei ueno",@"Desc",@"22222",@"Title",nil];
     NSDictionary *dicPXY2 = [[NSDictionary alloc]initWithObjectsAndKeys:@"35.67",@"PX",@"139.77",@"PY",
                             @"Matsuya Ginza",@"Desc",@"Matsuya",@"Title",nil];
-    NSDictionary *dicPXY3 = [[NSDictionary alloc]initWithObjectsAndKeys:@"35.66",@"PX",@"139.7",@"PY",
+    NSDictionary *dicPXY3 = [[NSDictionary alloc]initWithObjectsAndKeys:@"35.700852",@"PX",@"139.771860",@"PY",
                              @"Donkihotei sibuya",@"Desc",@"Donkihotei",@"Title",nil];
-    gooleMapVC.PXYList = @[dicPXY,dicPXY1,dicPXY2,dicPXY3];
-    
-    [self.navigationController pushViewController:gooleMapVC animated:YES];
+    appleMapVC.PXYList = @[dicPXY,dicPXY1,dicPXY2,dicPXY3];
+    [self.navigationController pushViewController:appleMapVC animated:YES];
 }
 
 @end

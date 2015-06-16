@@ -8,10 +8,6 @@
 
 #import "ZNClientInfo.h"
 #import "ZNAppUtil.h"
-NSString *const kGuid = @"guid";
-NSString *const kToken = @"token";
-NSString *const kIntelligence = @"Intelligence";
-NSString *const kImageQuality = @"ImageQuality";
 
 @implementation ZNClientInfo
 + (instancetype)sharedClinetInfo
@@ -25,7 +21,7 @@ NSString *const kImageQuality = @"ImageQuality";
 }
 
 +(BOOL)isLogin {
-    if ([ZNClientInfo sharedClinetInfo].guid &&[ZNClientInfo sharedClinetInfo].token ) {
+    if ([ZNClientInfo sharedClinetInfo].memberInfo) {
         return YES;
     }
     return NO;
@@ -40,15 +36,15 @@ NSString *const kImageQuality = @"ImageQuality";
 	return [self JR_directory:NSDocumentDirectory];
 }
 
-+ (NSString *)JR_applicationStorageDirectory
++ (NSString *)ZN_applicationStorageDirectory
 {
     NSString *applicationName = [[[NSBundle mainBundle] infoDictionary] valueForKey:(NSString *)kCFBundleNameKey];
     return [[self JR_directory:NSApplicationSupportDirectory] stringByAppendingPathComponent:applicationName];
 }
 
-+ (NSURL *) JR_urlForStoreName:(NSString *)storeFileName
++ (NSURL *) ZN_urlForStoreName:(NSString *)storeFileName
 {
-	NSArray *paths = [NSArray arrayWithObjects:[self JR_applicationDocumentsDirectory], [self JR_applicationStorageDirectory], nil];
+	NSArray *paths = [NSArray arrayWithObjects:[self JR_applicationDocumentsDirectory], [self ZN_applicationStorageDirectory], nil];
     NSFileManager *fm = [[NSFileManager alloc] init];
     
     for (NSString *path in paths)
@@ -59,12 +55,11 @@ NSString *const kImageQuality = @"ImageQuality";
             return [NSURL fileURLWithPath:filepath];
         }
     }
-    
     //set default url
-    return [NSURL fileURLWithPath:[[self JR_applicationStorageDirectory] stringByAppendingPathComponent:storeFileName]];
+    return [NSURL fileURLWithPath:[[self ZN_applicationStorageDirectory] stringByAppendingPathComponent:storeFileName]];
 }
 
-+ (void) JR_createPathToStoreFileIfNeccessary:(NSURL *)urlForStore
++ (void) ZN_createPathToStoreFileIfNeccessary:(NSURL *)urlForStore
 {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSURL *pathToStore = [urlForStore URLByDeletingLastPathComponent];
@@ -77,74 +72,62 @@ NSString *const kImageQuality = @"ImageQuality";
     }
 }
 
-+ (NSURL *) JR_addStoreNamed:(NSString *) storeFileName
++ (NSURL *) ZN_addStoreNamed:(NSString *) storeFileName
 {
-    NSURL *url = [ZNClientInfo JR_urlForStoreName:storeFileName];
-    
-    [ZNClientInfo JR_createPathToStoreFileIfNeccessary:url];
-    
+    NSURL *url = [ZNClientInfo ZN_urlForStoreName:storeFileName];
+    [ZNClientInfo ZN_createPathToStoreFileIfNeccessary:url];
     return url;
 }
 
 -(id)init {
     self = [super init];
     if (self) {
-        [self loadGuidAndToken];
+        [self loadMemberInfo];
     }
     return self;
 }
-
--(void)saveLoginGuid:(NSString *)guid token:(NSString *)tokenStr {
+/*保存用户信息*/
+-(void)saveMemberInfo:(MemberInfo *) memberInfo {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setObject:guid forKey:kGuid];
-    [userDefaults setObject:tokenStr forKey:kToken];
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:memberInfo];
+    [userDefaults setObject:data forKey:@"MemberInfo"];
     [userDefaults synchronize];
-    [self loadGuidAndToken];
+    [self loadMemberInfo];
+}
+/*加载用户信息*/
+-(void) loadMemberInfo {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSData *data = [userDefaults objectForKey:@"MemberInfo"];
+    MemberInfo *memberInfo = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    self.memberInfo = memberInfo;
 }
 
--(void)clearGuidAndToken {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults removeObjectForKey:kGuid];
-    [userDefaults removeObjectForKey:kToken];
-    [userDefaults synchronize];
-    self.token = nil;
-    self.guid = nil;
-}
 /**
  *  用户退出登录，清除所有用户信息。
  */
 -(void) clearAllUserInfo {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults removeObjectForKey:kGuid];
-    [userDefaults removeObjectForKey:kToken];
-    [userDefaults removeObjectForKey:kIntelligence];
-    [userDefaults removeObjectForKey:kImageQuality];
+    [userDefaults removeObjectForKey:@"MemberInfo"];
+    [userDefaults removeObjectForKey:@"permit"];
+    [userDefaults removeObjectForKey:@"loginState"];
+    [userDefaults removeObjectForKey:@"CityId"];
+    [userDefaults removeObjectForKey:@"CityNameCN"];
     [userDefaults synchronize];
-    self.token = nil;
-    self.guid = nil;
-}
--(void)loadGuidAndToken {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    self.guid = [userDefaults stringForKey:kGuid];
-    self.token = [userDefaults stringForKey:kToken];
+    self.memberInfo = nil;
+    self.permit = nil;
 }
 
-+(NSString *)isIntelligence{
+-(void) savePermit:(NSString *)permit{
+    ZNApi.sharedInstance.headerPermit = permit;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    return [userDefaults objectForKey : kIntelligence];
-}
-
--(void) saveIntelligence:(NSString *)intelligence{
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setObject:intelligence forKey:kIntelligence];
+    [userDefaults setObject:permit forKey:@"permit"];
     [userDefaults synchronize];
 }
-+(enum ImageQuality) getImageQualityType{
+-(void) loadPermit{
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    return [userDefaults integerForKey:kImageQuality];
-}
--(void) saveImageQualityType:(enum ImageQuality) ImageQuality{
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setInteger:ImageQuality forKey:kImageQuality];
+    self.permit = [userDefaults objectForKey:@"permit"];
+    if(self.permit){
+        ZNApi.sharedInstance.headerPermit = self.permit;
+    }
 }
 @end

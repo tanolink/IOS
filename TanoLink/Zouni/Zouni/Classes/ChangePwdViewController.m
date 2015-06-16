@@ -144,6 +144,25 @@ static SystemSoundID shake_sound_id = 0;
     
     if([_txfNewPwd.text isEqual:_txfVerifyNewPwd.text]){
         [self showHudInView:self.view hint:@"正在修改密码..."];
+        NSDictionary *requestDic= @{@"password":_txfOldPwd.text,
+                                    @"newPassword":_txfNewPwd.text,
+                                    @"confirmPwd":_txfVerifyNewPwd.text
+                                    };
+        __weak typeof(self) weakSelf = self;
+        [ZNApi invokePost:ZN_REPWD_API parameters:requestDic completion:^(id resultObj,NSString *msg,ZNRespModel *respModel){
+            if (respModel.success.intValue>0) {
+                [JGProgressHUD showSuccessStr:@"密码修改成功！"];
+                // 更改本地密码
+                
+
+            }else{
+                [JGProgressHUD showHintStr:respModel.msg];
+            }
+            [weakSelf hideHud];
+        }];
+        
+        
+        
     }else{
         [JGProgressHUD showErrorStr:@"两次输入的新密码不一致！"];
     }

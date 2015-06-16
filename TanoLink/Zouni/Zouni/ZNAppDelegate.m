@@ -14,24 +14,29 @@
 #import "MyCenterViewController.h"
 #import "ShopListViewController.h"
 #import <GoogleMaps/GoogleMaps.h>
-
 #import "InterfaceViewController.h"
 #import "UMSocial.h"
 
+#import "KitMapViewController.h"
+
 @implementation ZNAppDelegate
-static NSString *const kAPIKey = @"AIzaSyBUyVmigb163ipK0MyITVJt76RR0XBwnKk";
+//static NSString *const kAPIKey = @"AIzaSyBUyVmigb163ipK0MyITVJt76RR0XBwnKk";
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [UMSocialData setAppKey:@"556885e767e58e40ca001421"];
+//    [UMSocialData setAppKey:@"556885e767e58e40ca001421"];
+//    [GMSServices provideAPIKey:kAPIKey];
     
-    [GMSServices provideAPIKey:kAPIKey];
     [[AFNetworkReachabilityManager sharedManager]startMonitoring];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
-    // 调试接口
+    
     if(NO){
-        InterfaceViewController *interfaceTest = [InterfaceViewController new];
-        self.window.rootViewController = interfaceTest;
+        // 调试接口
+//        InterfaceViewController *interfaceTest = [InterfaceViewController new];
+//        self.window.rootViewController = interfaceTest;
+        // 调试地图
+//        KitMapViewController *kvc = [KitMapViewController new];
+//        self.window.rootViewController = kvc;
     }else{
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
         if([userDefaults objectForKey:@"CityId"]){
@@ -54,18 +59,20 @@ static NSString *const kAPIKey = @"AIzaSyBUyVmigb163ipK0MyITVJt76RR0XBwnKk";
             self.window.rootViewController = cityNavController;
         }
     }
+    
+    [[ZNClientInfo sharedClinetInfo] loadPermit];
+    [[ZNClientInfo sharedClinetInfo] loadMemberInfo];
+
     [self.window makeKeyAndVisible];
     return YES;
 }
 
 -(void)loginStateChange : (NSNotification *)notification{
-    [[ZNClientInfo sharedClinetInfo]clearGuidAndToken];
     self.window.rootViewController = [[MainViewController alloc] init];
 //    LoginViewController *loginVC = [[LoginViewController alloc]init];
 //    ZNBaseNavigationController *loginNav = [[ZNBaseNavigationController alloc]initWithRootViewController:loginVC];
 //    MainViewController *mainVC = (MainViewController*)self.window.rootViewController;
 //    [mainVC.selectedViewController presentViewController:loginNav animated:YES completion:nil];
-    
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
@@ -73,12 +80,10 @@ static NSString *const kAPIKey = @"AIzaSyBUyVmigb163ipK0MyITVJt76RR0XBwnKk";
     [application setApplicationIconBadgeNumber:0];
 }
 
-
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 }
-
 
 #pragma mark - 初始化jpush
 

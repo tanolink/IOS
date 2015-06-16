@@ -3,11 +3,14 @@
 //  Zouni
 //
 //  Created by aokuny on 15/5/23.
-//  Copyright (c) 2015年 juran. All rights reserved.
+//  Copyright (c) 2015年 TanoLink. All rights reserved.
 //
 
 #import "CellShopDetail.h"
 #import "UIButton+Block.h"
+#import <MapKit/MapKit.h>
+#import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
 
 @implementation CellShopDetail{
 //    UIView *_bgScrollView;
@@ -36,7 +39,8 @@
     //  地图分割线
     UIView *_lineView;
     //  地图
-    GMSMapView *mapView_;
+//    GMSMapView *mapView_;
+    MKMapView * _mapView;
     
     // 店铺描述
     UILabel *_labShopDesc;
@@ -46,6 +50,8 @@
     UIView *_lineShopWebsite;
     UILabel *_labShopWebsite;
     UILabel *_labShopWebsiteAr;
+    // 是否收藏
+    BOOL _isSelectFav;
 }
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -55,11 +61,13 @@
     }
     return self;
 }
-
+-(void) setCellDataForModel:(ShopModel *) shopModel{
+    self.shopModel = shopModel;
+}
 -(void)layoutSubviews{
     [super layoutSubviews];
-    [self layoutUI];
     [self initData];
+    [self layoutUI];
 }
 
 -(void)buildUI{
@@ -109,28 +117,6 @@
     _btnShopFavorite = [[UIButton alloc]initWithFrame:CGRectZero];
     [_btnShopFavorite setImage:[UIImage imageNamed:@"view_noCollection"] forState:UIControlStateNormal];
     [_btnShopFavorite setImage:[UIImage imageNamed:@"view_selCollection"] forState:UIControlStateSelected];
-    [_btnShopFavorite handleControlEvent:UIControlEventTouchUpInside withBlock:^{
-        if(_btnShopFavorite.selected){
-            NSDictionary *requestDic1 = [[NSDictionary alloc]initWithObjectsAndKeys:
-                                         self.shopModel.ShopID,@"shopId",nil];
-            [ZNApi invokePost:ZN_DELFAVORITES_API parameters:requestDic1 completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
-                if (resultObj) {
-                    [JGProgressHUD showSuccessStr:@"取消收藏成功！"];
-                    _btnShopFavorite.selected = !_btnShopFavorite.selected;
-                }
-            }];
-        }else{
-            NSLog(@"%@",self.shopModel.ShopID);
-            NSDictionary *requestDic1 = [[NSDictionary alloc]initWithObjectsAndKeys:
-                                         @"shopId",nil];
-            [ZNApi invokePost:ZN_ADDFAVORITE_API parameters:requestDic1 completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
-                if (resultObj) {
-                    [JGProgressHUD showSuccessStr:@"收藏成功！"];
-                    _btnShopFavorite.selected = !_btnShopFavorite.selected;
-                }
-            }];
-        }
-    }];
     
     _labFavorite = [[UILabel alloc] initWithFrame: CGRectZero];
     [_labFavorite setFont:DEFAULT_FONT(10)];
@@ -141,10 +127,13 @@
     _lineView = [[UIView alloc] init];
     _lineView.backgroundColor = ZN_BORDER_LINE_COLOR;
     
-    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:[self.shopModel.PX floatValue]
-                                                            longitude:[self.shopModel.PY floatValue]
-                                                                 zoom:12];
-    mapView_ = [GMSMapView mapWithFrame:CGRectZero camera:camera];
+    _mapView = [[MKMapView alloc]init];
+    _mapView.mapType = MKMapTypeStandard;//标准模式
+    _mapView.zoomEnabled = YES;//支持缩放
+    _mapView.delegate = self;
+    _mapView.showsUserLocation = YES;//显示自己
+    [_mapView setUserTrackingMode:MKUserTrackingModeFollowWithHeading animated:YES];
+    [self.contentView addSubview: _mapView];
     
     _labShopDesc = [[UILabel alloc]initWithFrame:CGRectZero];
     [_labShopDesc setFont:DEFAULT_BOLD_FONT(15)];
@@ -192,7 +181,7 @@
     
     [self.contentView addSubview:_imgView];
     [self.contentView addSubview:_shadeView];
-    [self.contentView addSubview: mapView_];
+//    [self.contentView addSubview: mapView_];
     [self.contentView addSubview:_labShopDesc];
     [self.contentView addSubview:_txtShopDesc];
     [self.contentView addSubview:_lineShopWebsite];
@@ -209,7 +198,30 @@
 //    [_bgScrollView mas_makeConstraints:^(MASConstraintMaker *make) {
 //        make.edges.equalTo(self.contentView);
 //    }];
-//    
+//
+    [_btnShopFavorite handleControlEvent:UIControlEventTouchUpInside withBlock:^{
+        if(_btnShopFavorite.selected){
+            NSDictionary *requestDic1 = [[NSDictionary alloc]initWithObjectsAndKeys:
+                                         self.shopModel.ShopID,@"shopId",nil];
+            [ZNApi invokePost:ZN_DELFAVORITES_API parameters:requestDic1 completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
+                if (respModel.success.intValue) {
+                    [JGProgressHUD showSuccessStr:@"取消收藏成功！"];
+                }
+            }];
+            _btnShopFavorite.selected = NO;
+        }else{
+            NSDictionary *requestDic1 = [[NSDictionary alloc]initWithObjectsAndKeys:self.shopModel.ShopID,
+                                         @"shopId",nil];
+            [ZNApi invokePost:ZN_ADDFAVORITE_API parameters:requestDic1 completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
+                if (respModel.success.intValue) {
+                    [JGProgressHUD showSuccessStr:@"收藏成功！"];
+                }
+            }];
+            _btnShopFavorite.selected = YES;
+
+        }
+    }];
+
     [_imgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.contentView);
         make.left.equalTo(self.contentView);
@@ -288,14 +300,14 @@
         make.bottom.equalTo(_shadeView);
     }];
     
-    [mapView_ mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_mapView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_shadeView.mas_bottom);
-        make.width.equalTo(_shadeView);
+        make.width.equalTo(@(self.contentView.frame.size.width));
         make.height.equalTo(@(326/2-20));
     }];
     
     [_labShopDesc mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(mapView_.mas_bottom).offset(8);
+        make.top.equalTo(_mapView.mas_bottom).offset(8);
         make.left.equalTo(_labShopName);
         make.height.equalTo(@17);
         make.width.equalTo(@100);
@@ -327,20 +339,24 @@
     
 }
 -(void)initData{
-//        [self showHudInView:self.view hint:nil];
+//        [self showHudInView:self.contentView hint:nil];
 //        __weak typeof(self) weakSelf = self;
-        NSDictionary *requestDic = [[NSDictionary alloc]initWithObjectsAndKeys:@"4",@"shopId",nil];
-        [ZNApi invokePost:ZN_SHOPDETAIL_API parameters:requestDic completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
-            if (resultObj) {
-                NSArray *shopModelDic = (NSArray *)resultObj;
-                NSLog(@"%@",shopModelDic);
+//        NSDictionary *requestDic = [[NSDictionary alloc]initWithObjectsAndKeys:self.shopID,@"shopId",nil];
+//        [ZNApi invokePost:ZN_SHOPDETAIL_API parameters:requestDic completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
+//            if (resultObj) {
+//                NSDictionary *shopModelDic = (NSDictionary *)resultObj;
+//                NSLog(@"%@",shopModelDic);
 //                NSError *err;
-//                ShopModel *shopModel = [[ShopModel alloc]initWithDictionary:shopModelDic error:&err];
-            }
-        }];
+//                self.shopModel = [[ShopModel alloc]initWithDictionary:shopModelDic error:&err];
+//            }
+//        }];
     ShopModel *shopModel = self.shopModel;
     [_labShopName setText:shopModel.ShopName];
     [_labShopClass setText:shopModel.ShopENName];
+    
+    if(shopModel.FavoriteStatus.intValue){
+        _btnShopFavorite.selected = YES;
+    }
     NSString *imageUrl = @"";
     if ([shopModel.Images count]>0) {
         imageUrl =shopModel.Images[0];
@@ -359,21 +375,76 @@
     }else{
         [_labScore setText:@"0 分"];
     }
-    // 商铺标记
-    GMSMarker *marker = [[GMSMarker alloc] init];
-    marker.position = CLLocationCoordinate2DMake([shopModel.PX doubleValue],[shopModel.PX doubleValue]);
-    marker.appearAnimation = kGMSMarkerAnimationPop;
-    marker.title = shopModel.ShopENName;
-    marker.snippet = shopModel.ShopENName;
-    marker.map = mapView_;
     
     _txtShopDesc.text = shopModel.desc;
     _labShopWebsiteAr.text = shopModel.website;
     
     _btnShopFavorite.selected = shopModel.FavoriteStatus.intValue;
-    
+    NSDictionary *dicPXY = @{@"PX":shopModel.PX,@"PY":shopModel.PY,
+                             @"Title":shopModel.ShopName,@"Desc":shopModel.ShopENName};
+    [self zoomToAnnotations : dicPXY and: NO];
 }
 
+-(void)zoomToAnnotations : (NSDictionary *) dicPXY and: (BOOL) isSel{
+    CLLocationCoordinate2D pos = {[dicPXY[@"PX"] doubleValue],[dicPXY[@"PY"] doubleValue]};
+    // 添加Annotation
+    MKPointAnnotation *annotaion = [[MKPointAnnotation alloc] init];
+    annotaion.coordinate = pos;
+    annotaion.title = dicPXY[@"Title"];
+    annotaion.subtitle = dicPXY[@"Desc"];
+    [_mapView addAnnotation: annotaion];
+    // 指定新的显示区域
+    [_mapView setRegion:MKCoordinateRegionMake(annotaion.coordinate, MKCoordinateSpanMake(0.05, 0.05)) animated:YES];
+    // 选中标注
+//    [_mapView selectAnnotation:annotaion animated:isSel];
+    //    [NSTimer scheduledTimerWithTimeInterval:1.5 target:self selector:@selector(zoomToAnnotations) userInfo:nil repeats:NO];
+}
+
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation{
+    MKPinAnnotationView * annotationView = (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"PIN_ANNOTATION"];
+    if(annotationView == nil) {
+        annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"PIN_ANNOTATION"];
+//        [annotationView setCanShowCallout:YES];
+//                annotationView.image = [self scaleToSize:[UIImage imageNamed:@"map_doc"] size:CGSizeMake(80/3,110/3)];
+    }
+    
+//    UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [button setImage:[UIImage imageNamed:@"list_arrow"] forState:UIControlStateNormal];
+//    [button setFrame:CGRectMake(0,0,15, 15)];
+//    annotationView.rightCalloutAccessoryView =  button;
+    
+//    annotationView.pinColor = MKPinAnnotationColorRed;// 标注点颜色
+//    annotationView.animatesDrop = YES;
+//    annotationView.opaque = NO;
+//    annotationView.draggable = YES;
+//    annotationView.selected = YES;
+    
+        annotationView.calloutOffset = CGPointMake(15, 15);
+        UIImageView * imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"map_doc"]];
+        annotationView.leftCalloutAccessoryView = imageView;
+    return annotationView;
+}
+#pragma mark MKMapViewDelegate的代理方法
+
+//更新当前位置调用
+- (void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation
+{
+    // 点击我的位置
+    //    _mapView.centerCoordinate = userLocation.location.coordinate;
+    self.nowCoords = [userLocation coordinate];
+    
+}
+//选中注释图标
+- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
+{
+//    //    NSLog(@"111");
+//    NSLog(@"%@",view);
+//    MKPinAnnotationView *s = (MKPinAnnotationView *)view;
+//    MKPointAnnotation *p = (MKPointAnnotation*)s.annotation;
+//    self.addressStr =  p.title;
+//    self.naviCoordsGd  = p.coordinate;
+//    self.naviCoordsBd = p.coordinate;
+}
 - (void)awakeFromNib {}
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

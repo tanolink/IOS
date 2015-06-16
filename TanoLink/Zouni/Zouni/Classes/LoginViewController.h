@@ -11,6 +11,7 @@
 #import "RegisterViewController.h"
 #import "RetakePasswordViewController.h"
 #import "ViewShaker.h"
+#import "MemberInfo.h"
 
 @interface LoginViewController : ZNBaseViewController<UITextFieldDelegate>
 

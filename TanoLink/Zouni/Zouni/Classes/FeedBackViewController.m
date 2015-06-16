@@ -52,14 +52,22 @@
         [JGProgressHUD showHintStr:@"反馈内容需大于15个汉字！"];
         return ;
     }
-
     // send to server
-    NSDictionary *requestDic= @{@"conInfo":gTextView.text};
-    
-    
-    [JGProgressHUD showHintStr:@"问题反馈成功！"];
-    [gTextView setText:@""];
-    gLabelPlaceHolder.hidden = NO;
+    NSDictionary *requestDic= @{@"conInfo":gTextView.text,
+                                @"mobileType":@"ios"
+                                };
+    [self showHudInView:self.view hint:@"正在发送。。。"];
+    __weak typeof(self) weakSelf = self;
+    [ZNApi invokePost:ZN_ADDFEEDBACK_API parameters:requestDic completion:^(id resultObj,NSString *msg,ZNRespModel *respModel){
+        if (respModel.success.intValue>0) {
+            [JGProgressHUD showSuccessStr:@"问题反馈成功！"];
+            [gTextView setText:@""];
+            gLabelPlaceHolder.hidden = NO;
+        }else{
+            [JGProgressHUD showHintStr:respModel.msg];
+        }
+        [weakSelf hideHud];
+    }];
 }
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {

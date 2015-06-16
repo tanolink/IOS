@@ -3,17 +3,21 @@
 //  Zouni
 //
 //  Created by aokuny on 15/5/16.
-//  Copyright (c) 2015年 juran. All rights reserved.
+//  Copyright (c) 2015年 TanoLink. All rights reserved.
 //
 
 #import "CellShopList.h"
 #import "ShopModel.h"
 #import "UIButton+WebCache.h"
+#import "UIButton+Block.h"
 #import "ShopDetailViewController.h"
 
 @implementation CellShopList{
 //    图片
     UIButton *_imgView;
+//    选择按钮
+    UIButton *_btnSel;
+    float selSize;
 //    图片遮罩
     UIView  *_shadeView;
 //    名称
@@ -59,6 +63,8 @@
     NSURL *caseurl = [NSURL URLWithString:imageUrl];
     [_imgView sd_setBackgroundImageWithURL:caseurl forState:UIControlStateNormal
                           placeholderImage:[UIImage imageNamed:@"default_userhead"]];
+    
+    
     //处理星星
     int stars = (int)[shopModel.Score integerValue];
     for (int i=0 ; i< stars ;i++) {
@@ -82,7 +88,10 @@
                                        NSParagraphStyleAttributeName:paragraphStyle1
                                        } range:startRange];
     [_labDescription setAttributedText:attributedString1];
-    
+
+    if (!self.isFavorite) {
+        _btnSel.hidden = YES;
+    }
 }
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -108,6 +117,20 @@
 
         _imgView = [UIButton buttonWithType:UIButtonTypeCustom];
         [_imgView setUserInteractionEnabled:NO];
+        
+        _btnSel = [[UIButton alloc]initWithFrame:CGRectZero];
+        selSize = 25;
+//        _btnSel.layer.cornerRadius = selSize / 2.f;
+//        _btnSel.layer.masksToBounds = YES;
+//        _btnSel.layer.borderWidth = .5f;
+//        _btnSel.layer.borderColor = [[UIColor colorWithWhite:1.000 alpha:0.800]CGColor];
+//        [_btnSel setBackgroundColor:[UIColor grayColor]]; RGBCOLOR_WithAlpha(247,248,249,.4);
+//        [_btnSel setBackgroundColor:[UIColor grayColor]];
+        [_btnSel setImage:[UIImage imageNamed:@"my_record_select01"] forState:UIControlStateNormal];
+        [_btnSel setImage:[UIImage imageNamed:@"my_record_select02"] forState:UIControlStateSelected];
+        [_btnSel handleControlEvent:UIControlEventTouchUpInside withBlock:^{
+            _btnSel.selected = ! _btnSel.selected;
+        }];
 
         _shadeView = [[UIView alloc]initWithFrame:CGRectZero];
         _shadeView.backgroundColor = RGBCOLOR_WithAlpha(0,0,0,.4);
@@ -168,6 +191,9 @@
         
         [self.contentView setBackgroundColor:[UIColor whiteColor]];
         [self.contentView addSubview:_imgView];
+//        [_imgView addSubview:_btnSel];
+        [self.contentView addSubview:_btnSel];
+        
         [_shadeView addSubview:_labShopName];
         [_shadeView addSubview:_labShopClass];
         [_shadeView addSubview:_labScore];
@@ -205,6 +231,13 @@
         make.left.equalTo(self.contentView);
         make.right.equalTo(self.contentView);
         make.height.equalTo(@(516/3-20));
+    }];
+    
+    [_btnSel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_imgView).offset(15);
+        make.left.equalTo(_imgView).offset(15);
+        make.width.equalTo(@(selSize));
+        make.height.equalTo(@(selSize));
     }];
     
     [_shadeView mas_makeConstraints:^(MASConstraintMaker *make) {

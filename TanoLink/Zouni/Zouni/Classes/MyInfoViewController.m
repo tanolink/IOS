@@ -13,12 +13,14 @@
 #import "BindEmailViewController.h"
 #import "BindMobileViewController.h"
 #import "ZNBaseNavigationController.h"
+#import "UIButton+WebCache.h"
 #import "PickView.h"
 
 @interface MyInfoViewController (){
     UITableView *_gTableView;
     ZHPickView *_pickview;
     UITextField *_textFieldCity;
+    MemberInfo *_memberInfo;
 }
 @property (strong, nonatomic) UIImagePickerController *imagePicker;
 
@@ -41,6 +43,7 @@
 
     [self.view addSubview:_gTableView];
     
+    _memberInfo = [ZNClientInfo sharedClinetInfo].memberInfo;
     
 //    //    //Tap Touch
 //    UITapGestureRecognizer *_tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cancelClick)];
@@ -100,6 +103,11 @@
             headerBtn.layer.borderWidth = 2.f;
             headerBtn.layer.borderColor = [[UIColor colorWithWhite:1.000 alpha:0.800]CGColor];
             [headerBtn setImage:[UIImage imageNamed:@"default_avatar"] forState:UIControlStateNormal];
+            NSURL *caseurl = [NSURL URLWithString:_memberInfo.userPhotoId];
+            [headerBtn sd_setBackgroundImageWithURL:caseurl forState:UIControlStateNormal
+                                   placeholderImage:[UIImage imageNamed:@"default_avatar"]];
+
+            
             [headerBtn addTarget:self action:@selector(getPhotoFunction) forControlEvents:UIControlEventTouchUpInside];
             [cell.contentView addSubview:headerBtn];
             [headerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -336,14 +344,34 @@
     [picker dismissViewControllerAnimated:YES completion:nil];
     
     // 选择照片后重新生上传新图片
-//    [self showHudInView:self.view hint:@"正在上传"];
-    [JGProgressHUD showHintStr:@"正在上传头像..."];
+    [self showHudInView:self.view hint:@"正在上传头像..."];
 
-//    dispatch_queue_t urls_queue = dispatch_queue_create("com.jrzj.com", NULL);
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer.acceptableContentTypes =[NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript", @"text/plain",@"text/html",nil];
+    [manager.requestSerializer setValue:[ZNApi sharedInstance].headerPermit forHTTPHeaderField:@"permit"];
+    __weak typeof(self) weakSelf = self;
+    [manager POST:ZN_UPLOAD_IMAGE_API parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+            [formData appendPartWithFileData:UIImageJPEGRepresentation(orgImage, 1)  name:@"file" fileName:@"userPhote.png" mimeType:@"image/png"];
+    } success:^(AFHTTPRequestOperation *operation,NSDictionary *responseObject){
+        ZNRespModel *respModel = [[ZNRespModel alloc]initWithDictionary:responseObject error:nil];
+        [weakSelf hideHud];
+        NSLog(@"上传 %@",respModel);
+        if(respModel.success.intValue>0){
+            //
+            NSString *imgeUrl = respModel.data;
+        }else{
+            [JGProgressHUD showErrorStr:respModel.msg];
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [weakSelf hideHud];
+    }];
+
+//    dispatch_queue_t urls_queue = dispatch_queue_create("com.tanolink", NULL);
 //    __block MyInfoViewController* weakSelf = self;
 //    [self showHudInView:self.view hint:nil];
 //    dispatch_async(urls_queue, ^{
-//        NSURL *fileUrl = [JRClientInfo JR_addStoreNamed:@"feedBack"];
+//        NSURL *fileUrl = [ZNClientInfo ZN_addStoreNamed:@"feedBack"];
 //        [UIImageJPEGRepresentation(orgImage, 1) writeToURL:fileUrl atomically:YES ];
 //        dispatch_async(dispatch_get_main_queue(), ^{
 //            [weakSelf hideHud];
@@ -375,12 +403,9 @@
         if (buttonIndex == 0) {
             return;
         }else if(buttonIndex == 1){
-            NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-            [userDefaults setBool:NO forKey:@"loginState"];
-            [userDefaults synchronize];
+            [[ZNClientInfo sharedClinetInfo] clearAllUserInfo];
             CityListViewController *cityListVC = [[CityListViewController alloc]init];
             ZNBaseNavigationController *cityNavController = [[ZNBaseNavigationController alloc]initWithRootViewController:cityListVC];
-
             [[UIApplication sharedApplication] delegate].window.rootViewController = cityNavController;
         }
     }

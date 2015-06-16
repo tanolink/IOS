@@ -40,10 +40,23 @@
 
 @implementation MyCenterViewController
 -(void)viewWillAppear:(BOOL)animated{
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    if ([userDefaults boolForKey:@"loginState"]) {
-        [btnUserName setTitle:@"Alice Alarez" forState:UIControlStateNormal];
-        [headerBtn setImage:[UIImage imageNamed:@"register_success"] forState:UIControlStateNormal];
+    if ([ZNClientInfo isLogin]) {
+        NSString *displayName = @"";
+        if ([ZNClientInfo sharedClinetInfo].memberInfo.nickname.length>0) {
+            displayName = [ZNClientInfo sharedClinetInfo].memberInfo.nickname;
+        }else if([ZNClientInfo sharedClinetInfo].memberInfo.username.length>0){
+            displayName = [ZNClientInfo sharedClinetInfo].memberInfo.username;
+        }else if([ZNClientInfo sharedClinetInfo].memberInfo.mobile.length>0){
+            displayName = [ZNClientInfo sharedClinetInfo].memberInfo.mobile;
+        }else{
+            displayName = [ZNClientInfo sharedClinetInfo].memberInfo.email;
+        }
+        [btnUserName setTitle:displayName forState:UIControlStateNormal];
+
+        NSURL *caseurl = [NSURL URLWithString:[ZNClientInfo sharedClinetInfo].memberInfo.userPhotoId];
+        [headerBtn sd_setBackgroundImageWithURL:caseurl forState:UIControlStateNormal
+                                  placeholderImage:[UIImage imageNamed:@"default_avatar"]];
+//        [headerBtn setImage:[UIImage imageNamed:@"register_success"] forState:UIControlStateNormal];
     }else{
         [btnUserName setTitle:@"点击登录" forState:UIControlStateNormal];
         [headerBtn setImage:[UIImage imageNamed:@"default_avatar"] forState:UIControlStateNormal];
@@ -102,15 +115,14 @@
         make.top.equalTo(headerBtn.mas_bottom).offset(5);
         make.centerX.equalTo(headerBtn);
         make.height.equalTo(@40);
-        make.width.equalTo(@100);
+        make.width.equalTo(@220);
     }];
     
     [headerBtn addTarget:self action:@selector(goCenterOrLogin) forControlEvents:UIControlEventTouchUpInside];
     [btnUserName addTarget:self action:@selector(goCenterOrLogin) forControlEvents:UIControlEventTouchUpInside];
 }
 -(void) goCenterOrLogin{
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    if ([userDefaults boolForKey:@"loginState"]) {
+    if ([ZNClientInfo isLogin]) {
         MyInfoViewController *myInfoVC = [MyInfoViewController new];
         [self.navigationController pushViewController:myInfoVC animated:YES];
     }else{

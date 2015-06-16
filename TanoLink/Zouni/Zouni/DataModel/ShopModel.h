@@ -3,17 +3,14 @@
 //  Zouni
 //
 //  Created by aokuny on 15/5/16.
-//  Copyright (c) 2015年 juran. All rights reserved.
+//  Copyright (c) 2015年 TanoLin. All rights reserved.
 //
 
 #import "JSONModel.h"
 @protocol ShopModel
 @end
-//@interface <#class name#> : <#superclass#>
-//
-//@end
 @interface ShopModel : JSONModel
-@property (nonatomic, assign) NSString <Optional>*ShopID;
+@property (nonatomic, strong) NSString <Optional>*ShopID;
 @property (nonatomic, strong) NSString <Optional>*desc;
 @property (nonatomic, strong) NSString <Optional>*Score;
 @property (nonatomic, strong) NSString <Optional>*Coupon;

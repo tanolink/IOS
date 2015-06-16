@@ -25,7 +25,7 @@
 -(id)init {
     self = [super init];
     if (self) {
-        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc]initWithBaseURL:[NSURL URLWithString:JR_BASE_URL]];
+        AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc]initWithBaseURL:[NSURL URLWithString:ZN_BASE_URL]];
 //      AFJSONRequestSerializer *requestSerializer = [AFJSONRequestSerializer serializerWithWritingOptions:NSJSONWritingPrettyPrinted];
         AFHTTPRequestSerializer *requestSerializer = [AFHTTPRequestSerializer serializer];
         [requestSerializer setValue:DefaultHeaderMD5 forHTTPHeaderField:@"permit"];
@@ -48,7 +48,7 @@
     [manager POST:URLString parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         ZNRespModel *respBody = [[ZNRespModel alloc]initWithDictionary:responseObject error:nil];
         
-        NSLog(@"rrrrr:%@",respBody);
+        NSLog(@"返回信息:%@",respBody);
 
         if (!respBody) {
             completeBlock(nil,nil,nil);

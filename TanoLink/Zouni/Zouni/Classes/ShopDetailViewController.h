@@ -10,6 +10,9 @@
 #import "ShopModel.h"
 #import "CellShopDetail.h"
 #import "UMSocial.h"
-@interface ShopDetailViewController : ZNBaseViewController<UITableViewDelegate,UITableViewDataSource,UMSocialDataDelegate>
+@interface ShopDetailViewController : ZNBaseViewController<UITableViewDelegate,UITableViewDataSource
+//,UMSocialDataDelegate
+>
 @property(nonatomic,strong)ShopModel *shopModel;
+@property(nonatomic,strong)NSString *shopId;
 @end

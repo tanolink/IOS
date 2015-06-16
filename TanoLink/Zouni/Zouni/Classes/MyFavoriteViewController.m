@@ -7,7 +7,8 @@
 //
 
 #import "MyFavoriteViewController.h"
-#import "GoogleMapViewController.h"
+//#import "GoogleMapViewController.h"
+#import "AppleMapViewController.h"
 #import "CellShopList.h"
 #import "ShopModel.h"
 #import "UIButton+Block.h"
@@ -44,20 +45,22 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setBackBarButton];
-    //    [self setLeftNabBar];
-    [self setRightButton];
     [self BuildUI];
     [self initData];
 }
 #pragma 初始化页面
 -(void)BuildUI{
     [self setTitle:@"我的收藏"];
+    [self setRightBarButtonItemTitle:@"编辑" target:self action:@selector(editFavorite)];
     // 初始化表格
     [_gTableView setBackgroundColor:[UIColor grayColor]];
     _gTableView = [[UITableView alloc]initWithFrame:CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height)];
     [_gTableView setDelegate:self];
     [_gTableView setDataSource:self];
-    [_gTableView setTableFooterView:[[UIView alloc]init]];
+    
+//    [_gTableView setTableFooterView:[[UIView alloc]init]];
+//    [_gTableView.tableFooterView setHidden:YES];
+    
     [_gTableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
     [_gTableView setAllowsSelection:NO];
     _gTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -95,7 +98,7 @@
     __weak typeof(self) weakSelf = self;
     NSDictionary *requestDic = [[NSDictionary alloc]initWithObjectsAndKeys:
                                 [NSString stringWithFormat:@"%d",_pageSize],@"size",
-                                _pageNumber,@"page",
+                                [NSString stringWithFormat:@"%d",_pageNumber],@"page",
                                 @"5",@"comments",
                                 nil];
     [ZNApi invokePost:ZN_MYFAVORITELIST_API parameters:requestDic completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
@@ -113,30 +116,6 @@
         [weakSelf hideHud];
     }];
     
-//        // 模拟返回数据
-//        ShopModel *shopM1 = [ShopModel new];
-//        shopM1.ShopID = @"8";
-//        shopM1.ShopName = @"银座 Ginza";
-//        shopM1.ShopClass = @"综合 服饰";
-//        shopM1.ShopPhone = @"03-5816-0511";
-//        shopM1.Coupon = @"1";
-//        shopM1.comments = @"";
-//        shopM1.desc = @"是日本东京中央区的一个主要商业区，以高级购物商店闻名。其是东京的一个代表性地区，是日本现代景点的代表，也是世界三大名街之一。17 世纪初叶这里开设，在新桥与京桥两桥间，以高级购物商店闻名，是东京其中一个代表性地区，同时也是日本有代表性的最大最繁华的商业街区。";
-//        shopM1.Score = @"3.5";
-//        shopM1.Address = @"日本东京中央区";
-//        shopM1.PX = @"39";
-//        shopM1.PY = @"116";
-//        shopM1.Images = @[@"http://182.92.108.45/upload/2015/3/20/16/201504201630081429518608271.jpg"];
-//        shopM1.Coupon = 0;
-//        shopM1.FavoriteStatus = 0;
-//        shopM1.website = @"http://www.donki.com/index.php";
-//
-//        ShopModel *shopM2 = [shopM1 copy];
-//        shopM2.Score = @"5";
-//        shopM2.ShopName = @"Apollon studio";
-//        shopM2.Images = @[@"http://182.92.108.45/upload/2015/3/21/10/201504211043531429584233254.jpg"];
-//    
-//        [_dataMutableArray addObjectsFromArray:@[shopM1,shopM2]];
         [_gTableView reloadData];
     [_gTableView headerEndRefreshing];
     [_gTableView footerEndRefreshing];
@@ -158,42 +137,37 @@
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         NSError *err = nil;
         ShopModel *shopModel = [[ShopModel alloc]initWithDictionary:cityModelDic error:&err];
+        cell.isFavorite = YES;
         [cell setCellDataForModel:shopModel];
-//        return cell;
-    
-//    static NSString *Indentifier = @"cellInd";
-//    CellShopList *cell = [tableView dequeueReusableCellWithIdentifier:Indentifier];
-//    if (!cell) {
-//        cell = [[CellShopList alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:Indentifier];
-//    }
-////    NSDictionary *shopModelDic = (NSDictionary *)[_dataMutableArray objectAtIndex:indexPath.row];
-////    NSError *err = nil;
-////    ShopModel *shopModel = [[ShopModel alloc]initWithDictionary:shopModelDic error:&err];
-    
-//    ShopModel *shopModel  = [_dataMutableArray objectAtIndex:indexPath.row];
-//    [cell setCellDataForModel:shopModel];
-    
-    // 事件
-    [cell._btnShopDetail handleControlEvent:UIControlEventTouchUpInside withBlock:^{
-        ShopDetailViewController *shopDetailVC = [[ShopDetailViewController alloc]init];
-        shopDetailVC.shopModel = shopModel;
-        [self.navigationController pushViewController:shopDetailVC animated:YES];
-    }];
-    [cell._btnShopMap handleControlEvent:UIControlEventTouchUpInside withBlock:^{
-        GoogleMapViewController *gmapVC = [[GoogleMapViewController alloc]init];
-        NSDictionary *dicPXY = [[NSDictionary alloc]initWithObjectsAndKeys:shopModel.PX,@"PX",shopModel.PY,@"PY",
-                                shopModel.ShopENName,@"Desc",shopModel.ShopName,@"Title",
-                                nil];
-        gmapVC.PXYList = @[dicPXY];
-        gmapVC.mainPY = shopModel.PY;
-        gmapVC.mainPX = shopModel.PY;
-        [self.navigationController pushViewController:gmapVC animated:YES];
-    }];
-    [cell._btnCoupon handleControlEvent:UIControlEventTouchUpInside withBlock:^{
-        CouponViewController *couponVC = [[CouponViewController alloc]init];
-        [self.navigationController pushViewController:couponVC animated:YES];
-    }];
-    return cell;
+        // 事件
+        [cell._btnShopDetail handleControlEvent:UIControlEventTouchUpInside withBlock:^{
+            ShopDetailViewController *shopDetailVC = [[ShopDetailViewController alloc]init];
+            shopDetailVC.shopModel = shopModel;
+            [self.navigationController pushViewController:shopDetailVC animated:YES];
+        }];
+        [cell._btnShopMap handleControlEvent:UIControlEventTouchUpInside withBlock:^{
+//            GoogleMapViewController *gmapVC = [[GoogleMapViewController alloc]init];
+//            NSDictionary *dicPXY = [[NSDictionary alloc]initWithObjectsAndKeys:shopModel.PX,@"PX",shopModel.PY,@"PY",
+//                                    shopModel.ShopENName,@"Desc",shopModel.ShopName,@"Title",nil];
+//            gmapVC.PXYList = @[dicPXY];
+//            gmapVC.mainPY = shopModel.PY;
+//            gmapVC.mainPX = shopModel.PY;
+//            [self.navigationController pushViewController:gmapVC animated:YES];
+            AppleMapViewController *appleMapVC = [AppleMapViewController new];
+            
+            NSDictionary *dicPXY = [[NSDictionary alloc]initWithObjectsAndKeys:shopModel.PX,@"PX",shopModel.PY,@"PY",
+                                    shopModel.ShopENName,@"Desc",shopModel.ShopName,@"Title",
+                                    nil];
+            appleMapVC.PXYList = @[dicPXY];
+            appleMapVC.mainPY = shopModel.PY;
+            appleMapVC.mainPX = shopModel.PY;
+            [self.navigationController pushViewController:appleMapVC animated:YES];
+        }];
+        [cell._btnCoupon handleControlEvent:UIControlEventTouchUpInside withBlock:^{
+            CouponViewController *couponVC = [[CouponViewController alloc]init];
+            [self.navigationController pushViewController:couponVC animated:YES];
+        }];
+        return cell;
 }
 #pragma mark - tableview delegate methods
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -205,6 +179,30 @@
     //    CityModel *cityModel = [[CityModel alloc]initWithDictionary:cityModelDic error:&err];
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 70;
+}
+-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    UIView * lineView = [[UIView alloc]initWithFrame:CGRectMake(0,0,ScreenWidth,1)];
+    lineView.backgroundColor = [UIColor grayLineColor];
+    
+    UIView *bgFooterView = [[UIView alloc]initWithFrame:CGRectMake(0,0,self.view.frame.size.width,50)];
+    [bgFooterView setBackgroundColor:[UIColor whiteColor]];
+    UIButton *btnQuotePrice = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btnQuotePrice setFrame:CGRectMake(30,10,ScreenWidth-60,44)];
+    [btnQuotePrice setBackgroundColor:ZN_FONNT_04_ORANGE];
+    [btnQuotePrice setTitle:@"(1)删除" forState:UIControlStateNormal];
+    [btnQuotePrice.titleLabel setFont:DEFAULT_BOLD_FONT(17)];
+    [btnQuotePrice handleControlEvent:UIControlEventTouchUpInside withBlock:^{
+        [_gTableView.tableFooterView setHidden:YES];
+    }];
+    [bgFooterView addSubview:btnQuotePrice];
+    return bgFooterView;
+}
+
+-(void)editFavorite{
+    _gTableView.tableFooterView.hidden = NO;
+}
 -(UIView *)emptyView{
     if (!_emptyView) {
         //        CustomEmptyView *emptyView = [[CustomEmptyView alloc]initWithFrame:CGRectMake(0, (self.view.frame.size.height-200)/2.f- 30,gTableView.frame.size.width, 200)];
@@ -214,27 +212,6 @@
     }
     return _emptyView;
 }
--(void) setRightButton{
-//    [self setRightBarButtonItemTitle:@"编辑" target:self action:@selector(bindInviteCode)];
-}
-
--(void) pushToGoogleMap{
-    GoogleMapViewController *gooleMapVC = [[GoogleMapViewController alloc]init];
-    
-    NSDictionary *dicPXY = [[NSDictionary alloc]initWithObjectsAndKeys:@"35.66",@"PX",@"139.73",@"PY",
-                            @"Donkihotei ropponki",@"Desc",@"Donkihotei",@"Title",nil];
-    NSDictionary *dicPXY1 = [[NSDictionary alloc]initWithObjectsAndKeys:@"35.71",@"PX",@"139.77",@"PY",
-                             @"Donkihotei ueno",@"Desc",@"Donkihotei",@"Title",nil];
-    NSDictionary *dicPXY2 = [[NSDictionary alloc]initWithObjectsAndKeys:@"35.67",@"PX",@"139.77",@"PY",
-                             @"Matsuya Ginza",@"Desc",@"Matsuya",@"Title",nil];
-    NSDictionary *dicPXY3 = [[NSDictionary alloc]initWithObjectsAndKeys:@"35.66",@"PX",@"139.7",@"PY",
-                             @"Donkihotei sibuya",@"Desc",@"Donkihotei",@"Title",nil];
-    gooleMapVC.PXYList = @[dicPXY,dicPXY1,dicPXY2,dicPXY3];
-    
-    [self.navigationController pushViewController:gooleMapVC animated:YES];
-}
-
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }

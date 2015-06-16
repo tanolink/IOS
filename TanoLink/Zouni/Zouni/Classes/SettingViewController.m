@@ -29,6 +29,7 @@
     _gTableView =[[UITableView alloc]initWithFrame:CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height) style:UITableViewStylePlain];
     _gTableView.backgroundView = nil;
     _gTableView.backgroundColor = [UIColor clearColor];
+    [_gTableView setBackgroundColor:ZN_BACKGROUND_COLOR];
     [_gTableView setDelegate:self];
     [_gTableView setDataSource:self];
     [_gTableView setTableFooterView:[[UIView alloc]init]];

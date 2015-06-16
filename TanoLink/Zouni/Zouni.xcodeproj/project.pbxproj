@@ -34,6 +34,13 @@
 		2F457D331B18BE5C009CB24C /* UMSocialSDKResourcesNew.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2F457D261B18BE5C009CB24C /* UMSocialSDKResourcesNew.bundle */; };
 		2F457D361B1953DC009CB24C /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F457D351B1953DC009CB24C /* SettingViewController.m */; };
 		2F4D853D1A0C60E300195551 /* projectStyle.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2F4D853C1A0C60E300195551 /* projectStyle.plist */; };
+		2F5FCB7A1B24469000118E99 /* MemberInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5FCB791B24469000118E99 /* MemberInfo.m */; };
+		2F5FCB7D1B25ECBD00118E99 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5FCB7C1B25ECBD00118E99 /* MapViewController.m */; };
+		2F5FCB801B2727DD00118E99 /* KitMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5FCB7F1B2727DD00118E99 /* KitMapViewController.m */; };
+		2F5FCB821B27295400118E99 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F5FCB811B27295400118E99 /* MapKit.framework */; };
+		2F5FCB851B29D61600118E99 /* AppleMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5FCB841B29D61600118E99 /* AppleMapViewController.m */; };
+		2F5FCB881B2B3F5200118E99 /* LocationChange.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5FCB871B2B3F5200118E99 /* LocationChange.m */; };
+		2F5FCB8B1B2B403300118E99 /* CheckInstalledMapAPP.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F5FCB8A1B2B403300118E99 /* CheckInstalledMapAPP.m */; };
 		2F6900571A0A1CB30032EEC0 /* UIButton+Block.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F6900561A0A1CB30032EEC0 /* UIButton+Block.m */; };
 		2F78665D19F6585400C9440C /* DXMessageToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F78662119F6585400C9440C /* DXMessageToolBar.m */; };
 		2F78665E19F6585400C9440C /* DXFaceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F78662519F6585400C9440C /* DXFaceView.m */; };
@@ -271,6 +278,19 @@
 		2F457D341B1953DC009CB24C /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
 		2F457D351B1953DC009CB24C /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 		2F4D853C1A0C60E300195551 /* projectStyle.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = projectStyle.plist; sourceTree = "<group>"; };
+		2F5FCB781B24469000118E99 /* MemberInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemberInfo.h; sourceTree = "<group>"; };
+		2F5FCB791B24469000118E99 /* MemberInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MemberInfo.m; sourceTree = "<group>"; };
+		2F5FCB7B1B25ECBD00118E99 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
+		2F5FCB7C1B25ECBD00118E99 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
+		2F5FCB7E1B2727DD00118E99 /* KitMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KitMapViewController.h; sourceTree = "<group>"; };
+		2F5FCB7F1B2727DD00118E99 /* KitMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KitMapViewController.m; sourceTree = "<group>"; };
+		2F5FCB811B27295400118E99 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		2F5FCB831B29D61600118E99 /* AppleMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppleMapViewController.h; sourceTree = "<group>"; };
+		2F5FCB841B29D61600118E99 /* AppleMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppleMapViewController.m; sourceTree = "<group>"; };
+		2F5FCB861B2B3F5200118E99 /* LocationChange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationChange.h; sourceTree = "<group>"; };
+		2F5FCB871B2B3F5200118E99 /* LocationChange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationChange.m; sourceTree = "<group>"; };
+		2F5FCB891B2B403300118E99 /* CheckInstalledMapAPP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckInstalledMapAPP.h; sourceTree = "<group>"; };
+		2F5FCB8A1B2B403300118E99 /* CheckInstalledMapAPP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckInstalledMapAPP.m; sourceTree = "<group>"; };
 		2F6900551A0A1CB30032EEC0 /* UIButton+Block.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Block.h"; sourceTree = "<group>"; };
 		2F6900561A0A1CB30032EEC0 /* UIButton+Block.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Block.m"; sourceTree = "<group>"; };
 		2F78662019F6585400C9440C /* DXMessageToolBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DXMessageToolBar.h; sourceTree = "<group>"; };
@@ -549,6 +569,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2F5FCB821B27295400118E99 /* MapKit.framework in Frameworks */,
 				2FE762A51B0367E000B598FF /* CoreData.framework in Frameworks */,
 				2FFD8B911B06F84900245C8F /* CoreFoundation.framework in Frameworks */,
 				2FFD8B8F1B06F7E700245C8F /* libobjc.dylib in Frameworks */,
@@ -857,6 +878,10 @@
 		2FE762821B01F50200B598FF /* Discovery */ = {
 			isa = PBXGroup;
 			children = (
+				2F5FCB891B2B403300118E99 /* CheckInstalledMapAPP.h */,
+				2F5FCB8A1B2B403300118E99 /* CheckInstalledMapAPP.m */,
+				2F5FCB861B2B3F5200118E99 /* LocationChange.h */,
+				2F5FCB871B2B3F5200118E99 /* LocationChange.m */,
 				2FE762831B01F5F900B598FF /* CityListViewController.h */,
 				2FE762841B01F5F900B598FF /* CityListViewController.m */,
 				2FE762861B01FA4800B598FF /* GoogleMapViewController.h */,
@@ -875,6 +900,8 @@
 				2F151C971B109475000818AD /* CellShopDetail.m */,
 				2F151CAA1B119310000818AD /* CouponDescViewController.h */,
 				2F151CAB1B119310000818AD /* CouponDescViewController.m */,
+				2F5FCB831B29D61600118E99 /* AppleMapViewController.h */,
+				2F5FCB841B29D61600118E99 /* AppleMapViewController.m */,
 			);
 			name = Discovery;
 			sourceTree = "<group>";
@@ -884,6 +911,10 @@
 			children = (
 				2FE762911B031F8100B598FF /* ToolViewController.h */,
 				2FE762921B031F8100B598FF /* ToolViewController.m */,
+				2F5FCB7B1B25ECBD00118E99 /* MapViewController.h */,
+				2F5FCB7C1B25ECBD00118E99 /* MapViewController.m */,
+				2F5FCB7E1B2727DD00118E99 /* KitMapViewController.h */,
+				2F5FCB7F1B2727DD00118E99 /* KitMapViewController.m */,
 			);
 			name = Tool;
 			sourceTree = "<group>";
@@ -1029,6 +1060,7 @@
 		666530FF19C80ABA005096E7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2F5FCB811B27295400118E99 /* MapKit.framework */,
 				2FFD8B901B06F84900245C8F /* CoreFoundation.framework */,
 				2FFD8B8E1B06F7E700245C8F /* libobjc.dylib */,
 				2FE762AC1B03682700B598FF /* OpenGLES.framework */,
@@ -1133,6 +1165,8 @@
 		6665313619C80B41005096E7 /* DataModel */ = {
 			isa = PBXGroup;
 			children = (
+				2F5FCB781B24469000118E99 /* MemberInfo.h */,
+				2F5FCB791B24469000118E99 /* MemberInfo.m */,
 				6665310F19C80ABA005096E7 /* ZNAppDelegate.h */,
 				6665311019C80ABA005096E7 /* ZNAppDelegate.m */,
 				662999F719C82A9700F057AA /* ZNClientInfo.h */,
@@ -1478,6 +1512,7 @@
 				2F78669519F65C2400C9440C /* Emoji.m in Sources */,
 				4F444CB719E908F000F3DE8F /* SRRefreshView.m in Sources */,
 				4F392CE119EF72C7005E909E /* ZNApi.m in Sources */,
+				2F5FCB7D1B25ECBD00118E99 /* MapViewController.m in Sources */,
 				4F629A7419F6397D00122CB5 /* SVSegmentedControl.m in Sources */,
 				2F9B9BED1B1AD5E30018C82B /* ChangePwdViewController.m in Sources */,
 				2F3F93EC19F7B0ED00080B05 /* FGalleryViewController.m in Sources */,
@@ -1509,15 +1544,19 @@
 				4F66D7B819F4C379005AD387 /* BaseTableView.m in Sources */,
 				2F151CA61B118CFB000818AD /* ViewShaker.m in Sources */,
 				4F18A7C419EBF0B200BED27D /* ChineseToPinyin.m in Sources */,
+				2F5FCB7A1B24469000118E99 /* MemberInfo.m in Sources */,
 				2F151C9C1B10C60D000818AD /* CExpandHeader.m in Sources */,
 				6671B05619C8246700E07676 /* ZNBaseViewController.m in Sources */,
 				4F67DBC119EB80D900AB977C /* JSBadgeView.m in Sources */,
 				2FE762901B031E3500B598FF /* StrategyViewController.m in Sources */,
+				2F5FCB851B29D61600118E99 /* AppleMapViewController.m in Sources */,
 				4FC3D7C719FE5CE600980CFC /* MJRefreshFooterView.m in Sources */,
 				2F151CA91B1191BC000818AD /* MyFavoriteViewController.m in Sources */,
 				4FCA71BD19E7B79600BE6F0D /* UIImage+ImageEffects.m in Sources */,
 				66277F7219D80EE4003282B3 /* ZNWebViewController.m in Sources */,
+				2F5FCB881B2B3F5200118E99 /* LocationChange.m in Sources */,
 				2FFD8BA71B098FC600245C8F /* CTCBar.m in Sources */,
+				2F5FCB801B2727DD00118E99 /* KitMapViewController.m in Sources */,
 				2F78666119F6585400C9440C /* FacialView.m in Sources */,
 				2FCFBC381B1FF5C70042B729 /* RegisterSuccessViewController.m in Sources */,
 				4FC3D7C519FE5CE600980CFC /* MJRefreshBaseView.m in Sources */,
@@ -1554,6 +1593,7 @@
 				2FFD8B9C1B08F14800245C8F /* ShopDetailViewController.m in Sources */,
 				4F8BB3211A074A3F00C23E39 /* NSDateFormatter+Category.m in Sources */,
 				2FCFBC3B1B203E670042B729 /* TopTabBar.m in Sources */,
+				2F5FCB8B1B2B403300118E99 /* CheckInstalledMapAPP.m in Sources */,
 				2F78669619F65C2400C9440C /* EmojiEmoticons.m in Sources */,
 				4FC3D7CA19FE5CE600980CFC /* UIScrollView+MJRefresh.m in Sources */,
 				2FE7629D1B03343D00B598FF /* CellCityList.m in Sources */,

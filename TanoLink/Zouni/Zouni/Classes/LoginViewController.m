@@ -9,6 +9,7 @@
 #import "LoginViewController.h"
 #import "MyInfoViewController.h"
 #import "RegisterViewController.h"
+#import "ShopListViewController.h"
 @interface LoginViewController (){
     UIImageView *iconUserName;
     UIImageView *iconPwd;
@@ -263,18 +264,19 @@
                 NSDictionary *dic = (NSDictionary *)resultObj;
                 NSString *strKey = [NSString stringWithFormat:@"%@%@",[dic objectForKey:@"objectId"],DefautlKey];
                 NSString *strMd5  = [ZNAppUtil toMd5:strKey];
-                NSLog(@"============== %@",strMd5);
+                //permit = md5 ( userid + defkey )
                 NSString *permit = [NSString stringWithFormat:@"%@,%@",[dic objectForKey:@"objectId"],strMd5];
-                NSLog(@"permit:%@",permit);
-                ZNApi.sharedInstance.headerPermit = permit;
-                
-                NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-                [userDefaults setBool:YES forKey:@"loginState"];
-                [userDefaults synchronize];
-                
-                MyInfoViewController *myInfo = [MyInfoViewController new];
-                [self.navigationController pushViewController:myInfo animated:YES];
+                NSError *err = nil;
+                MemberInfo *memberInfo = [[MemberInfo alloc]initWithDictionary:dic error:&err];
+                [[ZNClientInfo sharedClinetInfo] saveMemberInfo:memberInfo];
+                [[ZNClientInfo sharedClinetInfo] savePermit:permit];
+                [self hideHud];
+//                MyInfoViewController *myInfo = [MyInfoViewController new];
+//                [self.navigationController pushViewController:myInfo animated:YES];
+                ShopListViewController *shopList = [ShopListViewController new];
+                [self.navigationController pushViewController:shopList animated:YES];
             }
+            [self hideHud];
         }];
 }
 
