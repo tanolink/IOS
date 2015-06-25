@@ -16,6 +16,9 @@
 @interface CellShopDetail : UITableViewCell<MKMapViewDelegate,CLLocationManagerDelegate>
 @property(nonatomic,strong)ShopModel *shopModel;
 @property(nonatomic,strong)NSString *shopID;
+@property(nonatomic,strong) UIButton *_btnAlbum;
+// 显示评论
+@property(nonatomic,strong) UIButton *btnShowComment;
 -(void) setCellDataForModel:(ShopModel *) shopModel;
 
 //导航目的地2d,百度

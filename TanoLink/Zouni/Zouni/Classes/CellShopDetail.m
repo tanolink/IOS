@@ -42,6 +42,16 @@
 //    GMSMapView *mapView_;
     MKMapView * _mapView;
     
+    // 交通信息
+    UILabel *_labRoute;
+    // 交通描述
+    UILabel *_labRouteDesc;
+    
+    // 评论顶部的线
+    UIView *_lineViewComment;
+    
+    // 店铺顶端的线
+    UIView *_lineViewShop;
     // 店铺描述
     UILabel *_labShopDesc;
     UILabel *_txtShopDesc;
@@ -52,6 +62,7 @@
     UILabel *_labShopWebsiteAr;
     // 是否收藏
     BOOL _isSelectFav;
+
 }
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -135,6 +146,30 @@
     [_mapView setUserTrackingMode:MKUserTrackingModeFollowWithHeading animated:YES];
     [self.contentView addSubview: _mapView];
     
+    
+    _labRoute = [[UILabel alloc]initWithFrame:CGRectZero];
+    [_labRoute setFont:DEFAULT_BOLD_FONT(15)];
+    [_labRoute setNumberOfLines:0];
+    [_labRoute setTextColor:ZN_FONNT_01_BLACK];
+    [_labRoute setText:@"交通信息"];
+    
+    _labRouteDesc = [[UILabel alloc]initWithFrame:CGRectZero];
+    [_labRouteDesc setFont:DEFAULT_BOLD_FONT(12)];
+    [_labRouteDesc setTextColor:ZN_FONNT_02_GRAY];
+    [_labRouteDesc setTextAlignment:NSTextAlignmentLeft];
+    [_labRouteDesc setNumberOfLines:0];
+    
+    _lineViewComment = [[UIView alloc] init];
+    _lineViewComment.backgroundColor = ZN_BORDER_LINE_COLOR;
+    
+    _btnShowComment  = [[UIButton alloc]initWithFrame:CGRectZero];
+    [_btnShowComment setTitleColor:ZN_FONNT_01_BLACK forState:UIControlStateNormal];
+    [_btnShowComment.titleLabel setFont:DEFAULT_FONT(12)];
+    [_btnShowComment.titleLabel setTextAlignment:NSTextAlignmentLeft];
+    
+    _lineViewShop = [[UIView alloc] init];
+    _lineViewShop.backgroundColor = ZN_BORDER_LINE_COLOR;
+    
     _labShopDesc = [[UILabel alloc]initWithFrame:CGRectZero];
     [_labShopDesc setFont:DEFAULT_BOLD_FONT(15)];
     [_labShopDesc setNumberOfLines:0];
@@ -149,6 +184,23 @@
     
     _lineShopWebsite = [[UIView alloc] init];
     _lineShopWebsite.backgroundColor = ZN_BORDER_LINE_COLOR;
+    
+//    _btnAlbum = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [_btnAlbum setImage:[UIImage imageNamed:@"view_img_icon"] forState:UIControlStateNormal];
+//    [_btnAlbum setBackgroundImage:[UIImage imageNamed:@"map_titBg"] forState:UIControlStateNormal];
+    
+    self._btnAlbum = [[UIButton alloc]initWithFrame:CGRectZero];
+    [self._btnAlbum.titleLabel setFont:DEFAULT_FONT(10)];
+    [self._btnAlbum.titleLabel setTintColor:[UIColor whiteColor]];
+    [self._btnAlbum setBackgroundColor:[UIColor blackColor]];
+    [self._btnAlbum.titleLabel setLineBreakMode:NSLineBreakByTruncatingTail];
+    self._btnAlbum.layer.cornerRadius = 12;
+    self._btnAlbum.alpha = 0.7;
+    [self._btnAlbum.titleLabel setTintColor:[UIColor blackColor]];
+    [self._btnAlbum setImage:[UIImage imageNamed:@"view_img_icon"] forState:UIControlStateNormal];
+    [self._btnAlbum setTitleEdgeInsets:UIEdgeInsetsMake(0,3,0,0)];
+    [self._btnAlbum setImageEdgeInsets:UIEdgeInsetsMake(4,-4,4,-4)];
+    
     
     _labShopWebsite = [[UILabel alloc]initWithFrame:CGRectZero];
     [_labShopWebsite setFont:DEFAULT_BOLD_FONT(15)];
@@ -182,11 +234,21 @@
     [self.contentView addSubview:_imgView];
     [self.contentView addSubview:_shadeView];
 //    [self.contentView addSubview: mapView_];
+    
+    [self.contentView addSubview:_labRoute];
+    [self.contentView addSubview:_labRouteDesc];
+    
+    [self.contentView addSubview:_lineViewComment];
+    [self.contentView addSubview:_btnShowComment];
+    
+    [self.contentView addSubview:_lineViewShop];
     [self.contentView addSubview:_labShopDesc];
     [self.contentView addSubview:_txtShopDesc];
     [self.contentView addSubview:_lineShopWebsite];
     [self.contentView addSubview:_labShopWebsite];
     [self.contentView addSubview:_labShopWebsiteAr];
+    
+     [self.contentView addSubview:self._btnAlbum];
     
 //    [self.contentView addSubview:_bgScrollView];
 //    [_labShopDesc setBackgroundColor:[UIColor orangeColor]];
@@ -218,7 +280,6 @@
                 }
             }];
             _btnShopFavorite.selected = YES;
-
         }
     }];
 
@@ -306,8 +367,42 @@
         make.height.equalTo(@(326/2-20));
     }];
     
-    [_labShopDesc mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_labRoute mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_mapView.mas_bottom).offset(8);
+        make.left.equalTo(_labShopName);
+        make.height.equalTo(@17);
+        make.width.equalTo(@100);
+    }];
+    [_labRouteDesc mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_labRoute.mas_bottom).offset(8);
+        make.left.equalTo(_labRoute);
+        make.height.equalTo(@50);
+        make.right.equalTo(self.contentView.mas_right).offset(-24/3);
+    }];
+    
+    [_lineViewComment mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.equalTo(@.5);
+        make.left.equalTo(self.contentView);
+        make.right.equalTo(self.contentView);
+        make.top.equalTo(_labRouteDesc.mas_bottom);
+    }];
+    
+    [_btnShowComment mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_lineViewComment.mas_bottom).offset(10);
+        make.left.equalTo(_labRoute);
+        make.width.equalTo(@(100));
+        make.height.equalTo(@(30));
+    }];
+    
+    [_lineViewShop mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.equalTo(@.5);
+        make.left.equalTo(self.contentView);
+        make.right.equalTo(self.contentView);
+        make.top.equalTo(_btnShowComment.mas_bottom).offset(2);
+    }];
+    
+    [_labShopDesc mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_lineViewShop.mas_bottom).offset(8);
         make.left.equalTo(_labShopName);
         make.height.equalTo(@17);
         make.width.equalTo(@100);
@@ -335,6 +430,13 @@
         make.top.equalTo(_labShopWebsite.mas_bottom).offset(8);
         make.left.equalTo(_labShopWebsite);
         make.height.equalTo(@30);
+    }];
+    
+    [self._btnAlbum mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.contentView).offset(10);
+        make.right.equalTo(self.contentView).offset(-10);
+        make.width.equalTo(@60);
+        make.height.equalTo(@25);
     }];
     
 }
@@ -375,6 +477,19 @@
     }else{
         [_labScore setText:@"0 分"];
     }
+    if (shopModel.Route.length>0) {
+        _labRouteDesc.text = shopModel.Route;
+    }else{
+        _labRouteDesc.text = @"暂无";
+    }
+    NSString *reviewCountCon;
+    if(shopModel.ReviewCount.intValue>0){
+        reviewCountCon = [NSString stringWithFormat:@"查看其他%@条评论",shopModel.ReviewCount];
+    }else{
+        reviewCountCon = @"暂无评论";
+        [_btnShowComment setEnabled:NO];
+    }
+    [_btnShowComment setTitle:reviewCountCon forState:UIControlStateNormal];
     
     _txtShopDesc.text = shopModel.desc;
     _labShopWebsiteAr.text = shopModel.website;
@@ -383,6 +498,8 @@
     NSDictionary *dicPXY = @{@"PX":shopModel.PX,@"PY":shopModel.PY,
                              @"Title":shopModel.ShopName,@"Desc":shopModel.ShopENName};
     [self zoomToAnnotations : dicPXY and: NO];
+    if(shopModel.Images.count>0)
+    [self._btnAlbum setTitle:[NSString  stringWithFormat:@"%d",(unsigned int)shopModel.Images.count] forState:UIControlStateNormal];
 }
 
 -(void)zoomToAnnotations : (NSDictionary *) dicPXY and: (BOOL) isSel{

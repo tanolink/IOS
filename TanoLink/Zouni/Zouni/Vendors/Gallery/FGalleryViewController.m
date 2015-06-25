@@ -216,53 +216,7 @@
     [self reloadGallery];
 }
 
-#define SHARE_URL @"http://tanolink.com/"
--(void) showShareView {
-    NSString *imagePath = [_photoSource photoGallery:self urlForPhotoSize:FGalleryPhotoSizeFullsize atIndex:_currentIndex];
-    NSString *description = [_photoSource photoGallery:self captionForPhotoAtIndex:_currentIndex];
-//    //构造分享内容 微博
-//    id<ISSContent> publishContent = [ShareSDK content:[NSString stringWithFormat:@"内容：%@ \n[公司内网,暂时不能显示图片]",description]
-//                                       defaultContent:@"分享"
-//                                                image:[ShareSDK imageWithUrl:imagePath]
-//                                                title:@"Juran.cn"
-//                                                  url:SHARE_URL
-//                                          description:[NSString stringWithFormat:@"内容：%@ [暂时不显示图片，公司内网原因]",description]
-//                                            mediaType:SSPublishContentMediaTypeNews];
-//    //结束定制信息
-//    ZNAppDelegate *_appDelegate = (ZNAppDelegate *)[UIApplication sharedApplication].delegate;
-//    //创建弹出菜单容器
-//    id<ISSContainer> container = [ShareSDK container];
-//    id<ISSAuthOptions> authOptions = [ShareSDK authOptionsWithAutoAuth:YES
-//                                                         allowCallback:NO
-//                                                         authViewStyle:SSAuthViewStyleFullScreenPopup
-//                                                          viewDelegate:nil
-//                                               authManagerViewDelegate:_appDelegate.viewDelegate];
-//    id<ISSShareOptions> shareOptions = [ShareSDK simpleShareOptionsWithTitle:@"分享案例"
-//                                                           shareViewDelegate:_appDelegate.viewDelegate];
-//    NSArray *shareList = [ShareSDK getShareListWithType:
-//                          ShareTypeWeixiSession,// 微信好友
-//                          ShareTypeWeixiTimeline,// 微信朋友去
-//                          ShareTypeQQ,// 腾讯好友
-//                          ShareTypeTencentWeibo,// 腾讯微博
-//                          ShareTypeQQSpace,// qq 空间
-//                          ShareTypeSinaWeibo,
-//                          nil];
-//    //弹出分享菜单
-//    [ShareSDK showShareActionSheet:container
-//                         shareList:shareList
-//                           content:publishContent
-//                     statusBarTips:YES
-//                       authOptions:authOptions
-//                      shareOptions:shareOptions
-//                            result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
-//                                if (state == SSPublishContentStateSuccess){
-//                                    NSLog(NSLocalizedString(@"TEXT_SHARE_SUC", @"分享成功"));
-//                                }
-//                                else if (state == SSPublishContentStateFail){
-//                                    NSLog(NSLocalizedString(@"TEXT_SHARE_FAI", @"分享失败,错误码:%d,错误描述:%@"), [error errorCode], [error errorDescription]);
-//                                }
-//                            }];
-}
+-(void) showShareView {}
 - (void)destroyViews {
     // remove previous photo views
     for (UIView *view in _photoViews) {
@@ -317,27 +271,26 @@
 
 - (FGalleryPhoto*)currentPhoto
 {
-    return [_photoLoaders objectForKey:[NSString stringWithFormat:@"%i", _currentIndex]];
+    return [_photoLoaders objectForKey:[NSString stringWithFormat:@"%i",(int)_currentIndex]];
 }
 -(void) viewDidLoad{
     [super viewDidLoad];
-    /*
+    
     if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
         [self setEdgesForExtendedLayout:UIRectEdgeNone];
     }
-     */
+    
 }
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     [self setBackBarButton];
     
-    [self setRightBarButtonItemImage:@"分享" target:self action:@selector(showShareView)];
     [self.view setBackgroundColor:[UIColor blackColor]];
-    
-    _navigationBgColor = self.navigationController.navigationBar.tintColor;
-    [self.navigationController.navigationBar setBarTintColor:[UIColor clearColor]];
-    //self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+
+//    _navigationBgColor = self.navigationController.navigationBar.tintColor;
+//    [self.navigationController.navigationBar setBarTintColor:[UIColor clearColor]];
+//    //self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
 
     _isActive = YES;
     self.useThumbnailView = _useThumbnailView;
@@ -365,9 +318,9 @@
 	_isActive = NO;
 
 	[[UIApplication sharedApplication] setStatusBarStyle:_prevStatusStyle animated:animated];
-    
-    [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
-    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+//    
+//    [self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
+//    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
 }
 
 
@@ -710,12 +663,12 @@
 
 - (void)updateTitle
 {
-    /*
+    
     if (!_hideTitle){
         [self setTitle:[NSString stringWithFormat:@"%i %@ %i", _currentIndex+1, NSLocalizedString(@"/", @"") , [_photoSource numberOfPhotosForPhotoGallery:self]]];
     }else{
         [self setTitle:@""];
-    }*/
+    }
 }
 
 - (void)updatePageControl{

@@ -217,6 +217,8 @@
 #pragma 下拉加载最新数据
 -(void)loadNewData{
     [_dataMutableArray removeAllObjects];
+    _pageNumber = 1;
+    _pageSize = 12;
     [self loadServerData];
 }
 #pragma mark 上拉加载更多数据
@@ -253,7 +255,6 @@
         }
         [weakSelf hideHud];
     }];
-
 
     [_gTableView reloadData];
     [_gTableView headerEndRefreshing];
@@ -332,23 +333,33 @@
 }
 
 -(void) setRightButton{
-    [self setRightBarButtonItemImage:@"allMap" target:self action:@selector(pushToGoogleMap)];
+    [self setRightBarButtonItemImage:@"allMap" target:self action:@selector(pushToMap)];
 }
 
--(void) pushToGoogleMap{
+-(void) pushToMap{
 //    GoogleMapViewController *gooleMapVC = [[GoogleMapViewController alloc]init];
     
     AppleMapViewController *appleMapVC = [AppleMapViewController new];
     
-    NSDictionary *dicPXY = [[NSDictionary alloc]initWithObjectsAndKeys:@"35.66",@"PX",@"139.73",@"PY",
-                            @"Donkihotei ropponki",@"Desc",@"1111111",@"Title",nil];
-    NSDictionary *dicPXY1 = [[NSDictionary alloc]initWithObjectsAndKeys:@"35.71",@"PX",@"139.77",@"PY",
-                             @"Donkihotei ueno",@"Desc",@"22222",@"Title",nil];
-    NSDictionary *dicPXY2 = [[NSDictionary alloc]initWithObjectsAndKeys:@"35.67",@"PX",@"139.77",@"PY",
-                            @"Matsuya Ginza",@"Desc",@"Matsuya",@"Title",nil];
-    NSDictionary *dicPXY3 = [[NSDictionary alloc]initWithObjectsAndKeys:@"35.700852",@"PX",@"139.771860",@"PY",
-                             @"Donkihotei sibuya",@"Desc",@"Donkihotei",@"Title",nil];
-    appleMapVC.PXYList = @[dicPXY,dicPXY1,dicPXY2,dicPXY3];
+//    NSDictionary *dicPXY = [[NSDictionary alloc]initWithObjectsAndKeys:@"35.66",@"PX",@"139.73",@"PY",
+//                            @"Donkihotei ropponki",@"Desc",@"1111111",@"Title",nil];
+//    NSDictionary *dicPXY1 = [[NSDictionary alloc]initWithObjectsAndKeys:@"35.71",@"PX",@"139.77",@"PY",
+//                             @"Donkihotei ueno",@"Desc",@"22222",@"Title",nil];
+//    NSDictionary *dicPXY2 = [[NSDictionary alloc]initWithObjectsAndKeys:@"35.67",@"PX",@"139.77",@"PY",
+//                            @"Matsuya Ginza",@"Desc",@"Matsuya",@"Title",nil];
+//    NSDictionary *dicPXY3 = [[NSDictionary alloc]initWithObjectsAndKeys:@"35.700852",@"PX",@"139.771860",@"PY",
+//                             @"Donkihotei sibuya",@"Desc",@"Donkihotei",@"Title",nil];
+    
+    NSMutableArray *arrPXY = [NSMutableArray new];
+    for (id o in _dataMutableArray) {
+        NSDictionary *shopModelDic = (NSDictionary *)o;
+        NSError *err = nil;
+        ShopModel *shopModel = [[ShopModel alloc]initWithDictionary:shopModelDic error:&err];
+        NSDictionary *dicPXY = [[NSDictionary alloc]initWithObjectsAndKeys:shopModel.PX,@"PX",shopModel.PY,@"PY",
+                                shopModel.ShopENName,@"Desc",shopModel.ShopName,@"Title",nil];
+        [arrPXY addObject:dicPXY];
+    }
+    appleMapVC.PXYList = arrPXY;
     [self.navigationController pushViewController:appleMapVC animated:YES];
 }
 

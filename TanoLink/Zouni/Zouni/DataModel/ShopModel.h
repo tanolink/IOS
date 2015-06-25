@@ -30,4 +30,5 @@
 @property (nonatomic, strong) NSString <Optional>*website;
 @property (nonatomic, strong) NSString <Optional>*distance;
 @property (nonatomic, strong) NSString <Optional>*Route;
+@property (nonatomic, strong) NSString <Optional>*ReviewCount;
 @end

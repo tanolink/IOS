@@ -126,6 +126,8 @@
 		2FE762A91B0367FD00B598FF /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FE762A81B0367FD00B598FF /* ImageIO.framework */; };
 		2FE762AB1B03680E00B598FF /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FE762AA1B03680E00B598FF /* libc++.dylib */; };
 		2FE762AD1B03682700B598FF /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FE762AC1B03682700B598FF /* OpenGLES.framework */; };
+		2FE84C821B3B698B00218EF7 /* ShopCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FE84C811B3B698B00218EF7 /* ShopCommentViewController.m */; };
+		2FE84C851B3B69EF00218EF7 /* CellCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FE84C841B3B69EF00218EF7 /* CellCommentTableViewCell.m */; };
 		2FFD8B8F1B06F7E700245C8F /* libobjc.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FFD8B8E1B06F7E700245C8F /* libobjc.dylib */; };
 		2FFD8B911B06F84900245C8F /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FFD8B901B06F84900245C8F /* CoreFoundation.framework */; };
 		2FFD8B961B073F6C00245C8F /* CellShopList.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FFD8B951B073F6C00245C8F /* CellShopList.m */; };
@@ -410,6 +412,10 @@
 		2FE762A81B0367FD00B598FF /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		2FE762AA1B03680E00B598FF /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		2FE762AC1B03682700B598FF /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		2FE84C801B3B698B00218EF7 /* ShopCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopCommentViewController.h; sourceTree = "<group>"; };
+		2FE84C811B3B698B00218EF7 /* ShopCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopCommentViewController.m; sourceTree = "<group>"; };
+		2FE84C831B3B69EF00218EF7 /* CellCommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellCommentTableViewCell.h; sourceTree = "<group>"; };
+		2FE84C841B3B69EF00218EF7 /* CellCommentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CellCommentTableViewCell.m; sourceTree = "<group>"; };
 		2FFD8B8E1B06F7E700245C8F /* libobjc.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libobjc.dylib; path = usr/lib/libobjc.dylib; sourceTree = SDKROOT; };
 		2FFD8B901B06F84900245C8F /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		2FFD8B941B073F6C00245C8F /* CellShopList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellShopList.h; sourceTree = "<group>"; };
@@ -902,6 +908,10 @@
 				2F151CAB1B119310000818AD /* CouponDescViewController.m */,
 				2F5FCB831B29D61600118E99 /* AppleMapViewController.h */,
 				2F5FCB841B29D61600118E99 /* AppleMapViewController.m */,
+				2FE84C801B3B698B00218EF7 /* ShopCommentViewController.h */,
+				2FE84C811B3B698B00218EF7 /* ShopCommentViewController.m */,
+				2FE84C831B3B69EF00218EF7 /* CellCommentTableViewCell.h */,
+				2FE84C841B3B69EF00218EF7 /* CellCommentTableViewCell.m */,
 			);
 			name = Discovery;
 			sourceTree = "<group>";
@@ -1540,7 +1550,9 @@
 				4F374D0319F8DBBC00208111 /* UIImage+Resize.m in Sources */,
 				4F444CBC19E909C500F3DE8F /* BaseTableViewCell.m in Sources */,
 				2F78668F19F65B3B00C9440C /* XHMessageTextView.m in Sources */,
+				2FE84C821B3B698B00218EF7 /* ShopCommentViewController.m in Sources */,
 				4F444CC519E9204F00F3DE8F /* BaseLabel.m in Sources */,
+				2FE84C851B3B69EF00218EF7 /* CellCommentTableViewCell.m in Sources */,
 				4F66D7B819F4C379005AD387 /* BaseTableView.m in Sources */,
 				2F151CA61B118CFB000818AD /* ViewShaker.m in Sources */,
 				4F18A7C419EBF0B200BED27D /* ChineseToPinyin.m in Sources */,

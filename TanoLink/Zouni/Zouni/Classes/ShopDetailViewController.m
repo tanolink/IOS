@@ -3,18 +3,25 @@
 //  Zouni
 //
 //  Created by aokuny on 15/5/17.
-//  Copyright (c) 2015年 juran. All rights reserved.
+//  Copyright (c) 2015年 TanoLink. All rights reserved.
 //
 
 #import "ShopDetailViewController.h"
 #import "ZNAppUtil.h"
 #import "UMSocial.h"
+#import "ShopCommentViewController.h"
 
 @interface ShopDetailViewController (){
     /**
      * 显示表格控件
      */
     UITableView *_gTableView;
+    
+    NSArray *networkCaptions;
+    NSMutableArray *networkImages;
+    FGalleryViewController *localGallery;
+    FGalleryViewController *networkGallery;
+
 }
 @end
 @implementation ShopDetailViewController
@@ -64,12 +71,76 @@
     }
     cell.shopModel = self.shopModel;
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    
+    [cell._btnAlbum addTarget:self action:@selector(detail) forControlEvents:UIControlEventTouchUpInside];
+    [cell.btnShowComment addTarget:self action:@selector(comments) forControlEvents:UIControlEventTouchUpInside];
+    
     return cell;
 }
 #pragma mark - tableview delegate methods
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 550.00f;
+    return 700.00f;
 }
+-(void) comments {
+    ShopCommentViewController *scvc = [ShopCommentViewController new];
+    [self.navigationController pushViewController:scvc animated:YES];
+}
+-(void) detail{
+    
+    // 店铺图片信息
+    networkImages = [NSMutableArray arrayWithArray:self.shopModel.Images];
+    networkGallery = [[FGalleryViewController alloc] initWithPhotoSource:self];
+    [self.navigationController pushViewController:networkGallery animated:YES];
+}
+
+#pragma mark - Gallery
+
+#pragma mark - FGalleryViewControllerDelegate Methods
+
+- (int)numberOfPhotosForPhotoGallery:(FGalleryViewController *)gallery
+{
+    int num;
+    if( gallery == localGallery ) {
+        //num = [localImages count];
+    }
+    else if( gallery == networkGallery ) {
+        num = (int)[networkImages count];
+    }
+    return num;
+}
+- (FGalleryPhotoSourceType)photoGallery:(FGalleryViewController *)gallery sourceTypeForPhotoAtIndex:(NSUInteger)index
+{
+    //    if( gallery == localGallery ) {
+    //        return FGalleryPhotoSourceTypeLocal;
+    //    }
+    //    else {
+    return FGalleryPhotoSourceTypeNetwork;
+    //    }
+}
+- (NSString*)photoGallery:(FGalleryViewController *)gallery captionForPhotoAtIndex:(NSUInteger)index
+{
+    NSString *caption;
+    if( gallery == localGallery ) {
+        //caption = [localCaptions objectAtIndex:index];
+    }
+    else if( gallery == networkGallery ) {
+//         caption = [networkCaptions objectAtIndex:index];
+        caption = self.shopModel.ShopName;
+    }
+    return caption;
+}
+
+//- (NSString*)photoGallery:(FGalleryViewController*)gallery filePathForPhotoSize:(FGalleryPhotoSize)size atIndex:(NSUInteger)index {
+//    return [localImages objectAtIndex:index];
+//}
+
+- (NSString*)photoGallery:(FGalleryViewController *)gallery urlForPhotoSize:(FGalleryPhotoSize)size atIndex:(NSUInteger)index {
+    return  [networkImages objectAtIndex:index];
+}
+
+
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
