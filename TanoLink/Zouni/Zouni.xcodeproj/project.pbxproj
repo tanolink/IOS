@@ -128,6 +128,11 @@
 		2FE762AD1B03682700B598FF /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FE762AC1B03682700B598FF /* OpenGLES.framework */; };
 		2FE84C821B3B698B00218EF7 /* ShopCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FE84C811B3B698B00218EF7 /* ShopCommentViewController.m */; };
 		2FE84C851B3B69EF00218EF7 /* CellCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FE84C841B3B69EF00218EF7 /* CellCommentTableViewCell.m */; };
+		2FE84C881B3E893600218EF7 /* CommentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FE84C871B3E893600218EF7 /* CommentModel.m */; };
+		2FE84C901B3FB33E00218EF7 /* EAIntroPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FE84C8B1B3FB33E00218EF7 /* EAIntroPage.m */; };
+		2FE84C911B3FB33E00218EF7 /* EAIntroView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FE84C8D1B3FB33E00218EF7 /* EAIntroView.m */; };
+		2FE84C921B3FB33E00218EF7 /* GuideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FE84C8F1B3FB33E00218EF7 /* GuideViewController.m */; };
+		2FE84C951B42191D00218EF7 /* CouponModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FE84C941B42191D00218EF7 /* CouponModel.m */; };
 		2FFD8B8F1B06F7E700245C8F /* libobjc.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FFD8B8E1B06F7E700245C8F /* libobjc.dylib */; };
 		2FFD8B911B06F84900245C8F /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FFD8B901B06F84900245C8F /* CoreFoundation.framework */; };
 		2FFD8B961B073F6C00245C8F /* CellShopList.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FFD8B951B073F6C00245C8F /* CellShopList.m */; };
@@ -416,6 +421,16 @@
 		2FE84C811B3B698B00218EF7 /* ShopCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopCommentViewController.m; sourceTree = "<group>"; };
 		2FE84C831B3B69EF00218EF7 /* CellCommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellCommentTableViewCell.h; sourceTree = "<group>"; };
 		2FE84C841B3B69EF00218EF7 /* CellCommentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CellCommentTableViewCell.m; sourceTree = "<group>"; };
+		2FE84C861B3E893600218EF7 /* CommentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentModel.h; sourceTree = "<group>"; };
+		2FE84C871B3E893600218EF7 /* CommentModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentModel.m; sourceTree = "<group>"; };
+		2FE84C8A1B3FB33E00218EF7 /* EAIntroPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAIntroPage.h; sourceTree = "<group>"; };
+		2FE84C8B1B3FB33E00218EF7 /* EAIntroPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EAIntroPage.m; sourceTree = "<group>"; };
+		2FE84C8C1B3FB33E00218EF7 /* EAIntroView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAIntroView.h; sourceTree = "<group>"; };
+		2FE84C8D1B3FB33E00218EF7 /* EAIntroView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EAIntroView.m; sourceTree = "<group>"; };
+		2FE84C8E1B3FB33E00218EF7 /* GuideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuideViewController.h; sourceTree = "<group>"; };
+		2FE84C8F1B3FB33E00218EF7 /* GuideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuideViewController.m; sourceTree = "<group>"; };
+		2FE84C931B42191D00218EF7 /* CouponModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CouponModel.h; sourceTree = "<group>"; };
+		2FE84C941B42191D00218EF7 /* CouponModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CouponModel.m; sourceTree = "<group>"; };
 		2FFD8B8E1B06F7E700245C8F /* libobjc.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libobjc.dylib; path = usr/lib/libobjc.dylib; sourceTree = SDKROOT; };
 		2FFD8B901B06F84900245C8F /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		2FFD8B941B073F6C00245C8F /* CellShopList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellShopList.h; sourceTree = "<group>"; };
@@ -967,6 +982,19 @@
 			name = MyCenter;
 			sourceTree = "<group>";
 		};
+		2FE84C891B3FB33E00218EF7 /* Guide */ = {
+			isa = PBXGroup;
+			children = (
+				2FE84C8A1B3FB33E00218EF7 /* EAIntroPage.h */,
+				2FE84C8B1B3FB33E00218EF7 /* EAIntroPage.m */,
+				2FE84C8C1B3FB33E00218EF7 /* EAIntroView.h */,
+				2FE84C8D1B3FB33E00218EF7 /* EAIntroView.m */,
+				2FE84C8E1B3FB33E00218EF7 /* GuideViewController.h */,
+				2FE84C8F1B3FB33E00218EF7 /* GuideViewController.m */,
+			);
+			path = Guide;
+			sourceTree = "<group>";
+		};
 		4F444CAC19E908F000F3DE8F /* SlimeRefresh */ = {
 			isa = PBXGroup;
 			children = (
@@ -1158,6 +1186,7 @@
 		6665313519C80B41005096E7 /* Vendors */ = {
 			isa = PBXGroup;
 			children = (
+				2FE84C891B3FB33E00218EF7 /* Guide */,
 				2F457D0C1B18BE5C009CB24C /* UMSocial_Sdk_4.2.3 */,
 				2F151C991B10C60D000818AD /* HeaderView */,
 				2FBF21191A14BF8100E29500 /* Reachability */,
@@ -1175,6 +1204,8 @@
 		6665313619C80B41005096E7 /* DataModel */ = {
 			isa = PBXGroup;
 			children = (
+				2FE84C931B42191D00218EF7 /* CouponModel.h */,
+				2FE84C941B42191D00218EF7 /* CouponModel.m */,
 				2F5FCB781B24469000118E99 /* MemberInfo.h */,
 				2F5FCB791B24469000118E99 /* MemberInfo.m */,
 				6665310F19C80ABA005096E7 /* ZNAppDelegate.h */,
@@ -1191,6 +1222,8 @@
 				2FFD8B981B076AA000245C8F /* ShopModel.m */,
 				2F151C931B1021AD000818AD /* InterfaceViewController.h */,
 				2F151C941B1021AE000818AD /* InterfaceViewController.m */,
+				2FE84C861B3E893600218EF7 /* CommentModel.h */,
+				2FE84C871B3E893600218EF7 /* CommentModel.m */,
 			);
 			path = DataModel;
 			sourceTree = "<group>";
@@ -1519,6 +1552,7 @@
 				2F78666319F6585400C9440C /* DXRecordView.m in Sources */,
 				4FDE8E8E19F4FC210074015E /* UIView+Addtions.m in Sources */,
 				6671B04D19C8201E00E07676 /* MainViewController.m in Sources */,
+				2FE84C951B42191D00218EF7 /* CouponModel.m in Sources */,
 				2F78669519F65C2400C9440C /* Emoji.m in Sources */,
 				4F444CB719E908F000F3DE8F /* SRRefreshView.m in Sources */,
 				4F392CE119EF72C7005E909E /* ZNApi.m in Sources */,
@@ -1527,6 +1561,7 @@
 				2F9B9BED1B1AD5E30018C82B /* ChangePwdViewController.m in Sources */,
 				2F3F93EC19F7B0ED00080B05 /* FGalleryViewController.m in Sources */,
 				4FB8FE7E19E7A57A0058A736 /* LoginBaseViewController.m in Sources */,
+				2FE84C881B3E893600218EF7 /* CommentModel.m in Sources */,
 				2F3F93ED19F7B0ED00080B05 /* RootViewController.m in Sources */,
 				2F457D361B1953DC009CB24C /* SettingViewController.m in Sources */,
 				2FE762971B03234E00B598FF /* MyCenterViewController.m in Sources */,
@@ -1534,6 +1569,7 @@
 				2F78665D19F6585400C9440C /* DXMessageToolBar.m in Sources */,
 				2F151CAC1B119310000818AD /* CouponDescViewController.m in Sources */,
 				2F78666219F6585400C9440C /* DXChatBarMoreView.m in Sources */,
+				2FE84C921B3FB33E00218EF7 /* GuideViewController.m in Sources */,
 				669037D919D912A80018EC44 /* UIImage+Screenshot.m in Sources */,
 				2F151C9F1B10EAA4000818AD /* MyInfoViewController.m in Sources */,
 				4FC3D7CB19FE5CE600980CFC /* UIView+MJExtension.m in Sources */,
@@ -1569,6 +1605,7 @@
 				2F5FCB881B2B3F5200118E99 /* LocationChange.m in Sources */,
 				2FFD8BA71B098FC600245C8F /* CTCBar.m in Sources */,
 				2F5FCB801B2727DD00118E99 /* KitMapViewController.m in Sources */,
+				2FE84C901B3FB33E00218EF7 /* EAIntroPage.m in Sources */,
 				2F78666119F6585400C9440C /* FacialView.m in Sources */,
 				2FCFBC381B1FF5C70042B729 /* RegisterSuccessViewController.m in Sources */,
 				4FC3D7C519FE5CE600980CFC /* MJRefreshBaseView.m in Sources */,
@@ -1613,6 +1650,7 @@
 				2F9B9BDD1B1968D50018C82B /* AboutUsViewController.m in Sources */,
 				2F9B9BE01B196B910018C82B /* FeedBackViewController.m in Sources */,
 				2F9B9BF11B1C92F30018C82B /* LoginViewController.m in Sources */,
+				2FE84C911B3FB33E00218EF7 /* EAIntroView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

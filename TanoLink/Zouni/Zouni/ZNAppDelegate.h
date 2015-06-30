@@ -10,10 +10,13 @@
 
 #import "MainViewController.h"
 
+@class ICETutorialController;
+
 @interface ZNAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) MainViewController *mainViewController;
+@property (strong, nonatomic) ICETutorialController *viewController;
 
 //@property (nonatomic,readonly) AGViewDelegate *viewDelegate;
 

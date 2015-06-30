@@ -11,6 +11,8 @@
 #import "CouponDescViewController.h"
 #import "UIButton+Block.h"
 #import "UMSocial.h"
+#import "CouponModel.h"
+#import "UIButton+WebCache.h"
 
 @interface CouponViewController (){
     // 白色背景
@@ -45,7 +47,10 @@
     UIButton *_btnSaveToAlbum;
     // 分隔线
     UIImageView *_imageSplit;
-    
+    // 优惠券
+    CouponModel *_couponModel;
+    // 单独显示优惠券图片
+    UIButton *btnCouponImg;
 }
 
 @end
@@ -57,8 +62,51 @@
     [self setBackBarButton];
     [self.view setBackgroundColor:ZN_BACKGROUND_COLOR];
     [self setTitle:@"优惠券"];
-    [self buildUI];
-    [self layoutUI];
+    [self initData];
+}
+-(void) initData{
+    [self showHudInView:self.view hint:@"正在修改密码..."];
+    NSDictionary *requestDic= @{@"shopId":self.shopModel.ShopID};
+    __weak typeof(self) weakSelf = self;
+    [ZNApi invokePost:ZN_COUPON_API parameters:requestDic completion:^(id resultObj,NSString *msg,ZNRespModel *respModel){
+        if (respModel.success.intValue>0) {
+            NSLog(@"%@",resultObj);
+            NSError *err = nil;
+            _couponModel = [[CouponModel alloc]initWithDictionary:(NSDictionary*)resultObj error:&err];
+            // 判断类型
+            if(_couponModel.type == 1){
+                [self buildUI];
+                [self layoutUI];
+                [self initCouponData];
+            }else{
+                [self buildUICouponImg];
+            }
+        }else{
+            [JGProgressHUD showHintStr:respModel.msg];
+        }
+        [weakSelf hideHud];
+    }];
+
+}
+#pragma 图片类型的优惠券
+-(void) buildUICouponImg{
+    btnCouponImg = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btnCouponImg setUserInteractionEnabled:NO];
+    [self.view addSubview:btnCouponImg];
+    [btnCouponImg mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view);
+        make.left.equalTo(self.view);
+        make.right.equalTo(self.view);
+        make.bottom.equalTo(self.view);
+    }];
+    NSURL *caseurl = [NSURL URLWithString:_couponModel.couponPhoto];
+    [btnCouponImg sd_setBackgroundImageWithURL:caseurl forState:UIControlStateNormal
+                          placeholderImage:[UIImage imageNamed:@"default_userhead"]];
+}
+-(void)initCouponData{
+    _labAddress.text = _couponModel.address;
+    _labCouponContent.text = _couponModel.special;
+    _labTitle.text = _couponModel.shopName;
 }
 -(void)buildUI{
     _bgView = [UIView new];

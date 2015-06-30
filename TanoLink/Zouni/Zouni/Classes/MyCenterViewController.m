@@ -53,10 +53,9 @@
         }
         [btnUserName setTitle:displayName forState:UIControlStateNormal];
 
-        NSURL *caseurl = [NSURL URLWithString:[ZNClientInfo sharedClinetInfo].memberInfo.userPhotoId];
+        NSURL *caseurl = [NSURL URLWithString:[ZNClientInfo sharedClinetInfo].memberInfo.userPhoto];
         [headerBtn sd_setBackgroundImageWithURL:caseurl forState:UIControlStateNormal
                                   placeholderImage:[UIImage imageNamed:@"default_avatar"]];
-//        [headerBtn setImage:[UIImage imageNamed:@"register_success"] forState:UIControlStateNormal];
     }else{
         [btnUserName setTitle:@"点击登录" forState:UIControlStateNormal];
         [headerBtn setImage:[UIImage imageNamed:@"default_avatar"] forState:UIControlStateNormal];

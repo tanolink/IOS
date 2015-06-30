@@ -121,7 +121,9 @@ static SystemSoundID shake_sound_id = 0;
         make.height.equalTo(@40);
     }];
 
-
+    if([ZNClientInfo sharedClinetInfo].memberInfo.email){
+        _txfMobile.text = [ZNClientInfo sharedClinetInfo].memberInfo.email;
+    }
 }
 
 -(void)backTime:(NSTimer *)timer
@@ -140,7 +142,16 @@ static SystemSoundID shake_sound_id = 0;
 
 -(void)getCaptchAction:(UIButton *)btn {
     if (_txfMobile.text.length>0) {
-        [JGProgressHUD showSuccessStr:@"验证码已发送至邮箱！"];
+        [self showHudInView:self.view hint:@"正在发送验证码..."];
+        NSDictionary *requestDic = [[NSDictionary alloc]initWithObjectsAndKeys:_txfMobile.text,@"email",nil];
+        [ZNApi invokePost:ZN_VERIFY_EMAIL_API parameters:requestDic completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
+            [self hideHud];
+            if(respModel.success.intValue){
+                [JGProgressHUD showSuccessStr:@"验证码已发送至邮箱！"];
+            }else{
+                [JGProgressHUD showErrorStr:@"发送出现问题，请重新发送！"];
+            }
+        }];
     }else{
         [JGProgressHUD showErrorStr:@"请输入邮箱地址！"];
     }
@@ -167,6 +178,20 @@ static SystemSoundID shake_sound_id = 0;
     }
     [self.view endEditing:YES];
     [self showHudInView:self.view hint:@"正在验证..."];
+    NSDictionary *requestDic= @{@"email":_txfMobile.text,@"code":_txfCaptch.text};
+    __weak typeof(self) weakSelf = self;
+    [ZNApi invokePost:ZN_BINDEMAIL_API parameters:requestDic completion:^(id resultObj,NSString *msg,ZNRespModel *respModel){
+        if (respModel.success.intValue>0) {
+            [JGProgressHUD showSuccessStr:@"邮箱绑定成功！"];
+            // 更改本地邮箱
+            [ZNClientInfo sharedClinetInfo].memberInfo.email = _txfMobile.text;
+            [[ZNClientInfo sharedClinetInfo] saveMemberInfo];
+        }else{
+            [JGProgressHUD showHintStr:respModel.msg];
+        }
+        [weakSelf hideHud];
+    }];
+    
 }
 -(void) playSound {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"shake_sound" ofType:@"caf"];

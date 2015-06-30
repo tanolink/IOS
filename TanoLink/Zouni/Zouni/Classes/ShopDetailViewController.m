@@ -35,15 +35,37 @@
 //    UIBarButtonItem *btnAction = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(share)];
 //    self.navigationController.navigationItem.rightBarButtonItem = btnAction;
     
-    _gTableView = [[UITableView alloc]initWithFrame:CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height)];
-    [_gTableView setDelegate:self];
-    [_gTableView setDataSource:self];
-    [_gTableView setTableFooterView:[[UIView alloc]init]];
-    [_gTableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
-    if([_gTableView respondsToSelector:@selector(setSeparatorInset:)]){
-        [_gTableView setSeparatorInset:UIEdgeInsetsZero];
-    }
-    [self.view addSubview:_gTableView];
+
+    
+    
+    //        [self showHudInView:self.contentView hint:nil];
+    //        __weak typeof(self) weakSelf = self;
+    NSDictionary *requestDic = [[NSDictionary alloc]initWithObjectsAndKeys:
+                                self.shopModel.ShopID,@"shopId",
+                                @"2",@"comments",
+                                nil];
+    [ZNApi invokePost:ZN_SHOPDETAIL_API parameters:requestDic completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
+        if (resultObj) {
+            NSDictionary *shopModelDic = (NSDictionary *)resultObj;
+//            _dataMutableArray = [[NSMutableArray alloc]initWithArray:shopModelDic[@"Comments"]];
+            
+            _gTableView = [[UITableView alloc]initWithFrame:CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height)];
+            [_gTableView setDelegate:self];
+            [_gTableView setDataSource:self];
+            [_gTableView setTableFooterView:[[UIView alloc]init]];
+            [_gTableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
+            if([_gTableView respondsToSelector:@selector(setSeparatorInset:)]){
+                [_gTableView setSeparatorInset:UIEdgeInsetsZero];
+            }
+            [self.view addSubview:_gTableView];
+            
+            
+            
+        }
+    }];
+    
+    
+    
 }
 -(void) share{
     [UMSocialSnsService presentSnsIconSheetView:self
@@ -79,10 +101,13 @@
 }
 #pragma mark - tableview delegate methods
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 700.00f;
+    CellShopDetail *cell = (CellShopDetail*)[self tableView:tableView cellForRowAtIndexPath:indexPath];
+    NSLog(@"ssssssssssssssssss%f",[cell getCellHeightForModel:self.shopModel]);
+    return [cell getCellHeightForModel:self.shopModel];
 }
 -(void) comments {
     ShopCommentViewController *scvc = [ShopCommentViewController new];
+    scvc.shopId = self.shopModel.ShopID;
     [self.navigationController pushViewController:scvc animated:YES];
 }
 -(void) detail{

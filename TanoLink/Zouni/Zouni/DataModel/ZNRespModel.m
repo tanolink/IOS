@@ -9,3 +9,6 @@
 #import "ZNRespModel.h"
 @implementation ZNRespModel
 @end
+
+@implementation ZNRespModel1
+@end

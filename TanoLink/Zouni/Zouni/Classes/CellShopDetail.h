@@ -13,13 +13,12 @@
 #import <MapKit/MapKit.h>
 #import "ShopModel.h"
 
-@interface CellShopDetail : UITableViewCell<MKMapViewDelegate,CLLocationManagerDelegate>
+@interface CellShopDetail : UITableViewCell<MKMapViewDelegate,CLLocationManagerDelegate,UITableViewDataSource,UITableViewDelegate>
 @property(nonatomic,strong)ShopModel *shopModel;
 @property(nonatomic,strong)NSString *shopID;
 @property(nonatomic,strong) UIButton *_btnAlbum;
 // 显示评论
 @property(nonatomic,strong) UIButton *btnShowComment;
--(void) setCellDataForModel:(ShopModel *) shopModel;
 
 //导航目的地2d,百度
 @property(nonatomic,assign) CLLocationCoordinate2D naviCoordsBd;
@@ -35,5 +34,11 @@
 @property(nonatomic,strong) NSString *addressStr;
 
 @property(nonatomic,strong) NSDictionary *navDic;
+
+@property(nonatomic,strong)  NSMutableArray *_dataMutableArray;
+
+-(float)getCellHeightForModel:(ShopModel *) shopModel;
+
+-(void) setCellDataForModel:(ShopModel *) shopModel;
 
 @end

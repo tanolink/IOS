@@ -46,9 +46,11 @@
     AFHTTPRequestOperationManager *manager  = [ZNApi sharedInstance].manager;
     NSLog(@"请求接口：%@\n参数：%@",[[NSURL URLWithString:URLString relativeToURL:manager.baseURL] absoluteString], parameters);
     [manager POST:URLString parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"返回信息:%@",responseObject);
+
         ZNRespModel *respBody = [[ZNRespModel alloc]initWithDictionary:responseObject error:nil];
         
-        NSLog(@"返回信息:%@",respBody);
+//        NSLog(@"返回信息:%@",respBody);
 
         if (!respBody) {
             completeBlock(nil,nil,nil);
@@ -67,6 +69,37 @@
         showAlertMessage(error.localizedDescription);
     }];
 }
+
++ (void )invokePost1:(NSString *)URLString parameters:(id)parameters completion: (ZNObjectBlock1)completeBlock {
+    if([ZNApi sharedInstance].headerPermit){
+        [[ZNApi sharedInstance].manager.requestSerializer setValue:[ZNApi sharedInstance].headerPermit forHTTPHeaderField:@"permit"];
+        NSLog(@"===============permit===========%@",[[ZNApi sharedInstance].manager.requestSerializer valueForHTTPHeaderField:@"permit"]);
+    }
+    AFHTTPRequestOperationManager *manager  = [ZNApi sharedInstance].manager;
+    NSLog(@"请求接口：%@\n参数：%@",[[NSURL URLWithString:URLString relativeToURL:manager.baseURL] absoluteString], parameters);
+    [manager POST:URLString parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"返回信息:%@",responseObject);
+        
+        ZNRespModel1 *respBody = [[ZNRespModel1 alloc]initWithDictionary:responseObject error:nil];
+        
+        if (!respBody) {
+            completeBlock(nil,nil,nil);
+            showAlertMessage(kServiceErrStr);
+            return ;
+        }
+        if (!respBody.success.intValue) {
+            completeBlock(nil,nil,nil);
+            showAlertMessage(respBody.msg);
+            return;
+        }
+        completeBlock(respBody.Data,respBody.msg,respBody);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"%@",error.localizedDescription);
+        completeBlock(nil,nil,nil);
+        showAlertMessage(error.localizedDescription);
+    }];
+}
+
 
 + (void )invokeGet:(NSString *)URLString parameters:(id)parameters completion: (ZNObjectBlock)completeBlock {
     AFHTTPRequestOperationManager *manager  = [ZNApi sharedInstance].manager;

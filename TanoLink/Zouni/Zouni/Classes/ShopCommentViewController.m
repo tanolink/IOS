@@ -13,6 +13,14 @@
      * 显示表格控件
      */
     UITableView *_gTableView;
+    /**
+     *  分页大小
+     */
+    int _pageSize;
+    /**
+     *  当前页数
+     */
+    int _pageNumber;
 }
 
 @end
@@ -23,23 +31,6 @@
     [super viewDidLoad];
     [self setBackBarButton];
     [self setTitle:@"全部点评"];
-    
-    _dataMutableArray = [NSMutableArray new];
-    
-    NSDictionary *dic = [[NSDictionary alloc]initWithObjectsAndKeys:
-                         @"高大为",@"UserName",
-                         @"123",@"CommentId",
-                         @"113",@"UserId",
-                         @"2015-02-16 12:23:22",@"Time",
-                         @"这家店不错",@"Content",
-                         @"5.5",@"Score",
-                         @"",@"Images",
-                         nil];
-    //    {[http://xxxxx/images/xxxxxxxx.jpg”]}
-    [_dataMutableArray addObject:dic];
-    
-    
-    
     // 初始化表格
     [_gTableView setBackgroundColor:[UIColor grayColor]];
     _gTableView = [[UITableView alloc]initWithFrame:CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height)];
@@ -48,9 +39,62 @@
     [_gTableView setTableFooterView:[[UIView alloc]init]];
     [_gTableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
     [_gTableView setAllowsSelection:NO];
-    _gTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:_gTableView];
+    __weak typeof(self) weakSelf = self;
+    [_gTableView addHeaderWithCallback:^{
+        [weakSelf loadNewData];
+    }];
+    [_gTableView addFooterWithCallback:^{
+        [weakSelf loadMoreData];
+    }];
+    [self initData];
 }
+#pragma 初始化数据
+-(void) initData{
+    _pageNumber = 1;
+    _pageSize = 12;
+    _dataMutableArray = [[NSMutableArray alloc]init];
+    [self loadServerData];
+}
+#pragma 下拉加载最新数据
+-(void)loadNewData{
+    [_dataMutableArray removeAllObjects];
+    _pageNumber = 1;
+    _pageSize = 12;
+    [self loadServerData];
+}
+#pragma mark 上拉加载更多数据
+-(void)loadMoreData{
+    ++_pageNumber;
+    [self loadServerData];
+}
+
+#pragma mark 加载远程数据
+-(void) loadServerData{
+    [self showHudInView:self.view hint:nil];
+    __weak typeof(self) weakSelf = self;
+    NSDictionary *requestDic = [[NSDictionary alloc]initWithObjectsAndKeys:
+                                self.shopId,@"shopId",
+                                [NSString stringWithFormat:@"%d",_pageSize],@"size",
+                                [NSString stringWithFormat:@"%d",_pageNumber],@"page",
+                                nil];
+    [ZNApi invokePost1:ZN_SHOPCOMMENTS_API parameters:requestDic completion:^(id resultObj,NSString *msg,ZNRespModel1 *respModel) {
+        if (resultObj) {
+            NSArray *dic = (NSArray *)resultObj;
+            [_dataMutableArray addObjectsFromArray:dic];
+            [_gTableView reloadData];
+            [_gTableView headerEndRefreshing];
+            [_gTableView footerEndRefreshing];
+        }
+        [weakSelf hideHud];
+    }];
+    
+    [_gTableView reloadData];
+    [_gTableView headerEndRefreshing];
+    [_gTableView footerEndRefreshing];
+}
+
+
 #pragma mark tableview datasource
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
@@ -65,21 +109,19 @@
     if (!cell) {
         cell = [[CellCommentTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:Indentifier];
     }
-    NSDictionary *shopModelDic = (NSDictionary *)[_dataMutableArray objectAtIndex:indexPath.row];
+    NSDictionary *commentModelDic = (NSDictionary *)[_dataMutableArray objectAtIndex:indexPath.row];
     NSError *err = nil;
-//    ShopModel *shopModel = [[ShopModel alloc]initWithDictionary:shopModelDic error:&err];
-//    [cell setCellDataForModel:shopModel];
-    // 事件
-    
-//    [cell.labUserName setText:shopModelDic[@"UserName"]];
-        [cell.labUserName setText:@"ssss"];
-
+    CommentModel *commentModel = [[CommentModel alloc]initWithDictionary:commentModelDic error:&err];
+    [cell setCellDataForModel:commentModel];
     return cell;
 }
 
 #pragma mark - tableview delegate methods
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 100;
+    NSDictionary *commentModelDic = (NSDictionary *)[_dataMutableArray objectAtIndex:indexPath.row];
+    NSError *err = nil;
+    CommentModel *commentModel = [[CommentModel alloc]initWithDictionary:commentModelDic error:&err];
+    return [CellCommentTableViewCell getCellHeightForModel:commentModel];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

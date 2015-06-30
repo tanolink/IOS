@@ -13,3 +13,10 @@
 @property (nonatomic,strong) NSString <Optional>*msg;
 @property (nonatomic,strong) NSDictionary <Optional>*data;
 @end
+
+
+@interface ZNRespModel1 : JSONModel
+@property (nonatomic,strong) NSString *success;
+@property (nonatomic,strong) NSString <Optional>*msg;
+@property (nonatomic,strong) NSDictionary <Optional>*Data;
+@end

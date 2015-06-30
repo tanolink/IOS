@@ -22,7 +22,9 @@
 @property (nonatomic, strong) NSString <Optional>*ShopName;
 @property (nonatomic, strong) NSString <Optional>*ShopENName;
 @property (nonatomic, strong) NSArray <Optional>*Images;
-@property (nonatomic, strong) NSString <Optional>*comments;
+//@property (nonatomic, strong) NSString <Optional>*Comments;
+//@property (nonatomic, strong) NSArray <CommentModel,Optional> *Comments;
+//@property (nonatomic, strong) CommentsList <Optional> *Comments;
 @property (nonatomic, strong) NSString <Optional>*PY;
 @property (nonatomic, strong) NSString <Optional>*FavoriteStatus;
 @property (nonatomic, strong) NSString <Optional>*JSLocation;
@@ -32,3 +34,5 @@
 @property (nonatomic, strong) NSString <Optional>*Route;
 @property (nonatomic, strong) NSString <Optional>*ReviewCount;
 @end
+
+

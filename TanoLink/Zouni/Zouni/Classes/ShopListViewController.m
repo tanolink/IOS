@@ -48,20 +48,18 @@
 @end
 
 @implementation ShopListViewController
-
+-(void)viewWillAppear:(BOOL)animated{
+    // 设置左侧按钮
+    [self setBackBarButton];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    [self setBackBarButton];
-//    [self setLeftNabBar];
     [self setRightButton];
     [self BuildUI];
     [self initData];
 }
 #pragma 初始化页面
 -(void)BuildUI{
-    // 设置左侧按钮
-    [self setBackBarButton];
-    
     // 中间的title选择城市
     [self setTitleContentView];
     
@@ -87,7 +85,14 @@
     [self.view addSubview:_gTableView];
 }
 -(void) setBackBarButton{
-    UIButton *button = [self buttonWithTitle:nil image:[UIImage imageNamed:@"default_avatar"]  highligted:[UIImage imageNamed:@"default_avatar"]  target:self action:@selector(goToMyCenter)];
+    
+    UIButton *button = [self buttonWithTitle:nil image:[UIImage imageNamed:@"default_avatar"]  highligted:nil  target:self action:@selector(goToMyCenter)];
+    if([ZNClientInfo sharedClinetInfo].memberInfo.userPhoto){
+        NSURL *caseurl = [NSURL URLWithString: [ZNClientInfo sharedClinetInfo].memberInfo.userPhoto];
+        [button sd_setBackgroundImageWithURL:caseurl forState:UIControlStateNormal
+                           placeholderImage:[UIImage imageNamed:@"default_avatar"]];
+    }
+    
     float headerSize = 30;
     CGRect rect = CGRectMake(0, 0,headerSize,headerSize);
     button.layer.cornerRadius = headerSize / 2.f;
@@ -289,16 +294,20 @@
         AppleMapViewController *appleMapVC = [AppleMapViewController new];
 
         NSDictionary *dicPXY = [[NSDictionary alloc]initWithObjectsAndKeys:shopModel.PX,@"PX",shopModel.PY,@"PY",
-                             shopModel.ShopENName,@"Desc",shopModel.ShopName,@"Title",
-                             nil];
+                             shopModel.ShopENName,@"Desc",shopModel.ShopName,@"Title",nil];
         appleMapVC.PXYList = @[dicPXY];
         appleMapVC.mainPY = shopModel.PY;
         appleMapVC.mainPX = shopModel.PY;
         [self.navigationController pushViewController:appleMapVC animated:YES];
     }];
     [cell._btnCoupon handleControlEvent:UIControlEventTouchUpInside withBlock:^{
-        CouponViewController *couponVC = [[CouponViewController alloc]init];
-        [self.navigationController pushViewController:couponVC animated:YES];
+        if (shopModel.Coupon.intValue>0) {
+            CouponViewController *couponVC = [[CouponViewController alloc]init];
+            couponVC.shopModel = shopModel;
+            [self.navigationController pushViewController:couponVC animated:YES];
+        }else{
+            [JGProgressHUD showHintStr:@"暂无优惠券信息"];
+        }
     }];
     return cell;
 }
@@ -338,18 +347,7 @@
 
 -(void) pushToMap{
 //    GoogleMapViewController *gooleMapVC = [[GoogleMapViewController alloc]init];
-    
     AppleMapViewController *appleMapVC = [AppleMapViewController new];
-    
-//    NSDictionary *dicPXY = [[NSDictionary alloc]initWithObjectsAndKeys:@"35.66",@"PX",@"139.73",@"PY",
-//                            @"Donkihotei ropponki",@"Desc",@"1111111",@"Title",nil];
-//    NSDictionary *dicPXY1 = [[NSDictionary alloc]initWithObjectsAndKeys:@"35.71",@"PX",@"139.77",@"PY",
-//                             @"Donkihotei ueno",@"Desc",@"22222",@"Title",nil];
-//    NSDictionary *dicPXY2 = [[NSDictionary alloc]initWithObjectsAndKeys:@"35.67",@"PX",@"139.77",@"PY",
-//                            @"Matsuya Ginza",@"Desc",@"Matsuya",@"Title",nil];
-//    NSDictionary *dicPXY3 = [[NSDictionary alloc]initWithObjectsAndKeys:@"35.700852",@"PX",@"139.771860",@"PY",
-//                             @"Donkihotei sibuya",@"Desc",@"Donkihotei",@"Title",nil];
-    
     NSMutableArray *arrPXY = [NSMutableArray new];
     for (id o in _dataMutableArray) {
         NSDictionary *shopModelDic = (NSDictionary *)o;

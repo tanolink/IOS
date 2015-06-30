@@ -21,6 +21,7 @@
 + (NSURL *) ZN_addStoreNamed:(NSString *) storeFileName;
 
 -(void) loadMemberInfo;
+-(void) saveMemberInfo;
 -(void) saveMemberInfo:(MemberInfo *) memberInfo;
 -(void) loadPermit;
 -(void) savePermit:(NSString *)permit;

@@ -98,14 +98,14 @@ static SystemSoundID shake_sound_id = 0;
     [_txfMobile setTextColor:ZN_FONNT_01_BLACK];
     [_txfMobile setFont:DEFAULT_FONT(14)];
     [_txfMobile setPlaceholder:@"请输入您的手机账号"];
-    [_txfMobile setText:@"15901437555"];
+    [_txfMobile setText:@""];
     
     [cellBackGroundView addSubview:iconEmail];
     [cellBackGroundView addSubview:_txfMobile];
     [_mobileViewContoller addSubview:cellBackGroundView];
     
     [cellBackGroundView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_mobileViewContoller);
+        make.top.equalTo(headerView.mas_bottom).offset(10);
         make.height.equalTo(@44);
         make.width.equalTo(self.view);
     }];
@@ -250,7 +250,7 @@ static SystemSoundID shake_sound_id = 0;
     [_txfMobile setFont:DEFAULT_FONT(14)];
     [_txfMobile setPlaceholder:@"请输入您的邮箱账号"];
     
-    [_txfMobile setText:@"aokuny@126.com"];
+    [_txfMobile setText:@""];
     
     [cellBackGroundView addSubview:iconEmail];
     [cellBackGroundView addSubview:_txfMobile];
@@ -435,8 +435,9 @@ static SystemSoundID shake_sound_id = 0;
         return ;
     }
     [self.view endEditing:YES];
-    [self showHudInView:self.view hint:@"正在注册..."];
     
+    if(!self.isRemakePwd){
+    [self showHudInView:self.view hint:@"正在注册..."];
     // 注册接口
     NSDictionary *requestDic = [[NSDictionary alloc]initWithObjectsAndKeys:_txfMobile.text,@"email",
                                 [NSString stringWithFormat:@"%@",[ZNAppUtil toMd5:_txfPwd.text]],@"password",
@@ -451,6 +452,24 @@ static SystemSoundID shake_sound_id = 0;
         RegisterSuccessViewController *regSuccessVC = [RegisterSuccessViewController new];
         [self.navigationController pushViewController:regSuccessVC animated:YES];
     }];
+    
+    }else{
+        // 找回
+        NSDictionary *requestDic = [[NSDictionary alloc]initWithObjectsAndKeys:_txfMobile.text,@"email",
+                                    [NSString stringWithFormat:@"%@",[ZNAppUtil toMd5:_txfPwd.text]],@"password",
+                                    [NSString stringWithFormat:@"%@",_txfCaptch.text],@"code",nil];
+        [ZNApi invokePost:ZN_REGISTER_EMIL_API parameters:requestDic completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
+            [self hideHud];
+            if(respModel.success.intValue){
+                [JGProgressHUD showSuccessStr:@"找回密码成功！"];
+            }else{
+                [JGProgressHUD showErrorStr:@"找回密码出现问题，请稍后再试！"];
+            }
+            RegisterSuccessViewController *regSuccessVC = [RegisterSuccessViewController new];
+            [self.navigationController pushViewController:regSuccessVC animated:YES];
+        }];
+    
+    }
     
 }
 -(void) playSound {

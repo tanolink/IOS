@@ -61,13 +61,27 @@ static SystemSoundID shake_sound_id = 0;
     [self initData];
 }
 -(void) initData{
-    _txfNickName.text = @"Alice Alarez";
-    
+    if([ZNClientInfo sharedClinetInfo].memberInfo.nickname.length>0){
+        _txfNickName.text = [ZNClientInfo sharedClinetInfo].memberInfo.nickname;
+    }
 }
 #pragma mark 绑定邀请码请求
 -(void) changeNickName {
     if(_txfNickName.text.length > 0){
         [self showHudInView:self.view hint:@"正在修改昵称..."];
+        NSDictionary *requestDic= @{@"nickName":_txfNickName.text,@"upor":@""};
+        __weak typeof(self) weakSelf = self;
+        [ZNApi invokePost:ZN_CHANGEUSER_API parameters:requestDic completion:^(id resultObj,NSString *msg,ZNRespModel *respModel){
+            if (respModel.success.intValue>0) {
+                [JGProgressHUD showSuccessStr:@"昵称修改成功！"];
+                // 更改本地昵称
+                [ZNClientInfo sharedClinetInfo].memberInfo.nickname = _txfNickName.text;
+                [[ZNClientInfo sharedClinetInfo] saveMemberInfo];
+            }else{
+                [JGProgressHUD showHintStr:respModel.msg];
+            }
+            [weakSelf hideHud];
+        }];
     }else{
         ViewShaker *shakerLab = [[ViewShaker alloc]initWithView:_labNickNameDesc];
         [shakerLab shake];

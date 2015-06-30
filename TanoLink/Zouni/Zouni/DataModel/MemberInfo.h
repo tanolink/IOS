@@ -13,7 +13,7 @@
 @property (nonatomic, strong) NSString <Optional>*mobileVerified;
 @property (nonatomic, strong) NSString <Optional>*updatedAt;
 @property (nonatomic, strong) NSString <Optional>*weChatToken;
-@property (nonatomic, strong) NSString <Optional>*userPhotoId;
+@property (nonatomic, strong) NSString <Optional>*userPhoto;
 @property (nonatomic, strong) NSString <Optional>*rongCloudToken;
 @property (nonatomic, strong) NSString <Optional>*mobile;
 @property (nonatomic, strong) NSString <Optional>*sex;

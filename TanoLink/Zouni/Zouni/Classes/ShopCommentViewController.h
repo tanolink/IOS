@@ -8,7 +8,9 @@
 
 #import "ZNBaseViewController.h"
 #import "CellCommentTableViewCell.h"
+#import "CommentModel.h"
 
 @interface ShopCommentViewController : ZNBaseViewController<UITableViewDataSource,UITableViewDelegate>
-@property(nonatomic,strong)   NSMutableArray *dataMutableArray;
+@property(nonatomic,strong) NSMutableArray *dataMutableArray;
+@property(nonatomic,strong) NSString *shopId;
 @end

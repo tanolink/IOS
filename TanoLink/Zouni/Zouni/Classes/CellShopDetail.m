@@ -11,6 +11,8 @@
 #import <MapKit/MapKit.h>
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import "CommentModel.h"
+#import "CellCommentTableViewCell.h"
 
 @implementation CellShopDetail{
 //    UIView *_bgScrollView;
@@ -49,6 +51,15 @@
     
     // 评论顶部的线
     UIView *_lineViewComment;
+    // 精彩评价
+    UILabel *_labComments;
+    // 评价列表
+    UIView *_commentView;
+    /**
+     * 显示表格控件
+     */
+    UITableView *_gTableView;
+    
     
     // 店铺顶端的线
     UIView *_lineViewShop;
@@ -56,13 +67,20 @@
     UILabel *_labShopDesc;
     UILabel *_txtShopDesc;
     
+    // 营业时间顶端的线
+    UIView *_lineViewTime;
+    // 描述
+    UILabel *_labTimeDesc;
+    UILabel *_txtTimeDesc;
+    
     // 店铺网址
     UIView *_lineShopWebsite;
     UILabel *_labShopWebsite;
     UILabel *_labShopWebsiteAr;
     // 是否收藏
     BOOL _isSelectFav;
-
+    
+    float tabCommentHeight;
 }
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -162,10 +180,28 @@
     _lineViewComment = [[UIView alloc] init];
     _lineViewComment.backgroundColor = ZN_BORDER_LINE_COLOR;
     
+    _labComments =[[UILabel alloc]initWithFrame:CGRectZero];
+    [_labComments setFont:DEFAULT_BOLD_FONT(15)];
+    [_labComments setNumberOfLines:0];
+    [_labComments setTextColor:ZN_FONNT_01_BLACK];
+    [_labComments setText:@"精选评价"];
+    
+    // 初始化表格
+    [_gTableView setBackgroundColor:[UIColor grayColor]];
+    _gTableView = [[UITableView alloc]initWithFrame:CGRectZero];
+    [_gTableView setDelegate:self];
+    [_gTableView setDataSource:self];
+    [_gTableView setTableFooterView:[[UIView alloc]init]];
+    [_gTableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
+    [_gTableView setAllowsSelection:NO];
+    [_gTableView setScrollEnabled:NO];
+    [self.contentView addSubview:_gTableView];
+    
     _btnShowComment  = [[UIButton alloc]initWithFrame:CGRectZero];
     [_btnShowComment setTitleColor:ZN_FONNT_01_BLACK forState:UIControlStateNormal];
     [_btnShowComment.titleLabel setFont:DEFAULT_FONT(12)];
     [_btnShowComment.titleLabel setTextAlignment:NSTextAlignmentLeft];
+    _btnShowComment.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     
     _lineViewShop = [[UIView alloc] init];
     _lineViewShop.backgroundColor = ZN_BORDER_LINE_COLOR;
@@ -181,6 +217,21 @@
     [_txtShopDesc setTextColor:ZN_FONNT_02_GRAY];
     [_txtShopDesc setTextAlignment:NSTextAlignmentLeft];
     [_txtShopDesc setNumberOfLines:0];
+    
+    _lineViewTime = [[UIView alloc] init];
+    _lineViewTime.backgroundColor = ZN_BORDER_LINE_COLOR;
+    
+    _labTimeDesc = [[UILabel alloc]initWithFrame:CGRectZero];
+    [_labTimeDesc setFont:DEFAULT_BOLD_FONT(15)];
+    [_labTimeDesc setNumberOfLines:0];
+    [_labTimeDesc setTextColor:ZN_FONNT_01_BLACK];
+    [_labTimeDesc setText:@"营业时间"];
+    
+    _txtTimeDesc = [[UILabel alloc]initWithFrame:CGRectZero];
+    [_txtTimeDesc setFont:DEFAULT_BOLD_FONT(12)];
+    [_txtTimeDesc setTextColor:ZN_FONNT_02_GRAY];
+    [_txtTimeDesc setTextAlignment:NSTextAlignmentLeft];
+    [_txtTimeDesc setNumberOfLines:0];
     
     _lineShopWebsite = [[UIView alloc] init];
     _lineShopWebsite.backgroundColor = ZN_BORDER_LINE_COLOR;
@@ -239,11 +290,17 @@
     [self.contentView addSubview:_labRouteDesc];
     
     [self.contentView addSubview:_lineViewComment];
+    [self.contentView addSubview:_labComments];
     [self.contentView addSubview:_btnShowComment];
     
     [self.contentView addSubview:_lineViewShop];
     [self.contentView addSubview:_labShopDesc];
     [self.contentView addSubview:_txtShopDesc];
+    
+    [self.contentView addSubview:_lineViewTime];
+    [self.contentView addSubview:_labTimeDesc];
+    [self.contentView addSubview:_txtTimeDesc];
+    
     [self.contentView addSubview:_lineShopWebsite];
     [self.contentView addSubview:_labShopWebsite];
     [self.contentView addSubview:_labShopWebsiteAr];
@@ -386,10 +443,20 @@
         make.right.equalTo(self.contentView);
         make.top.equalTo(_labRouteDesc.mas_bottom);
     }];
-    
+    [_labComments mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_lineViewComment.mas_bottom).offset(8);
+        make.left.equalTo(_labShopName);
+        make.height.equalTo(@17);
+        make.width.equalTo(@100);
+    }];
+    [_gTableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_labComments.mas_bottom).offset(8);
+        make.left.equalTo(self.contentView);
+        make.width.equalTo(@(self.contentView.frame.size.width));
+    }];
     [_btnShowComment mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(_lineViewComment.mas_bottom).offset(10);
-        make.left.equalTo(_labRoute);
+        make.top.equalTo(_gTableView.mas_bottom).offset(10);
+        make.left.equalTo(_labComments.mas_left);
         make.width.equalTo(@(100));
         make.height.equalTo(@(30));
     }];
@@ -410,6 +477,26 @@
     [_txtShopDesc mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_labShopDesc.mas_bottom).offset(8);
         make.left.equalTo(_labShopDesc);
+//        make.height.equalTo(@50);
+        make.right.equalTo(self.contentView.mas_right).offset(-24/3);
+    }];
+    
+    [_lineViewTime mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.equalTo(@.5);
+        make.left.equalTo(self.contentView);
+        make.right.equalTo(self.contentView);
+        make.top.equalTo(_txtShopDesc.mas_bottom).offset(2);
+    }];
+    
+    [_labTimeDesc mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_lineViewTime.mas_bottom).offset(8);
+        make.left.equalTo(_labShopName);
+        make.height.equalTo(@17);
+        make.width.equalTo(@100);
+    }];
+    [_txtTimeDesc mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(_labTimeDesc.mas_bottom).offset(8);
+        make.left.equalTo(_labTimeDesc);
         make.height.equalTo(@50);
         make.right.equalTo(self.contentView.mas_right).offset(-24/3);
     }];
@@ -418,7 +505,7 @@
         make.height.equalTo(@.5);
         make.left.equalTo(self.contentView);
         make.right.equalTo(self.contentView);
-        make.top.equalTo(_txtShopDesc.mas_bottom).offset(8);
+        make.top.equalTo(_txtTimeDesc.mas_bottom).offset(8);
     }];
     
     [_labShopWebsite mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -443,15 +530,24 @@
 -(void)initData{
 //        [self showHudInView:self.contentView hint:nil];
 //        __weak typeof(self) weakSelf = self;
-//        NSDictionary *requestDic = [[NSDictionary alloc]initWithObjectsAndKeys:self.shopID,@"shopId",nil];
-//        [ZNApi invokePost:ZN_SHOPDETAIL_API parameters:requestDic completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
-//            if (resultObj) {
-//                NSDictionary *shopModelDic = (NSDictionary *)resultObj;
-//                NSLog(@"%@",shopModelDic);
-//                NSError *err;
-//                self.shopModel = [[ShopModel alloc]initWithDictionary:shopModelDic error:&err];
-//            }
-//        }];
+/*
+        NSDictionary *requestDic = [[NSDictionary alloc]initWithObjectsAndKeys:
+                                    self.shopModel.ShopID,@"shopId",
+                                    @"2",@"comments",
+                                    nil];
+        [ZNApi invokePost:ZN_SHOPDETAIL_API parameters:requestDic completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
+            if (resultObj) {
+                NSDictionary *shopModelDic = (NSDictionary *)resultObj;
+                NSLog(@"%@",shopModelDic[@"Comments"]);
+                _dataMutableArray = [[NSMutableArray alloc]initWithArray:shopModelDic[@"Comments"]];
+                [_gTableView reloadData];
+                
+                [_gTableView mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.height.equalTo(@(tabCommentHeight));
+                }];
+            }
+        }];
+ */
     ShopModel *shopModel = self.shopModel;
     [_labShopName setText:shopModel.ShopName];
     [_labShopClass setText:shopModel.ShopENName];
@@ -480,11 +576,11 @@
     if (shopModel.Route.length>0) {
         _labRouteDesc.text = shopModel.Route;
     }else{
-        _labRouteDesc.text = @"暂无";
+        _labRouteDesc.text = @"暂无信息";
     }
     NSString *reviewCountCon;
     if(shopModel.ReviewCount.intValue>0){
-        reviewCountCon = [NSString stringWithFormat:@"查看其他%@条评论",shopModel.ReviewCount];
+        reviewCountCon = [NSString stringWithFormat:@"浏览其他%@条评论",shopModel.ReviewCount];
     }else{
         reviewCountCon = @"暂无评论";
         [_btnShowComment setEnabled:NO];
@@ -500,6 +596,12 @@
     [self zoomToAnnotations : dicPXY and: NO];
     if(shopModel.Images.count>0)
     [self._btnAlbum setTitle:[NSString  stringWithFormat:@"%d",(unsigned int)shopModel.Images.count] forState:UIControlStateNormal];
+    
+    if(shopModel.hours.length > 0){
+        _txtTimeDesc.text = shopModel.hours;
+    }else{
+        _txtTimeDesc.text = @"暂无信息";
+    }
 }
 
 -(void)zoomToAnnotations : (NSDictionary *) dicPXY and: (BOOL) isSel{
@@ -567,5 +669,48 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 }
+
+#pragma mark tableview datasource
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 1;
+}
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return [self._dataMutableArray count];
+}
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    static NSString *Indentifier = @"cellInd";
+    CellCommentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:Indentifier];
+    if (!cell) {
+        cell = [[CellCommentTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:Indentifier];
+    }
+    NSDictionary *commentModelDic = (NSDictionary *)[self._dataMutableArray objectAtIndex:indexPath.row];
+    NSError *err = nil;
+    CommentModel *commentModel = [[CommentModel alloc]initWithDictionary:commentModelDic error:&err];
+    [cell setCellDataForModel:commentModel];
+    return cell;
+}
+#pragma mark - tableview delegate methods
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    NSDictionary *commentModelDic = (NSDictionary *)[self._dataMutableArray objectAtIndex:indexPath.row];
+    NSError *err = nil;
+    CommentModel *commentModel = [[CommentModel alloc]initWithDictionary:commentModelDic error:&err];
+    tabCommentHeight +=[CellCommentTableViewCell getCellHeightForModel:commentModel];
+    return [CellCommentTableViewCell getCellHeightForModel:commentModel];
+}
+
+-(float)getCellHeightForModel:(ShopModel *) shopModel{
+    ///总高度
+    float totalHeight = 800;
+    CGSize contentHeight = [shopModel.desc sizeWithFont:DEFAULT_FONT(12) constrainedToSize:CGSizeMake(ScreenWidth-30,MAXFLOAT) lineBreakMode:NSLineBreakByCharWrapping];
+    if (contentHeight.height > 15) {
+        totalHeight += contentHeight.height - 15;
+    }
+    if(shopModel.ReviewCount.integerValue >0){
+        totalHeight += tabCommentHeight;
+        NSLog(@"rrrrrrrrrrrrrrrrrrrrrrrr%f",tabCommentHeight);
+    }
+    return totalHeight;
+}
+
 
 @end

@@ -59,6 +59,11 @@ static SystemSoundID shake_sound_id = 0;
     }];
     [_txfCode becomeFirstResponder];
     _txfCode.keyboardType = UIKeyboardTypeNumberPad;
+    
+    if([ZNClientInfo sharedClinetInfo].memberInfo.code.length>0){
+        _txfCode.text = [ZNClientInfo sharedClinetInfo].memberInfo.code;
+    }
+    
 //      testcolor
 //    [labCodeDesc setBackgroundColor:[UIColor greenColor]];
 //    [txf setBackgroundColor:[UIColor orangeColor]];
@@ -68,6 +73,19 @@ static SystemSoundID shake_sound_id = 0;
 -(void) bindInviteCode{
     if(_txfCode.text.length > 0){
         [self showHudInView:self.view hint:@"正在绑定..."];
+        NSDictionary *requestDic= @{@"code":_txfCode.text};
+        __weak typeof(self) weakSelf = self;
+        [ZNApi invokePost:ZN_BINDCODE_API parameters:requestDic completion:^(id resultObj,NSString *msg,ZNRespModel *respModel){
+            if (respModel.success.intValue>0) {
+                [JGProgressHUD showSuccessStr:@"绑定成功！"];
+                // 更改本地
+                [ZNClientInfo sharedClinetInfo].memberInfo.code = _txfCode.text;
+                [[ZNClientInfo sharedClinetInfo] saveMemberInfo];
+            }else{
+                [JGProgressHUD showHintStr:respModel.msg];
+            }
+            [weakSelf hideHud];
+        }];
     }else{
         ViewShaker *shakerLab = [[ViewShaker alloc]initWithView:_labCodeDesc];
         [shakerLab shake];

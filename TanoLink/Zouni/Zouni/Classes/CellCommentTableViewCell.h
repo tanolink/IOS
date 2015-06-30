@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "CommentModel.h"
 @interface CellCommentTableViewCell : UITableViewCell
 @property(nonatomic,strong)     UILabel *labUserName;
-//-(void) setCellDataForModel:(CityModel *)cityModel;
+-(void) setCellDataForModel:(CommentModel *) commentModel;
++(float)getCellHeightForModel:(CommentModel *) commentModel;
 @end

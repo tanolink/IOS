@@ -179,7 +179,7 @@
         if (buttonIndex == 0) {
             return;
         }else if(buttonIndex == 1){
-            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:4 inSection:0];
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:1 inSection:0];
             [_gTableView cellForRowAtIndexPath:indexPath].detailTextLabel.text = @"正在清除中...";
             [self performSelector:@selector(clearTmpPics) withObject:nil afterDelay:1];
         }
@@ -193,7 +193,7 @@
     [self performSelectorOnMainThread:@selector(updateRowData) withObject:nil waitUntilDone:YES];
 }
 -(void) updateRowData{
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:4 inSection:0];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:1 inSection:0];
     UITableViewCell *cell = [_gTableView cellForRowAtIndexPath:indexPath];
     cell.detailTextLabel.text = @"无缓存";
     [JGProgressHUD showSuccessStr:@"清理完毕！"];

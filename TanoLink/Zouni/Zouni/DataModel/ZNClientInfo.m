@@ -87,6 +87,14 @@
     return self;
 }
 /*保存用户信息*/
+-(void)saveMemberInfo{
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.memberInfo];
+    [userDefaults setObject:data forKey:@"MemberInfo"];
+    [userDefaults synchronize];
+    [self loadMemberInfo];
+}
+/*保存用户信息*/
 -(void)saveMemberInfo:(MemberInfo *) memberInfo {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:memberInfo];

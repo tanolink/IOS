@@ -141,7 +141,6 @@ static SystemSoundID shake_sound_id = 0;
         [self playSound];
         return ;
     }
-    
     if([_txfNewPwd.text isEqual:_txfVerifyNewPwd.text]){
         [self showHudInView:self.view hint:@"正在修改密码..."];
         NSDictionary *requestDic= @{@"password":_txfOldPwd.text,
@@ -154,15 +153,11 @@ static SystemSoundID shake_sound_id = 0;
                 [JGProgressHUD showSuccessStr:@"密码修改成功！"];
                 // 更改本地密码
                 
-
             }else{
                 [JGProgressHUD showHintStr:respModel.msg];
             }
             [weakSelf hideHud];
         }];
-        
-        
-        
     }else{
         [JGProgressHUD showErrorStr:@"两次输入的新密码不一致！"];
     }

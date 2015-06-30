@@ -34,15 +34,21 @@
 #define ZN_SHOPDETAIL_API               @"api/ShopDetail"                  /*店铺详情*/
 #define ZN_ADDFAVORITE_API              @"api/AddFavorite"                 /*增加收藏*/
 #define ZN_DELFAVORITES_API             @"api/DelFavorites"                /*取消店铺收藏，单个、多个*/
-#define ZN_COUPON_API                   @"api/Coupon"                      /*优惠券*/ //shopId=1&invitationCode=aaa
+#define ZN_COUPON_API                   @"api/Coupon"                      /*优惠券*/ //shopId=1
 #define ZN_MYFAVORITELIST_API           @"api/MyFavorites"                 /*我的收藏列表*/
+#define ZN_SHOPCOMMENTS_API             @"api/comments"                    /*分页获取评论*///?shopId=234&page=1&size=10
 
 /*我的个人中心*/
 #define ZN_LOGIN_API                    @"api/login"                       /*登录*/   // email=gdw&password=
 #define ZN_REPWD_API                    @"api/repwd"                       /*修改密码*/
 #define ZN_VERIFY_EMAIL_API             @"api/verify"                      /*邮箱获取验证码*/ //email=gaodawei@cxtech360.com
 #define ZN_REGISTER_EMIL_API            @"api/register"                    /*注册*/
-#define ZN_UPLOAD_IMAGE_API             ZN_BASE_URL"/api/UploadUserPhoto"      /*上传图片*/
+#define ZN_UPLOAD_IMAGE_API             ZN_BASE_URL"/api/UploadUserPhoto"  /*上传图片*/
+
+#define ZN_BINDCODE_API                 @"api/BindCode"                     /*绑定码*////api/BindCode?code=xxxx
+#define ZN_BINDEMAIL_API                @"api/BindEmail"                    /*绑定邮箱*/
+#define ZN_CHANGEUSER_API               @"api/ChangeUse"                    // nickName=fds&upor
+
 
 /*设置*/
 #define ZN_ADDFEEDBACK_API @"api/AddFeedback" /*反馈*///?content=fds&mobileType=ios
@@ -50,9 +56,14 @@
 
 typedef void (^ZNObjectBlock)(id resultObj,NSString *msg,ZNRespModel *respModel);
 
+typedef void (^ZNObjectBlock1)(id resultObj,NSString *msg,ZNRespModel1 *respModel);
+
+
 @interface ZNApi : NSObject
 
 + (void )invokePost:(NSString *)URLString parameters:(id)parameters completion: (ZNObjectBlock)completeBlock;
+
++ (void )invokePost1:(NSString *)URLString parameters:(id)parameters completion: (ZNObjectBlock1)completeBlock;
 
 + (void )invokeGet:(NSString *)URLString parameters:(id)parameters completion: (ZNObjectBlock)completeBlock;
 

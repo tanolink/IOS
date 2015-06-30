@@ -16,8 +16,8 @@
 #import <GoogleMaps/GoogleMaps.h>
 #import "InterfaceViewController.h"
 #import "UMSocial.h"
-
 #import "KitMapViewController.h"
+#import "GuideViewController.h"
 
 @implementation ZNAppDelegate
 //static NSString *const kAPIKey = @"AIzaSyBUyVmigb163ipK0MyITVJt76RR0XBwnKk";
@@ -29,6 +29,15 @@
     [[AFNetworkReachabilityManager sharedManager]startMonitoring];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
+    
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    if(![userDefaults objectForKey:@"ISFirst"]){
+//    if(YES){
+        GuideViewController *guide = [GuideViewController new];
+        self.window.rootViewController = guide;
+        [self.window makeKeyAndVisible];
+        return YES;
+    }
     
     if(NO){
         // 调试接口

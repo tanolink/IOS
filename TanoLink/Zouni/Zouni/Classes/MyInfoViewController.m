@@ -21,6 +21,7 @@
     ZHPickView *_pickview;
     UITextField *_textFieldCity;
     MemberInfo *_memberInfo;
+    UIButton *headerBtn;
 }
 @property (strong, nonatomic) UIImagePickerController *imagePicker;
 
@@ -96,18 +97,15 @@
         if(indexPath.row == 0){
             // 头像
             cell.textLabel.text = @"头像";
-            UIButton *headerBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            headerBtn = [UIButton buttonWithType:UIButtonTypeCustom];
             float headerSize = 60;
             headerBtn.layer.cornerRadius = headerSize / 2.f;
             headerBtn.layer.masksToBounds = YES;
             headerBtn.layer.borderWidth = 2.f;
             headerBtn.layer.borderColor = [[UIColor colorWithWhite:1.000 alpha:0.800]CGColor];
-            [headerBtn setImage:[UIImage imageNamed:@"default_avatar"] forState:UIControlStateNormal];
-            NSURL *caseurl = [NSURL URLWithString:_memberInfo.userPhotoId];
+            NSURL *caseurl = [NSURL URLWithString:_memberInfo.userPhoto];
             [headerBtn sd_setBackgroundImageWithURL:caseurl forState:UIControlStateNormal
                                    placeholderImage:[UIImage imageNamed:@"default_avatar"]];
-
-            
             [headerBtn addTarget:self action:@selector(getPhotoFunction) forControlEvents:UIControlEventTouchUpInside];
             [cell.contentView addSubview:headerBtn];
             [headerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -119,7 +117,10 @@
         }else if(indexPath.row == 1){
             // 昵称
             cell.textLabel.text = @"昵称";
-            cell.detailTextLabel.text = @"Alice Alarez";
+            cell.detailTextLabel.text = @"";
+            if([ZNClientInfo sharedClinetInfo].memberInfo.nickname.length>0){
+                cell.detailTextLabel.text = [ZNClientInfo sharedClinetInfo].memberInfo.nickname;
+            }
         }else if(indexPath.row == 2){
             // 常住地
             cell.textLabel.text = @"常住地";
@@ -131,7 +132,9 @@
             [_textFieldCity setDelegate:self];
             [_textFieldCity setTag:indexPath.row+10000];
             _textFieldCity.placeholder = @"请选择";
-            [_textFieldCity setText:@"北京 朝阳"];
+            if([ZNClientInfo sharedClinetInfo].memberInfo.cityId){
+                [_textFieldCity setText:@"北京 朝阳"];
+            }
 
             [_textFieldCity setTextAlignment:NSTextAlignmentRight];
             [_textFieldCity setBackgroundColor:[UIColor whiteColor]];
@@ -173,11 +176,11 @@
         [cell.detailTextLabel setTextColor:ZN_FONNT_03_LIGHTGRAY];
         if(indexPath.row == 0){
             cell.textLabel.text = @"手机号码绑定";
-            cell.detailTextLabel.text = @"15901437555";
+            cell.detailTextLabel.text = [ZNClientInfo sharedClinetInfo].memberInfo.mobile;
         }
         else if(indexPath.row == 1){
             cell.textLabel.text = @"邮箱绑定";
-            cell.detailTextLabel.text = @"aokuny@126.com";
+            cell.detailTextLabel.text = [ZNClientInfo sharedClinetInfo].memberInfo.email;
         }
         else if(indexPath.row == 2){
             cell.textLabel.text = @"修改密码";
@@ -260,12 +263,12 @@
         if (indexPath.row == 0) {
             // 手机
             BindMobileViewController *bindMobileVC = [BindMobileViewController new];
-            bindMobileVC.oldMobileStr = @"15901437555";
+            bindMobileVC.oldMobileStr = [ZNClientInfo sharedClinetInfo].memberInfo.mobile;
             [self.navigationController pushViewController:bindMobileVC animated:YES];
         }else if(indexPath.row == 1){
             // 邮箱
             BindEmailViewController *bindEmailVC = [BindEmailViewController new];
-            bindEmailVC.oldMobileStr = @"aokuny@126.com";
+            bindEmailVC.oldMobileStr = [ZNClientInfo sharedClinetInfo].memberInfo.email;
             [self.navigationController pushViewController:bindEmailVC animated:YES];
         }else if (indexPath.row == 2) {
             // 修改密码
@@ -279,6 +282,21 @@
     [_textFieldCity setText:resultString];
     [self.view endEditing:NO];
     [_gTableView setContentOffset:CGPointMake(0, 0) animated:YES];
+    
+    [self showHudInView:self.view hint:@"正在修改城市..."];
+    NSDictionary *requestDic= @{@"nickName":@"",@"upor":resultString};
+    __weak typeof(self) weakSelf = self;
+    [ZNApi invokePost:ZN_CHANGEUSER_API parameters:requestDic completion:^(id resultObj,NSString *msg,ZNRespModel *respModel){
+        if (respModel.success.intValue>0) {
+            [JGProgressHUD showSuccessStr:@"常驻地修改成功！"];
+            // 更改本地常驻地
+            [ZNClientInfo sharedClinetInfo].memberInfo.cityId = resultString;
+            [[ZNClientInfo sharedClinetInfo] saveMemberInfo];
+        }else{
+            [JGProgressHUD showHintStr:respModel.msg];
+        }
+        [weakSelf hideHud];
+    }];
 }
 -(void)cancelClick{
     [self.view endEditing:NO];
@@ -353,14 +371,17 @@
     [manager POST:ZN_UPLOAD_IMAGE_API parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
             [formData appendPartWithFileData:UIImageJPEGRepresentation(orgImage, 1)  name:@"file" fileName:@"userPhote.png" mimeType:@"image/png"];
     } success:^(AFHTTPRequestOperation *operation,NSDictionary *responseObject){
-        ZNRespModel *respModel = [[ZNRespModel alloc]initWithDictionary:responseObject error:nil];
         [weakSelf hideHud];
-        NSLog(@"上传 %@",respModel);
-        if(respModel.success.intValue>0){
-            //
-            NSString *imgeUrl = respModel.data;
+        if([responseObject[@"success"] integerValue]>0){
+            NSString *imgeUrl = responseObject[@"data"];
+            NSURL *caseurl = [NSURL URLWithString:imgeUrl];
+            [headerBtn sd_setBackgroundImageWithURL:caseurl forState:UIControlStateNormal
+                                   placeholderImage:[UIImage imageNamed:@"default_avatar"]];
+            // 修改本地图片
+            [ZNClientInfo sharedClinetInfo].memberInfo.userPhoto = imgeUrl;
+            [[ZNClientInfo sharedClinetInfo] saveMemberInfo];
         }else{
-            [JGProgressHUD showErrorStr:respModel.msg];
+            [JGProgressHUD showErrorStr:responseObject[@"msg"]];
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
