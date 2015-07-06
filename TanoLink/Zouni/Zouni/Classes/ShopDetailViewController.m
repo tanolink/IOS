@@ -10,6 +10,7 @@
 #import "ZNAppUtil.h"
 #import "UMSocial.h"
 #import "ShopCommentViewController.h"
+#import "CellCommentTableViewCell.h"
 
 @interface ShopDetailViewController (){
     /**
@@ -21,7 +22,10 @@
     NSMutableArray *networkImages;
     FGalleryViewController *localGallery;
     FGalleryViewController *networkGallery;
-
+    
+    CommentModel *commentModel;
+    
+    NSMutableArray *_dataMutableArrayListComment;
 }
 @end
 @implementation ShopDetailViewController
@@ -30,25 +34,18 @@
     [super viewDidLoad];
     [self.view setBackgroundColor:[UIColor whiteColor]];
     [self setBackBarButton];
-//    [self setRightBarButtonItemImage:@"share_icon" target:self action:@selector(share)];
-    
-//    UIBarButtonItem *btnAction = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(share)];
-//    self.navigationController.navigationItem.rightBarButtonItem = btnAction;
-    
 
-    
-    
-    //        [self showHudInView:self.contentView hint:nil];
-    //        __weak typeof(self) weakSelf = self;
+    [self showHudInView:self.view hint:nil];
+    __weak typeof(self) weakSelf = self;
     NSDictionary *requestDic = [[NSDictionary alloc]initWithObjectsAndKeys:
                                 self.shopModel.ShopID,@"shopId",
                                 @"2",@"comments",
                                 nil];
+    // 获取详情评论
     [ZNApi invokePost:ZN_SHOPDETAIL_API parameters:requestDic completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
         if (resultObj) {
             NSDictionary *shopModelDic = (NSDictionary *)resultObj;
-//            _dataMutableArray = [[NSMutableArray alloc]initWithArray:shopModelDic[@"Comments"]];
-            
+            _dataMutableArrayListComment = [[NSMutableArray alloc]initWithArray:shopModelDic[@"Comments"]];
             _gTableView = [[UITableView alloc]initWithFrame:CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height)];
             [_gTableView setDelegate:self];
             [_gTableView setDataSource:self];
@@ -58,14 +55,9 @@
                 [_gTableView setSeparatorInset:UIEdgeInsetsZero];
             }
             [self.view addSubview:_gTableView];
-            
-            
-            
         }
+        [weakSelf hideHud];
     }];
-    
-    
-    
 }
 -(void) share{
     [UMSocialSnsService presentSnsIconSheetView:self
@@ -89,9 +81,9 @@
     if (!cell) {
         cell = [[CellShopDetail alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:Indentifier];
             cell.shopID = [NSString stringWithFormat:@"%@",self.shopId];
-//        [cell setCellDataForModel:self.shopModel];
     }
     cell.shopModel = self.shopModel;
+    cell._dataMutableArray = _dataMutableArrayListComment;
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     
     [cell._btnAlbum addTarget:self action:@selector(detail) forControlEvents:UIControlEventTouchUpInside];
@@ -101,9 +93,18 @@
 }
 #pragma mark - tableview delegate methods
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    CellShopDetail *cell = (CellShopDetail*)[self tableView:tableView cellForRowAtIndexPath:indexPath];
-    NSLog(@"ssssssssssssssssss%f",[cell getCellHeightForModel:self.shopModel]);
-    return [cell getCellHeightForModel:self.shopModel];
+//    CellShopDetail *cell = (CellShopDetail*)[self tableView:tableView cellForRowAtIndexPath:indexPath];
+    float commentHeight = 0;
+    for (NSDictionary *commnetDic in _dataMutableArrayListComment) {
+        NSError *err = nil;
+        CommentModel *cm = [[CommentModel alloc]initWithDictionary:commnetDic error:&err];
+        commentHeight += (float)[CellCommentTableViewCell getCellHeightForModel:cm];
+    }
+    CGSize contentHeight = [self.shopModel.desc sizeWithFont:DEFAULT_FONT(12) constrainedToSize:CGSizeMake(ScreenWidth-30,MAXFLOAT) lineBreakMode:NSLineBreakByCharWrapping];
+    if(self.shopModel.desc.length>0){
+        commentHeight += (contentHeight.height -15);
+    }
+    return commentHeight + 800;
 }
 -(void) comments {
     ShopCommentViewController *scvc = [ShopCommentViewController new];
@@ -162,9 +163,6 @@
 - (NSString*)photoGallery:(FGalleryViewController *)gallery urlForPhotoSize:(FGalleryPhotoSize)size atIndex:(NSUInteger)index {
     return  [networkImages objectAtIndex:index];
 }
-
-
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

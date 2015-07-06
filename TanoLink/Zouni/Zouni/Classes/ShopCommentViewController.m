@@ -78,16 +78,26 @@
                                 [NSString stringWithFormat:@"%d",_pageSize],@"size",
                                 [NSString stringWithFormat:@"%d",_pageNumber],@"page",
                                 nil];
-    [ZNApi invokePost1:ZN_SHOPCOMMENTS_API parameters:requestDic completion:^(id resultObj,NSString *msg,ZNRespModel1 *respModel) {
-        if (resultObj) {
-            NSArray *dic = (NSArray *)resultObj;
-            [_dataMutableArray addObjectsFromArray:dic];
-            [_gTableView reloadData];
-            [_gTableView headerEndRefreshing];
-            [_gTableView footerEndRefreshing];
-        }
-        [weakSelf hideHud];
-    }];
+//    [ZNApi invokePost1:ZN_SHOPCOMMENTS_API parameters:requestDic completion:^(id resultObj,NSString *msg,ZNRespModel1 *respModel) {
+//        if (resultObj) {
+//            NSArray *dic = (NSArray *)resultObj;
+//            [_dataMutableArray addObjectsFromArray:dic];
+//            [_gTableView reloadData];
+//            [_gTableView headerEndRefreshing];
+//            [_gTableView footerEndRefreshing];
+//        }
+//        [weakSelf hideHud];
+//    }];
+        [ZNApi invokePost:ZN_SHOPCOMMENTS_API parameters:requestDic completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
+            if (resultObj) {
+                NSArray *dic = (NSArray *)resultObj;
+                [_dataMutableArray addObjectsFromArray:dic];
+                [_gTableView reloadData];
+                [_gTableView headerEndRefreshing];
+                [_gTableView footerEndRefreshing];
+            }
+            [weakSelf hideHud];
+        }];
     
     [_gTableView reloadData];
     [_gTableView headerEndRefreshing];

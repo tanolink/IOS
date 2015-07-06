@@ -47,8 +47,8 @@
 
 #define ZN_BINDCODE_API                 @"api/BindCode"                     /*绑定码*////api/BindCode?code=xxxx
 #define ZN_BINDEMAIL_API                @"api/BindEmail"                    /*绑定邮箱*/
-#define ZN_CHANGEUSER_API               @"api/ChangeUse"                    // nickName=fds&upor
-
+#define ZN_CHANGEUSER_API               @"api/ChangeUser"                   // nickName=fds&upor
+#define ZN_FORGETPWD_API                @"api/forgetPassword"               /*修改密码*/ //
 
 /*设置*/
 #define ZN_ADDFEEDBACK_API @"api/AddFeedback" /*反馈*///?content=fds&mobileType=ios

@@ -32,7 +32,7 @@
     // 地址
     UILabel *_labAddress;
     // 条形码
-    UIImageView *_imgCoupon;
+    UIButton *_imgCoupon;
     // 内容
     UILabel *_labCouponContent;
     // 使用描述
@@ -65,31 +65,32 @@
     [self initData];
 }
 -(void) initData{
-    [self showHudInView:self.view hint:@"正在修改密码..."];
+    [self showHudInView:self.view hint:@"正在加载优惠券..."];
     NSDictionary *requestDic= @{@"shopId":self.shopModel.ShopID};
     __weak typeof(self) weakSelf = self;
     [ZNApi invokePost:ZN_COUPON_API parameters:requestDic completion:^(id resultObj,NSString *msg,ZNRespModel *respModel){
         if (respModel.success.intValue>0) {
             NSLog(@"%@",resultObj);
-            NSError *err = nil;
-            _couponModel = [[CouponModel alloc]initWithDictionary:(NSDictionary*)resultObj error:&err];
+//            NSError *err = nil;
+//            CouponModel *_coupon;
+//            _couponModel
+//            _coupon = [[CouponModel alloc]initWithDictionary:(NSDictionary*)resultObj error:&err];
             // 判断类型
-            if(_couponModel.type == 1){
+            if([resultObj[@"type"] integerValue] == 1){
                 [self buildUI];
                 [self layoutUI];
-                [self initCouponData];
+                [self initCouponData:resultObj];
             }else{
-                [self buildUICouponImg];
+                [self buildUICouponImg:resultObj];
             }
         }else{
             [JGProgressHUD showHintStr:respModel.msg];
         }
         [weakSelf hideHud];
     }];
-
 }
 #pragma 图片类型的优惠券
--(void) buildUICouponImg{
+-(void) buildUICouponImg:(NSDictionary *) dic {
     btnCouponImg = [UIButton buttonWithType:UIButtonTypeCustom];
     [btnCouponImg setUserInteractionEnabled:NO];
     [self.view addSubview:btnCouponImg];
@@ -99,14 +100,31 @@
         make.right.equalTo(self.view);
         make.bottom.equalTo(self.view);
     }];
-    NSURL *caseurl = [NSURL URLWithString:_couponModel.couponPhoto];
-    [btnCouponImg sd_setBackgroundImageWithURL:caseurl forState:UIControlStateNormal
+    NSURL *couponUrl = [NSURL URLWithString:dic[@"couponPhoto"]];
+    [btnCouponImg sd_setBackgroundImageWithURL:couponUrl forState:UIControlStateNormal
                           placeholderImage:[UIImage imageNamed:@"default_userhead"]];
 }
--(void)initCouponData{
-    _labAddress.text = _couponModel.address;
-    _labCouponContent.text = _couponModel.special;
-    _labTitle.text = _couponModel.shopName;
+-(void)initCouponData:(NSDictionary *)dic{
+    if([dic[@"address"]isEqual:[NSNull null]]){
+        _labAddress.text = @"暂无";
+    }else{
+        _labAddress.text = dic[@"address"];
+    }
+    NSLog(@"%@",dic[@"special"]);
+    if ([dic[@"special"] isEqual:[NSNull null]]) {
+        _labCouponContent.text = @"暂无";
+    }else{
+        _labCouponContent.text = dic[@"special"];
+    }
+    if([dic[@"shopName"] isEqual:[NSNull null]]){
+        _labTitle.text = @"暂无";
+    }else{
+        _labTitle.text = dic[@"shopName"];
+    }
+    NSURL *couponUrl = [NSURL URLWithString:dic[@"couponPhoto"]];
+    [_imgCoupon sd_setBackgroundImageWithURL:couponUrl forState:UIControlStateNormal
+                              placeholderImage:[UIImage imageNamed:@"default_userhead"]];
+
 }
 -(void)buildUI{
     _bgView = [UIView new];
@@ -135,27 +153,28 @@
     [_btnLogoRect setImage:[UIImage imageNamed:@"default_avatar"] forState:UIControlStateNormal];
 
     _labTitle = [UILabel new];
-    [_labTitle setText:@"京王百货店（新宿店）"];
+//    [_labTitle setText:@"京王百货店（新宿店）"];
     [_labTitle setFont:DEFAULT_FONT(16)];
     [_labTitle setTextColor:[UIColor whiteColor]];
     [_labTitle setTextAlignment:NSTextAlignmentLeft];
 
     _labAddress = [UILabel new];
-    [_labAddress setText:@"地址：东京都新宿区西新宿1-1-4"];
+//    [_labAddress setText:@"地址：东京都新宿区西新宿1-1-4"];
     [_labAddress setFont:DEFAULT_FONT(13)];
     [_labAddress setTextColor:[UIColor whiteColor]];
     [_labAddress setTextAlignment:NSTextAlignmentLeft];
 
     _labCouponContent = [UILabel new];
-    [_labCouponContent setText:@"5%优惠+8%免税"];
+//    [_labCouponContent setText:@"5%优惠+8%免税"];
     [_labCouponContent setFont:DEFAULT_FONT(26)];
     [_labCouponContent setTextColor:[UIColor whiteColor]];
     [_labCouponContent setTextAlignment:NSTextAlignmentCenter];
     
     // 优惠券图片
-    _imgCoupon = [UIImageView new];
-    [_imgCoupon setImage:[UIImage imageNamed:@"cnaidc"]];
+    _imgCoupon = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [_imgCoupon setImage:[UIImage imageNamed:@"cnaidc"]];
     _imgCoupon.contentMode = UIViewContentModeScaleAspectFit;
+    _imgCoupon.userInteractionEnabled = NO;
     
     _labCouponDesc = [UILabel new];
     [_labCouponDesc setText:@"请向商家出示此优惠券"];
@@ -352,7 +371,7 @@
     }
 }
 -(void) saveImageToAlbum {
-    UIImageWriteToSavedPhotosAlbum([_imgCoupon image], self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
+    UIImageWriteToSavedPhotosAlbum([_imgCoupon currentBackgroundImage], self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
 }
 // 指定回调方法
 - (void)image: (UIImage *) image didFinishSavingWithError: (NSError *) error contextInfo: (void *) contextInfo

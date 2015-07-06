@@ -26,6 +26,9 @@
     
     UIView *_mobileViewContoller;
     UIView *_emailViewController;
+    
+    // 1 邮箱 2 手机
+    NSString *loginType;
 }
 @property (nonatomic, assign) NSInteger count;
 @property (nonatomic, strong) NSTimer *timer;
@@ -37,6 +40,8 @@ static SystemSoundID shake_sound_id = 0;
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setBackBarButton];
+    // 1 邮箱 2 手机
+    loginType = @"1";
     if (self.isRemakePwd) {
         [self setTitle:@"找回密码"];
     }else{
@@ -57,10 +62,14 @@ static SystemSoundID shake_sound_id = 0;
             // 手机注册
             _emailViewController.hidden = YES;
             _mobileViewContoller.hidden = NO;
+            // 1 邮箱 2 手机
+            loginType = @"2";
         } else if(idx == 1001){
             // 邮箱注册
             _emailViewController.hidden = NO;
             _mobileViewContoller.hidden = YES;
+            // 1 邮箱 2 手机
+            loginType = @"1";
         }
     }];
     [self.view addSubview:headerView];
@@ -440,7 +449,8 @@ static SystemSoundID shake_sound_id = 0;
     [self showHudInView:self.view hint:@"正在注册..."];
     // 注册接口
     NSDictionary *requestDic = [[NSDictionary alloc]initWithObjectsAndKeys:_txfMobile.text,@"email",
-                                [NSString stringWithFormat:@"%@",[ZNAppUtil toMd5:_txfPwd.text]],@"password",
+//                                [NSString stringWithFormat:@"%@",[ZNAppUtil toMd5:_txfPwd.text]],@"password",
+                                [NSString stringWithFormat:@"%@",_txfPwd.text],@"password",
                                 [NSString stringWithFormat:@"%@",_txfCaptch.text],@"code",nil];
     [ZNApi invokePost:ZN_REGISTER_EMIL_API parameters:requestDic completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
         [self hideHud];
@@ -455,10 +465,13 @@ static SystemSoundID shake_sound_id = 0;
     
     }else{
         // 找回
-        NSDictionary *requestDic = [[NSDictionary alloc]initWithObjectsAndKeys:_txfMobile.text,@"email",
-                                    [NSString stringWithFormat:@"%@",[ZNAppUtil toMd5:_txfPwd.text]],@"password",
-                                    [NSString stringWithFormat:@"%@",_txfCaptch.text],@"code",nil];
-        [ZNApi invokePost:ZN_REGISTER_EMIL_API parameters:requestDic completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
+//        loginName=xxx@sina.com&code=1232&password=3333&type=1
+        NSDictionary *requestDic = [[NSDictionary alloc]initWithObjectsAndKeys:_txfMobile.text,@"loginName",
+//                                    [NSString stringWithFormat:@"%@",[ZNAppUtil toMd5:_txfPwd.text]],@"password",
+                                    [NSString stringWithFormat:@"%@",_txfPwd.text],@"password",
+                                    [NSString stringWithFormat:@"%@",_txfCaptch.text],@"code",
+                                    loginType,@"type",nil];
+        [ZNApi invokePost:ZN_FORGETPWD_API parameters:requestDic completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
             [self hideHud];
             if(respModel.success.intValue){
                 [JGProgressHUD showSuccessStr:@"找回密码成功！"];

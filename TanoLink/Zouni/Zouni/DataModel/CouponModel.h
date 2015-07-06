@@ -13,7 +13,7 @@
 @property (nonatomic, strong) NSString *code;
 @property (nonatomic, strong) NSString *couponPhoto;
 @property (nonatomic, strong) NSString *shopName;
-@property (nonatomic, assign) NSUInteger type;
+@property (nonatomic, strong) NSString *type;
 @property (nonatomic, strong) NSString *special;
 @property (nonatomic, strong) NSString *address;
 

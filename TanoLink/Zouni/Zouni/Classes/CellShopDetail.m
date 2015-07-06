@@ -81,11 +81,14 @@
     BOOL _isSelectFav;
     
     float tabCommentHeight;
+    
+    int count;
 }
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        count = 0;
         [self buildUI];
     }
     return self;
@@ -313,7 +316,7 @@
     
 }
 -(void)layoutUI{
-    
+
 //    [_bgScrollView mas_makeConstraints:^(MASConstraintMaker *make) {
 //        make.edges.equalTo(self.contentView);
 //    }];
@@ -453,7 +456,13 @@
         make.top.equalTo(_labComments.mas_bottom).offset(8);
         make.left.equalTo(self.contentView);
         make.width.equalTo(@(self.contentView.frame.size.width));
+//                make.height.equalTo(@(360));
     }];
+    [_gTableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        NSLog(@"fffffffffffffffff%f",tabCommentHeight);
+        make.height.equalTo(@(tabCommentHeight));
+    }];
+    
     [_btnShowComment mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_gTableView.mas_bottom).offset(10);
         make.left.equalTo(_labComments.mas_left);
@@ -485,7 +494,7 @@
         make.height.equalTo(@.5);
         make.left.equalTo(self.contentView);
         make.right.equalTo(self.contentView);
-        make.top.equalTo(_txtShopDesc.mas_bottom).offset(2);
+        make.top.equalTo(_txtShopDesc.mas_bottom).offset(8);
     }];
     
     [_labTimeDesc mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -548,6 +557,10 @@
             }
         }];
  */
+//    [_gTableView reloadData];
+
+    
+    
     ShopModel *shopModel = self.shopModel;
     [_labShopName setText:shopModel.ShopName];
     [_labShopClass setText:shopModel.ShopENName];
@@ -623,24 +636,10 @@
     MKPinAnnotationView * annotationView = (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"PIN_ANNOTATION"];
     if(annotationView == nil) {
         annotationView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"PIN_ANNOTATION"];
-//        [annotationView setCanShowCallout:YES];
-//                annotationView.image = [self scaleToSize:[UIImage imageNamed:@"map_doc"] size:CGSizeMake(80/3,110/3)];
     }
-    
-//    UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [button setImage:[UIImage imageNamed:@"list_arrow"] forState:UIControlStateNormal];
-//    [button setFrame:CGRectMake(0,0,15, 15)];
-//    annotationView.rightCalloutAccessoryView =  button;
-    
-//    annotationView.pinColor = MKPinAnnotationColorRed;// 标注点颜色
-//    annotationView.animatesDrop = YES;
-//    annotationView.opaque = NO;
-//    annotationView.draggable = YES;
-//    annotationView.selected = YES;
-    
-        annotationView.calloutOffset = CGPointMake(15, 15);
-        UIImageView * imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"map_doc"]];
-        annotationView.leftCalloutAccessoryView = imageView;
+    annotationView.calloutOffset = CGPointMake(15, 15);
+    UIImageView * imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"map_doc"]];
+    annotationView.leftCalloutAccessoryView = imageView;
     return annotationView;
 }
 #pragma mark MKMapViewDelegate的代理方法
@@ -694,7 +693,10 @@
     NSDictionary *commentModelDic = (NSDictionary *)[self._dataMutableArray objectAtIndex:indexPath.row];
     NSError *err = nil;
     CommentModel *commentModel = [[CommentModel alloc]initWithDictionary:commentModelDic error:&err];
-    tabCommentHeight +=[CellCommentTableViewCell getCellHeightForModel:commentModel];
+    if(count < self._dataMutableArray.count){
+        ++count;
+        tabCommentHeight +=[CellCommentTableViewCell getCellHeightForModel:commentModel];
+    }
     return [CellCommentTableViewCell getCellHeightForModel:commentModel];
 }
 
@@ -707,7 +709,6 @@
     }
     if(shopModel.ReviewCount.integerValue >0){
         totalHeight += tabCommentHeight;
-        NSLog(@"rrrrrrrrrrrrrrrrrrrrrrrr%f",tabCommentHeight);
     }
     return totalHeight;
 }

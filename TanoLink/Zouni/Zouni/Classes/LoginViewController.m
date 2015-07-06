@@ -258,7 +258,9 @@
     
     NSDictionary *requestDic = [[NSDictionary alloc]initWithObjectsAndKeys:
                                 accountTextField.text,@"email",
-                                [ZNAppUtil toMd5:passwordTextField.text],@"password",nil];
+//                                [ZNAppUtil toMd5:passwordTextField.text],@"password",nil];
+                                passwordTextField.text,@"password",nil];
+
         [ZNApi invokePost:ZN_LOGIN_API parameters:requestDic completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
             if (resultObj) {
                 NSDictionary *dic = (NSDictionary *)resultObj;

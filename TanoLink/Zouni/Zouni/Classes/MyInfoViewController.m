@@ -28,6 +28,10 @@
 @end
 @implementation MyInfoViewController
 
+-(void) viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [_gTableView reloadData];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
 
@@ -133,7 +137,7 @@
             [_textFieldCity setTag:indexPath.row+10000];
             _textFieldCity.placeholder = @"请选择";
             if([ZNClientInfo sharedClinetInfo].memberInfo.cityId){
-                [_textFieldCity setText:@"北京 朝阳"];
+                [_textFieldCity setText:[ZNClientInfo sharedClinetInfo].memberInfo.cityId];
             }
 
             [_textFieldCity setTextAlignment:NSTextAlignmentRight];
