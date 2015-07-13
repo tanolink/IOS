@@ -15,8 +15,7 @@
 @implementation CellShopList{
 //    图片
     UIButton *_imgView;
-//    选择按钮
-    UIButton *_btnSel;
+
     float selSize;
 //    图片遮罩
     UIView  *_shadeView;
@@ -66,10 +65,17 @@
     
     
     //处理星星
-    int stars = (int)[shopModel.Score integerValue];
+    int stars = 0;
+    if(shopModel.Score.length>0){
+     stars = (int)[shopModel.Score integerValue];
+    }
     for (int i=0 ; i< stars ;i++) {
        UIImageView *imgV = (UIImageView*)_mutArrayStars[i];
         [imgV setImage:[UIImage imageNamed:@"xing02"]];
+    }
+    for (int i=5; i<5-stars ;i--) {
+        UIImageView *imgV = (UIImageView*)_mutArrayStars[i];
+        [imgV setImage:[UIImage imageNamed:@"xing01"]];
     }
     if(stars>0){
         [_labScore setText:[NSString stringWithFormat:@"%@分",shopModel.Score]];
@@ -91,7 +97,10 @@
 
     if (!self.isFavorite) {
         _btnSel.hidden = YES;
+    }else{
+        _btnSel.hidden = NO;
     }
+    _btnSel.tag = 1000 + shopModel.ShopID.integerValue;
 }
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -128,9 +137,10 @@
 //        [_btnSel setBackgroundColor:[UIColor grayColor]];
         [_btnSel setImage:[UIImage imageNamed:@"my_record_select01"] forState:UIControlStateNormal];
         [_btnSel setImage:[UIImage imageNamed:@"my_record_select02"] forState:UIControlStateSelected];
-        [_btnSel handleControlEvent:UIControlEventTouchUpInside withBlock:^{
-            _btnSel.selected = ! _btnSel.selected;
-        }];
+        
+//        [_btnSel handleControlEvent:UIControlEventTouchUpInside withBlock:^{
+//            _btnSel.selected = ! _btnSel.selected;
+//        }];
 
         _shadeView = [[UIView alloc]initWithFrame:CGRectZero];
         _shadeView.backgroundColor = RGBCOLOR_WithAlpha(0,0,0,.4);

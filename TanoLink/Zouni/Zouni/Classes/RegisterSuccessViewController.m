@@ -126,6 +126,8 @@ static SystemSoundID shake_sound_id = 0;
                 // 更改本地
                 [ZNClientInfo sharedClinetInfo].memberInfo.code = _txfCode.text;
                 [[ZNClientInfo sharedClinetInfo] saveMemberInfo];
+                
+                [self performSelector:@selector(jumpOver) withObject:nil afterDelay:1];
             }else{
                 [JGProgressHUD showHintStr:respModel.msg];
             }

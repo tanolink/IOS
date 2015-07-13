@@ -46,7 +46,9 @@
             btn.imageView.contentMode = UIViewContentModeScaleAspectFit;
             
             btn.frame = CGRectMake(idx * nWidth, 0, nWidth, nHeight);
-            btn.tag = idx;
+//            btn.tag = idx;
+            btn.tag = idx+1000;
+
             [btn addTarget:self action:@selector(ddd:) forControlEvents:UIControlEventTouchUpInside];
             [self addSubview:btn];
             [btn setTitleEdgeInsets:UIEdgeInsetsMake(0,0,0,20)];
@@ -73,16 +75,32 @@
 }
 -(void)ddd:(UIButton *)btn {
     
-    NSLog(@" tag : %li",(long)btn.tag);
-//    if (btn.tag == 1) {
-//        btn.selected = !btn.selected;
+//    NSLog(@" tag : %li",(long)btn.tag);
+////    if (btn.tag == 1) {
+////        btn.selected = !btn.selected;
+////    }
+//    
+//    btn.selected = !btn.selected;
+//
+//    
+//    if (self.block) {
+//        self.block(btn.tag);
 //    }
     
-    btn.selected = !btn.selected;
+//    btn.selected = YES;
+        btn.selected = !btn.selected;
 
-    
+    NSLog(@" tag : %li",(long)btn.tag);
+    if (btn.tag == 1001) {
+        UIButton *btnOther = (UIButton *)[self viewWithTag:1000];
+        btnOther.selected = NO;
+    }else{
+        UIButton *btnOther = (UIButton *)[self viewWithTag:1001];
+        btnOther.selected = NO;
+    }
     if (self.block) {
         self.block(btn.tag);
     }
+    
 }
 @end

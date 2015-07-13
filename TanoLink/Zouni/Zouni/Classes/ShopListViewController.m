@@ -49,6 +49,7 @@
 
 @implementation ShopListViewController
 -(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     // 设置左侧按钮
     [self setBackBarButton];
 }
@@ -162,12 +163,14 @@
 //    self.defaultChoiceSelSort= @"";
     NSArray *ctbData = @[@[@"类型",@"tab_arrow"],@[@"排序",@"tab_arrow"]];
     headerView = [[CTCBar alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width,_barheight) andArrData:ctbData bSpera:YES andBlock:^(NSUInteger idx) {
-        if (idx == 0) {
+        if (idx == 1000) {
             [self.chocieViewType showInView:self.view andDefaultSel:self.defaultChoiceSelType];
-            [self.chocieViewSort closePopupWindow];
-        } else if(idx == 1){
+            _chocieViewType.isSingle = YES;
+            [self.chocieViewSort closePopupWindowNotBack];
+        } else if(idx == 1001){
             [self.chocieViewSort showInView:self.view andDefaultSel:self.defaultChoiceSelSort];
-            [self.chocieViewType closePopupWindow];
+            _chocieViewType.isSingle = NO;
+            [self.chocieViewType closePopupWindowNotBack];
         }
     }];
 }
@@ -176,13 +179,13 @@
     if (!_chocieViewType) {
         _chocieViewType =  [[CTBView alloc]initWithArrData:@[
 //                                                         CELLDICTIONARYBUILT(@"全部", @"0"),
-                                                         CELLDICTIONARYBUILT(@"综合百货", @"1"),
-                                                         CELLDICTIONARYBUILT(@"服饰", @"2"),
-                                                         CELLDICTIONARYBUILT(@"鞋帽", @"3"),
-                                                         CELLDICTIONARYBUILT(@"箱包", @"4"),
+                                                         CELLDICTIONARYBUILT(@"综合百货", @"15"),
+                                                         CELLDICTIONARYBUILT(@"服饰", @"16"),
+                                                         CELLDICTIONARYBUILT(@"鞋帽", @"17"),
+                                                         CELLDICTIONARYBUILT(@"箱包", @"18"),
 //                                                         CELLDICTIONARYBUILT(@"家用电器", @"5"),
 //                                                         CELLDICTIONARYBUILT(@"化妆品", @"6"),
-                                                         CELLDICTIONARYBUILT(@"其他", @"7"),
+                                                         CELLDICTIONARYBUILT(@"其他", @"19"),
                                                         ]
                                             andOffSetY:_barheight delegate:self];
     }
@@ -190,7 +193,7 @@
 }
 -(CTBView*)chocieViewSort {
     if (!_chocieViewSort) {
-        _chocieViewSort =  [[CTBView alloc]initWithArrData:@[CELLDICTIONARYBUILT(@"默认排序", @"5"),
+        _chocieViewSort =  [[CTBView alloc]initWithArrData:@[CELLDICTIONARYBUILT(@"默认排序", @"0"),
                                                          CELLDICTIONARYBUILT(@"按距离从近到远", @"1"),
                                                          CELLDICTIONARYBUILT(@"按评分从高到低", @"2"),
                                                          CELLDICTIONARYBUILT(@"按评分从低到高", @"4"),
@@ -206,9 +209,14 @@
     }else{
         self.defaultChoiceSelType = valueStr;
     }
+    
+    UIButton *btn1 = (UIButton *)[headerView viewWithTag:1001];
+    btn1.selected = NO;
+    UIButton *btn0 = (UIButton *)[headerView viewWithTag:1000];
+    btn0.selected = NO;
     // 重新加载排序后的数据
-//    [self loadNewData];
-//    [_gTableView reloadData];
+    [self loadNewData];
+    [_gTableView reloadData];
 }
 
 #pragma 初始化数据
@@ -236,15 +244,39 @@
 -(void) loadServerData{
     [self showHudInView:self.view hint:nil];
     __weak typeof(self) weakSelf = self;
+    NSString *cityID = self.cityModel.CityId;
+    if (!(cityID.length>0)) {
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        cityID = [userDefaults stringForKey:@"CityId"];
+    }
+    NSString *sort = @"";
+    if(self.defaultChoiceSelSort.count>0){
+        int sortValue = 0;
+        for (NSString *sel in [self.defaultChoiceSelSort allValues]) {
+            if (![kNULLROWV isEqualToString:sel]) {
+                sortValue += sel.integerValue;
+            }
+        }
+        sort = [NSString stringWithFormat:@"%d",sortValue];
+    }
+    NSString *type = @"";
+    if(self.defaultChoiceSelType.count>0){
+        for (NSString *sel in [self.defaultChoiceSelType allValues]) {
+            if (![kNULLROWV isEqualToString:sel]) {
+                type = sel;
+            }
+        }
+    }
+    
     NSDictionary *requestDic = [[NSDictionary alloc]initWithObjectsAndKeys:
                                 [NSString stringWithFormat:@"%d",_pageSize],@"size",
                                 [NSString stringWithFormat:@"%d",_pageNumber],@"page",
-                                self.cityModel.CityId,@"cityId",
+                                @"500",@"distance",
+                                type,@"shopClass",
+                                sort,@"sort",
+                                cityID,@"cityId",
 //                                @"",@"px",@"",@"py",
 //                                @"0",@"comments",
-                                @"500",@"distance",
-//                                @"1",@"shopClass",
-                                @"5",@"sort",
                                 nil];
     [ZNApi invokePost:ZN_SHOPLIST_API parameters:requestDic completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
         if (resultObj) {
@@ -273,12 +305,12 @@
     return [_dataMutableArray count];
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-
-    static NSString *Indentifier = @"cellInd";
+    NSString *Indentifier = [NSString stringWithFormat:@"cellInd%ld",indexPath.row];
+//    static NSString *Indentifier = @"cellInd";
     CellShopList *cell = [tableView dequeueReusableCellWithIdentifier:Indentifier];
-    if (!cell) {
+//    if (!cell) {
         cell = [[CellShopList alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:Indentifier];
-    }
+//    }
     NSDictionary *shopModelDic = (NSDictionary *)[_dataMutableArray objectAtIndex:indexPath.row];
     NSError *err = nil;
     ShopModel *shopModel = [[ShopModel alloc]initWithDictionary:shopModelDic error:&err];
@@ -302,9 +334,13 @@
     }];
     [cell._btnCoupon handleControlEvent:UIControlEventTouchUpInside withBlock:^{
         if (shopModel.Coupon.intValue>0) {
-            CouponViewController *couponVC = [[CouponViewController alloc]init];
-            couponVC.shopModel = shopModel;
-            [self.navigationController pushViewController:couponVC animated:YES];
+            if ([ZNClientInfo sharedClinetInfo].permit.length>0) {
+                CouponViewController *couponVC = [[CouponViewController alloc]init];
+                couponVC.shopModel = shopModel;
+                [self.navigationController pushViewController:couponVC animated:YES];
+            }else{
+                [JGProgressHUD showHintStr:@"请登录后查看优惠券信息"];
+            }
         }else{
             [JGProgressHUD showHintStr:@"暂无优惠券信息"];
         }
@@ -332,8 +368,8 @@
 }
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [self.chocieViewSort closePopupWindow];
-    [self.chocieViewType closePopupWindow];
+    [self.chocieViewSort closePopupWindowNotBack];
+    [self.chocieViewType closePopupWindowNotBack];
     [self hideHud];
 }
 

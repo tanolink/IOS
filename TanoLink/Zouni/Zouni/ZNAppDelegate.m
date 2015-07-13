@@ -87,6 +87,7 @@
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     [application setApplicationIconBadgeNumber:0];
+    [[ZNClientInfo sharedClinetInfo] loadPermit];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
@@ -115,7 +116,7 @@
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    [APService registerDeviceToken:deviceToken];
+//    [APService registerDeviceToken:deviceToken];
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *) error {
@@ -123,14 +124,14 @@
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    [APService handleRemoteNotification:userInfo];
+//    [APService handleRemoteNotification:userInfo];
 }
 
 //avoid compile error for sdk under 7.0
 #ifdef __IPHONE_7_0
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-    [APService handleRemoteNotification:userInfo];
-    completionHandler(UIBackgroundFetchResultNoData);
+//    [APService handleRemoteNotification:userInfo];
+//    completionHandler(UIBackgroundFetchResultNoData);
 }
 #endif
 

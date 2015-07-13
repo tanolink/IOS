@@ -144,7 +144,7 @@ static SystemSoundID shake_sound_id = 0;
     if (_txfMobile.text.length>0) {
         [self showHudInView:self.view hint:@"正在发送验证码..."];
         NSDictionary *requestDic = [[NSDictionary alloc]initWithObjectsAndKeys:_txfMobile.text,@"email",nil];
-        [ZNApi invokePost:ZN_VERIFY_EMAIL_API parameters:requestDic completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
+        [ZNApi invokePost:ZN_VERIFY_API parameters:requestDic completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
             [self hideHud];
             if(respModel.success.intValue){
                 [JGProgressHUD showSuccessStr:@"验证码已发送至邮箱！"];

@@ -76,7 +76,7 @@
 //            _couponModel
 //            _coupon = [[CouponModel alloc]initWithDictionary:(NSDictionary*)resultObj error:&err];
             // 判断类型
-            if([resultObj[@"type"] integerValue] == 1){
+            if([resultObj[@"type"] integerValue] == 2){
                 [self buildUI];
                 [self layoutUI];
                 [self initCouponData:resultObj];
@@ -150,7 +150,8 @@
     _btnLogoRect.layer.masksToBounds = YES;
     _btnLogoRect.layer.borderWidth = 1.f;
     _btnLogoRect.layer.borderColor = [[UIColor colorWithWhite:1.000 alpha:0.800]CGColor];
-    [_btnLogoRect setImage:[UIImage imageNamed:@"default_avatar"] forState:UIControlStateNormal];
+//    [_btnLogoRect setImage:[UIImage imageNamed:@"default_avatar"] forState:UIControlStateNormal];
+    [_btnLogoRect setImage:[UIImage imageNamed:@"Icon"] forState:UIControlStateNormal];
 
     _labTitle = [UILabel new];
 //    [_labTitle setText:@"京王百货店（新宿店）"];

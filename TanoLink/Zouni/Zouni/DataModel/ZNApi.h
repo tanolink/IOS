@@ -41,7 +41,7 @@
 /*我的个人中心*/
 #define ZN_LOGIN_API                    @"api/login"                       /*登录*/   // email=gdw&password=
 #define ZN_REPWD_API                    @"api/repwd"                       /*修改密码*/
-#define ZN_VERIFY_EMAIL_API             @"api/verify"                      /*邮箱获取验证码*/ //email=gaodawei@cxtech360.com
+#define ZN_VERIFY_API                   @"api/verify"                      /*邮箱、手机，获取验证码*/ //email=gaodawei@cxtech360.com
 #define ZN_REGISTER_EMIL_API            @"api/register"                    /*注册*/
 #define ZN_UPLOAD_IMAGE_API             ZN_BASE_URL"/api/UploadUserPhoto"  /*上传图片*/
 
@@ -49,6 +49,8 @@
 #define ZN_BINDEMAIL_API                @"api/BindEmail"                    /*绑定邮箱*/
 #define ZN_CHANGEUSER_API               @"api/ChangeUser"                   // nickName=fds&upor
 #define ZN_FORGETPWD_API                @"api/forgetPassword"               /*修改密码*/ //
+
+#define ZN_BINDMOBILE_API               @"api/BindMobile"                    /*绑定手机mobile=xxx.xxx@.com&code=xxx*/
 
 /*设置*/
 #define ZN_ADDFEEDBACK_API @"api/AddFeedback" /*反馈*///?content=fds&mobileType=ios

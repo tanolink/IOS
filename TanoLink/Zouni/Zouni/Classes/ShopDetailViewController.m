@@ -45,6 +45,7 @@
     [ZNApi invokePost:ZN_SHOPDETAIL_API parameters:requestDic completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
         if (resultObj) {
             NSDictionary *shopModelDic = (NSDictionary *)resultObj;
+            self.shopModel.FavoriteStatus = shopModelDic[@"FavoriteStatus"];
             _dataMutableArrayListComment = [[NSMutableArray alloc]initWithArray:shopModelDic[@"Comments"]];
             _gTableView = [[UITableView alloc]initWithFrame:CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height)];
             [_gTableView setDelegate:self];

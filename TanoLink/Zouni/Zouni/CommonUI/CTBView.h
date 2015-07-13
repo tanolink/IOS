@@ -18,8 +18,10 @@
 
 @interface CTBView : UIView
 @property (nonatomic, weak) id< CTBViewDelegate > delegate;
+@property (nonatomic, assign) BOOL isSingle;
 +(CTBView*)showWindowWithArrData:(NSArray*)arraData insideView:(UIView*)view offSetY:(CGFloat)offSetY delegate:(id<CTBViewDelegate>)delegate;
 -(void)closePopupWindow;
+-(void)closePopupWindowNotBack;
 - (id)initWithArrData:(NSArray*)arrData andOffSetY:(CGFloat)offSetY delegate:(id<CTBViewDelegate>)delegate;
 -(void)showInView:(UIView*)v;
 -(void)showInView:(UIView *)v andDefaultSel:(NSDictionary *)defaultSelV;/*默认选择value*/

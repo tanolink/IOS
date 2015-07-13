@@ -50,7 +50,8 @@
 -(void)showInView:(UIView*)v
 {
     if (self.show) {
-        [self closePopupWindow];
+//        [self closePopupWindow];
+        [self closePopupWindowNotBack];
         return;
     }
     self.show = YES;
@@ -92,6 +93,21 @@
         frame.size.height = _tableView.frame.size.height;
         self.frame =frame;
     } completion: nil];
+}
+
+-(void)closePopupWindowNotBack
+{
+    [UIView animateWithDuration:.1 animations:^{
+        _dimView.backgroundColor = [UIColor clearColor];
+        CGRect frame = self.frame;
+        frame.size.height =  0;
+        self.frame =frame;
+    } completion:^(BOOL finished) {
+        [self removeFromSuperview];
+        [_dimView removeFromSuperview];
+        _dimView = nil;
+        self.show = NO;
+    }];
 }
 
 -(void)closePopupWindow
@@ -166,14 +182,34 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-//    [self closePopupWindowIndexPath:indexPath];
     NSString *key = self.arrData[indexPath.row][@"v"];
     if ([self.defaultSelStr[key] isEqualToString: key]) {
         self.defaultSelStr[key] = kNULLROWV;
     } else {
+        if (self.isSingle) {
+            for (NSDictionary *dic in self.arrData) {
+//                if (![self.defaultSelStr[key] isEqualToString: key]) {
+                    self.defaultSelStr[dic[@"v"]] = kNULLROWV;
+//                }
+            }
+        }
         self.defaultSelStr[key] = self.arrData[indexPath.row][@"v"];
     }
-    NSLog(@"111111:%@",self.defaultSelStr[key]);
+    /*
+    if (self.isSingle) {
+        for (NSDictionary *dic in self.arrData) {
+            if (![self.defaultSelStr[key] isEqualToString: key]) {
+                self.defaultSelStr[dic[@"v"]] = kNULLROWV;
+            }
+        }
+//        NSString *key = self.arrData[indexPath.row][@"v"];
+//        self.defaultSelStr[key] = self.arrData[indexPath.row][@"v"];
+        //        NSString *key = self.arrData[indexPath.row][@"v"];
+        //        self.defaultSelStr[key] = self.arrData[indexPath.row][@"v"];
+        //        NSLog(@"single:%@",self.defaultSelStr[key]);
+        //        [self closePopupWindowIndexPath:indexPath];
+    }*/
     [self.tableView reloadData];
+//    [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
 }
 @end

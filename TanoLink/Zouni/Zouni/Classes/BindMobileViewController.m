@@ -140,13 +140,29 @@ static SystemSoundID shake_sound_id = 0;
 }
 
 -(void)getCaptchAction:(UIButton *)btn {
-    [self.view endEditing:YES];
-    NSString *mobileNum = self.oldMobileStr;
-    self.getCaptchButton.enabled = NO;
-    self.getCaptchButton.layer.borderColor = [UIColor grayColor].CGColor;
-    [self.getCaptchButton setBackgroundColor:[UIColor grayColor]];
-    [_timer setFireDate:[NSDate distantPast]];//定时器开启
-    [self showHudInView:self.view hint:loadingHintStr];
+    if (_txfMobile.text.length>0){
+        if ([ZNAppUtil validateMobile:_txfMobile.text].length>0) {
+            [JGProgressHUD showErrorStr:@"请检查手机号码！"];
+            return;
+        };
+        [self.view endEditing:YES];
+        self.getCaptchButton.enabled = NO;
+        self.getCaptchButton.layer.borderColor = [UIColor grayColor].CGColor;
+        [self.getCaptchButton setBackgroundColor:[UIColor grayColor]];
+        [_timer setFireDate:[NSDate distantPast]];//定时器开启
+        [self showHudInView:self.view hint:@"正在发送验证码..."];
+        NSDictionary *requestDic = [[NSDictionary alloc]initWithObjectsAndKeys:_txfMobile.text,@"loginName",@"2",@"type",nil];
+        [ZNApi invokePost:ZN_VERIFY_API parameters:requestDic completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
+            [self hideHud];
+            if(respModel.success.intValue){
+                [JGProgressHUD showSuccessStr:@"验证码已发送至手机！"];
+            }else{
+                [JGProgressHUD showErrorStr:@"发送出现问题，请重新发送！"];
+            }
+        }];
+    }else{
+        [JGProgressHUD showSuccessStr:@"请输入手机号码！"];
+    }
 }
 -(void)verifyMobile{
     if(!(_txfMobile.text.length > 0)){
@@ -163,6 +179,21 @@ static SystemSoundID shake_sound_id = 0;
     }
     [self.view endEditing:YES];
     [self showHudInView:self.view hint:@"正在验证..."];
+    
+    NSDictionary *requestDic= @{@"mobile":_txfMobile.text,@"code":_txfCaptch.text};
+    __weak typeof(self) weakSelf = self;
+    [ZNApi invokePost:ZN_BINDMOBILE_API parameters:requestDic completion:^(id resultObj,NSString *msg,ZNRespModel *respModel){
+        if (respModel.success.intValue>0) {
+            [JGProgressHUD showSuccessStr:@"手机绑定成功！"];
+            // 更改本地邮箱
+            [ZNClientInfo sharedClinetInfo].memberInfo.mobile = _txfMobile.text;
+            [[ZNClientInfo sharedClinetInfo] saveMemberInfo];
+        }else{
+            [JGProgressHUD showHintStr:respModel.msg];
+        }
+        [weakSelf hideHud];
+    }];
+    
 }
 -(void) playSound {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"shake_sound" ofType:@"caf"];

@@ -192,19 +192,21 @@
         UIImageView *imgV = (UIImageView*)_mutArrayStars[i];
         [imgV setImage:[UIImage imageNamed:@"xing02"]];
     }
-    NSUInteger count = commentModel.Images.count;
-    count = 4;
-    for (int i=0;i<count;i++) {
-        UIButton *Img = (UIButton *)_mutArray[i];
-        if(i<commentModel.Images.count){
-            NSLog(@"%lul",(unsigned long)commentModel.Images.count);
-            NSString *imageUrl = commentModel.Images[i];
-            NSURL *caseurl = [NSURL URLWithString:imageUrl];
-            [Img sd_setBackgroundImageWithURL:caseurl forState:UIControlStateNormal
-                                     placeholderImage:[UIImage imageNamed:@"default_avatar"]];
-        }else{
-            [Img setFrame:CGRectZero];
-            Img = nil;
+    if([commentModel.Images isKindOfClass:[NSArray class]]){
+        NSUInteger count = commentModel.Images.count;
+        count = 4;
+        for (int i=0;i<count;i++) {
+            UIButton *Img = (UIButton *)_mutArray[i];
+            if(i<commentModel.Images.count){
+                NSLog(@"%lul",(unsigned long)commentModel.Images.count);
+                NSString *imageUrl = commentModel.Images[i];
+                NSURL *caseurl = [NSURL URLWithString:imageUrl];
+                [Img sd_setBackgroundImageWithURL:caseurl forState:UIControlStateNormal
+                                         placeholderImage:[UIImage imageNamed:@"default_avatar"]];
+            }else{
+                [Img setFrame:CGRectZero];
+                Img = nil;
+            }
         }
     }
 }
@@ -215,8 +217,10 @@
     if (contentHeight.height > 15) {
         totalHeight += contentHeight.height - 15;
     }
-    if(commentModel.Images.count>0){
-        totalHeight += 75;
+    if([commentModel.Images isKindOfClass:[NSArray class]]){
+        if(commentModel.Images.count>0){
+            totalHeight += 75;
+        }
     }
     return totalHeight;
 }

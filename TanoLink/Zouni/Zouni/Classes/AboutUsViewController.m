@@ -17,41 +17,41 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setBackBarButton];
-    [self setTitle:@"关于我们"];
-    [self.view setBackgroundColor:ZN_BACKGROUND_COLOR];
+    [self setTitle:@"关于"];
+    [self.view setBackgroundColor:[UIColor whiteColor]];
+    [self buildUI];
+}
+-(void) buildUI{
+    UIButton *headerBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    float headerSize = 80;
+//    headerBtn.layer.cornerRadius = headerSize / 2.f;
+    headerBtn.layer.cornerRadius = 13;
+    headerBtn.layer.masksToBounds = YES;
+    [headerBtn setImage:[UIImage imageNamed:@"Icon"] forState:UIControlStateNormal];
+    [headerBtn setUserInteractionEnabled:NO];
     
-    UILabel *labTitle = [UILabel new];
-    [labTitle setFont:DEFAULT_BOLD_FONT(15)];
-    [labTitle setTextColor:ZN_FONNT_01_BLACK];
-    [labTitle setText:@"关于走你TanoLink"];
-    [labTitle setTextAlignment:NSTextAlignmentLeft];
-    [labTitle setBackgroundColor:[UIColor clearColor]];
-    [labTitle setNumberOfLines:0];
-    [self.view addSubview:labTitle];
+    [self.view addSubview:headerBtn];
     
     UITextView *textView = [UITextView new];
     [textView setEditable:NO];
-    [textView setBackgroundColor:ZN_BACKGROUND_COLOR];
     [textView setTextColor:ZN_FONNT_02_GRAY];
-    [textView setText:@"本公司是在中国国家法务局正式登录的独立法人有限公司。我们开发的“走你”APP是中国国内，第一个专门面向海外游的中国游客，派发国外直接使用的优惠券，打折信息的手机软件。目前受到旅游业界的关注，得到国内各大旅行社的提携."];
-    [textView setFont:DEFAULT_FONT(13)];
+    [textView setText:@"走你app免费提供全日本的美食，药妆，百货服饰等多功能服务。定期发表日本人气商品，提供购买平台。让您有一种与日本零距离的感觉，第一时间得到最新情报。今后去日本您不用任何担心，直接走你。"];
+    [textView setFont:DEFAULT_BOLD_FONT(13)];
     [self.view addSubview:textView];
     
-    [labTitle mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.mas_top).offset(10);
-        make.left.equalTo(self.view.mas_left).offset(20);
-        make.height.equalTo(@25);
-        make.width.equalTo(self.view).offset(-20);
-    }];
-    
-    [textView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(labTitle.mas_bottom);
-        make.width.equalTo(self.view).offset(-20);
+    [headerBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view.mas_top).offset(30);
+        make.width.equalTo(@(headerSize));
+        make.height.equalTo(@(headerSize));
         make.centerX.equalTo(self.view);
+    }];
+    [textView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(headerBtn.mas_bottom).offset(10);
+        make.left.equalTo(self.view.mas_left).offset(10);
+        make.width.equalTo(self.view).offset(-20);
         make.bottom.equalTo(self.view.mas_bottom);
     }];
 }
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }

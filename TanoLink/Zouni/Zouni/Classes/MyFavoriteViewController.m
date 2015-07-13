@@ -36,6 +36,16 @@
      *  无数据显示样式
      */
     UIView *_emptyView;
+    
+    UIButton *btnDelFav;
+    /*
+     * 是否为编辑
+     */
+    bool isEditFiv;
+    /**
+     * 删除的店铺ID
+     */
+    NSMutableArray *arrDelShopID;
 }
 
 @end
@@ -52,15 +62,12 @@
 -(void)BuildUI{
     [self setTitle:@"我的收藏"];
     [self setRightBarButtonItemTitle:@"编辑" target:self action:@selector(editFavorite)];
+    isEditFiv  = NO;
     // 初始化表格
     [_gTableView setBackgroundColor:[UIColor grayColor]];
     _gTableView = [[UITableView alloc]initWithFrame:CGRectMake(0,0,self.view.frame.size.width,self.view.frame.size.height)];
     [_gTableView setDelegate:self];
     [_gTableView setDataSource:self];
-    
-//    [_gTableView setTableFooterView:[[UIView alloc]init]];
-//    [_gTableView.tableFooterView setHidden:YES];
-    
     [_gTableView setAutoresizingMask:UIViewAutoresizingFlexibleHeight];
     [_gTableView setAllowsSelection:NO];
     _gTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -78,11 +85,15 @@
     _pageNumber = 0;
     _pageSize = 12;
     _dataMutableArray = [[NSMutableArray alloc]init];
+    arrDelShopID = [NSMutableArray new];
 //    [self performSelector:@selector(loadServerData) withObject:nil afterDelay:0.0f];
     [self loadServerData];
 }
 #pragma 下拉加载最新数据
 -(void)loadNewData{
+    _pageNumber = 0;
+    _pageSize = 12;
+    [arrDelShopID removeAllObjects];
     [_dataMutableArray removeAllObjects];
     [self loadServerData];
 }
@@ -115,8 +126,7 @@
         }
         [weakSelf hideHud];
     }];
-    
-        [_gTableView reloadData];
+    [_gTableView reloadData];
     [_gTableView headerEndRefreshing];
     [_gTableView footerEndRefreshing];
 }
@@ -128,7 +138,7 @@
     return [_dataMutableArray count];
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-        static NSString *Indentifier = @"cellInd";
+        NSString *Indentifier = [NSString stringWithFormat:@"cellInd%ld",indexPath.row];
         CellShopList *cell = [tableView dequeueReusableCellWithIdentifier:Indentifier];
         NSDictionary *cityModelDic = (NSDictionary *)[_dataMutableArray objectAtIndex:indexPath.row];
         if (!cell) {
@@ -137,7 +147,9 @@
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         NSError *err = nil;
         ShopModel *shopModel = [[ShopModel alloc]initWithDictionary:cityModelDic error:&err];
-        cell.isFavorite = YES;
+        if(isEditFiv){
+            cell.isFavorite = YES;
+        }
         [cell setCellDataForModel:shopModel];
         // 事件
         [cell._btnShopDetail handleControlEvent:UIControlEventTouchUpInside withBlock:^{
@@ -146,26 +158,37 @@
             [self.navigationController pushViewController:shopDetailVC animated:YES];
         }];
         [cell._btnShopMap handleControlEvent:UIControlEventTouchUpInside withBlock:^{
-//            GoogleMapViewController *gmapVC = [[GoogleMapViewController alloc]init];
-//            NSDictionary *dicPXY = [[NSDictionary alloc]initWithObjectsAndKeys:shopModel.PX,@"PX",shopModel.PY,@"PY",
-//                                    shopModel.ShopENName,@"Desc",shopModel.ShopName,@"Title",nil];
-//            gmapVC.PXYList = @[dicPXY];
-//            gmapVC.mainPY = shopModel.PY;
-//            gmapVC.mainPX = shopModel.PY;
-//            [self.navigationController pushViewController:gmapVC animated:YES];
             AppleMapViewController *appleMapVC = [AppleMapViewController new];
-            
             NSDictionary *dicPXY = [[NSDictionary alloc]initWithObjectsAndKeys:shopModel.PX,@"PX",shopModel.PY,@"PY",
-                                    shopModel.ShopENName,@"Desc",shopModel.ShopName,@"Title",
-                                    nil];
+                                    shopModel.ShopENName,@"Desc",shopModel.ShopName,@"Title",nil];
             appleMapVC.PXYList = @[dicPXY];
             appleMapVC.mainPY = shopModel.PY;
             appleMapVC.mainPX = shopModel.PY;
             [self.navigationController pushViewController:appleMapVC animated:YES];
         }];
         [cell._btnCoupon handleControlEvent:UIControlEventTouchUpInside withBlock:^{
-            CouponViewController *couponVC = [[CouponViewController alloc]init];
-            [self.navigationController pushViewController:couponVC animated:YES];
+            if (shopModel.Coupon.intValue>0) {
+                CouponViewController *couponVC = [[CouponViewController alloc]init];
+                couponVC.shopModel =shopModel;
+                [self.navigationController pushViewController:couponVC animated:YES];
+            }else{
+                [JGProgressHUD showHintStr:@"暂无优惠券信息"];
+            }
+        }];
+        [cell.btnSel handleControlEvent:UIControlEventTouchUpInside withBlock:^{
+            int shopId = cell.btnSel.tag - 1000.0;
+            if(!cell.btnSel.selected){
+                [arrDelShopID addObject:[NSString stringWithFormat:@"%d",shopId]];
+            }else{
+                [arrDelShopID removeObject:[NSString stringWithFormat:@"%d",shopId]];
+            }
+            cell.btnSel.selected = ! cell.btnSel.selected;
+            if (arrDelShopID.count>0) {
+                [btnDelFav setTitle:[NSString stringWithFormat:@"(%u)删除",(unsigned int)arrDelShopID.count] forState:UIControlStateNormal];
+            }else{
+                [btnDelFav setTitle:@"删除" forState:UIControlStateNormal];
+            }
+//            [btnDelFav.titleLabel setText:[NSString stringWithFormat:@"(%u)删除",(unsigned int)arrDelShopID.count]];
         }];
         return cell;
 }
@@ -180,7 +203,13 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return 70;
+    self.navigationItem.rightBarButtonItem = nil;
+    if ([_dataMutableArray count]>0) {
+        [self setRightBarButtonItemTitle:@"编辑" target:self action:@selector(editFavorite)];
+        return 60;
+    }else{
+        return 0;
+    }
 }
 -(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
     UIView * lineView = [[UIView alloc]initWithFrame:CGRectMake(0,0,ScreenWidth,1)];
@@ -188,20 +217,33 @@
     
     UIView *bgFooterView = [[UIView alloc]initWithFrame:CGRectMake(0,0,self.view.frame.size.width,50)];
     [bgFooterView setBackgroundColor:[UIColor whiteColor]];
-    UIButton *btnQuotePrice = [UIButton buttonWithType:UIButtonTypeCustom];
-    [btnQuotePrice setFrame:CGRectMake(30,10,ScreenWidth-60,44)];
-    [btnQuotePrice setBackgroundColor:ZN_FONNT_04_ORANGE];
-    [btnQuotePrice setTitle:@"(1)删除" forState:UIControlStateNormal];
-    [btnQuotePrice.titleLabel setFont:DEFAULT_BOLD_FONT(17)];
-    [btnQuotePrice handleControlEvent:UIControlEventTouchUpInside withBlock:^{
-        [_gTableView.tableFooterView setHidden:YES];
+    btnDelFav = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btnDelFav setFrame:CGRectMake(30,10,ScreenWidth-60,44)];
+    [btnDelFav setBackgroundColor:ZN_FONNT_04_ORANGE];
+    [btnDelFav setTitle:@"删除" forState:UIControlStateNormal];
+    [btnDelFav.titleLabel setFont:DEFAULT_BOLD_FONT(15)];
+    [btnDelFav handleControlEvent:UIControlEventTouchUpInside withBlock:^{
+        if(arrDelShopID.count>0){
+            NSString *shopIds = [arrDelShopID componentsJoinedByString:@","];
+            NSDictionary *requestDic1 = [[NSDictionary alloc]initWithObjectsAndKeys: shopIds,@"shopIds",nil];
+            [ZNApi invokePost:ZN_DELFAVORITES_API parameters:requestDic1 completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
+                if (respModel.success.intValue) {
+                    [JGProgressHUD showSuccessStr:@"删除成功！"];
+                    [self initData];
+                }
+            }];
+        }else{
+            [JGProgressHUD showErrorStr:@"请选择要删除的店铺！"];
+        }
     }];
-    [bgFooterView addSubview:btnQuotePrice];
+    [bgFooterView addSubview:btnDelFav];
     return bgFooterView;
 }
 
 -(void)editFavorite{
     _gTableView.tableFooterView.hidden = NO;
+    isEditFiv = !isEditFiv;
+    [_gTableView reloadData];
 }
 -(UIView *)emptyView{
     if (!_emptyView) {

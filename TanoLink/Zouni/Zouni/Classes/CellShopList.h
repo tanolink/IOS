@@ -17,6 +17,8 @@
 @property (nonatomic,strong) UIButton *_btnShopMap;
 //    领取优惠券按钮
 @property (nonatomic,strong) UIButton *_btnCoupon;
+//    选择按钮
+@property (nonatomic,strong) UIButton *btnSel;
 //    是否为收藏
 @property (nonatomic,assign) BOOL *isFavorite;
 

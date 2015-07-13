@@ -324,7 +324,7 @@
     [_btnShopFavorite handleControlEvent:UIControlEventTouchUpInside withBlock:^{
         if(_btnShopFavorite.selected){
             NSDictionary *requestDic1 = [[NSDictionary alloc]initWithObjectsAndKeys:
-                                         self.shopModel.ShopID,@"shopId",nil];
+                                         self.shopModel.ShopID,@"shopIds",nil];
             [ZNApi invokePost:ZN_DELFAVORITES_API parameters:requestDic1 completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
                 if (respModel.success.intValue) {
                     [JGProgressHUD showSuccessStr:@"取消收藏成功！"];

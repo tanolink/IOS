@@ -10,6 +10,8 @@
 #import "MyInfoViewController.h"
 #import "RegisterViewController.h"
 #import "ShopListViewController.h"
+#import "ZNAppUtil.h"
+
 @interface LoginViewController (){
     UIImageView *iconUserName;
     UIImageView *iconPwd;
@@ -255,9 +257,21 @@
         return;
     }
     [self showHudInView:self.view hint:loadingHintStr];
+    // 登录类型，1为邮箱，2为手机
+    NSString *type = @"1";
+    NSString *err =[ZNAppUtil validateEmail:accountTextField.text];
+    if(err){
+        type = @"2";
+        NSString *err =[ZNAppUtil validateMobile:accountTextField.text];
+        if(err){
+            [JGProgressHUD showErrorStr:@"请输入正确的手机或邮箱"];
+            return ;
+        }
+    }
     
     NSDictionary *requestDic = [[NSDictionary alloc]initWithObjectsAndKeys:
-                                accountTextField.text,@"email",
+                                accountTextField.text,@"loginName",
+                                type,@"type",
 //                                [ZNAppUtil toMd5:passwordTextField.text],@"password",nil];
                                 passwordTextField.text,@"password",nil];
 
@@ -272,6 +286,7 @@
                 MemberInfo *memberInfo = [[MemberInfo alloc]initWithDictionary:dic error:&err];
                 [[ZNClientInfo sharedClinetInfo] saveMemberInfo:memberInfo];
                 [[ZNClientInfo sharedClinetInfo] savePermit:permit];
+                [[ZNClientInfo sharedClinetInfo] loadPermit];
                 [self hideHud];
 //                MyInfoViewController *myInfo = [MyInfoViewController new];
 //                [self.navigationController pushViewController:myInfo animated:YES];
