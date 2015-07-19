@@ -9,5 +9,5 @@
 #import "ZNBaseViewController.h"
 
 @interface CouponDescViewController : ZNBaseViewController
-
+@property(nonatomic,strong) NSString *howToUseCoupon;
 @end

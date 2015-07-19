@@ -154,7 +154,7 @@ static SystemSoundID shake_sound_id = 0;
                 // 更改本地密码
                 
             }else{
-                [JGProgressHUD showHintStr:respModel.msg];
+                [JGProgressHUD showHintStr:msg];
             }
             [weakSelf hideHud];
         }];

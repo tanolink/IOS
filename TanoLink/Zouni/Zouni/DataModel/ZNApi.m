@@ -41,8 +41,11 @@
 + (void )invokePost:(NSString *)URLString parameters:(id)parameters completion: (ZNObjectBlock)completeBlock {
     if([ZNApi sharedInstance].headerPermit){
         [[ZNApi sharedInstance].manager.requestSerializer setValue:[ZNApi sharedInstance].headerPermit forHTTPHeaderField:@"permit"];
-        NSLog(@"===============permit===========%@",[[ZNApi sharedInstance].manager.requestSerializer valueForHTTPHeaderField:@"permit"]);
+    }else{
+        [[ZNApi sharedInstance].manager.requestSerializer setValue:DefaultHeaderMD5 forHTTPHeaderField:@"permit"];
     }
+    NSLog(@"===============permit===========%@",[[ZNApi sharedInstance].manager.requestSerializer valueForHTTPHeaderField:@"permit"]);
+
     AFHTTPRequestOperationManager *manager  = [ZNApi sharedInstance].manager;
     NSLog(@"请求接口：%@\n参数：%@",[[NSURL URLWithString:URLString relativeToURL:manager.baseURL] absoluteString], parameters);
     [manager POST:URLString parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -58,7 +61,7 @@
             return ;
         }
         if (!respBody.success.intValue) {
-            completeBlock(nil,nil,nil);
+            completeBlock(nil,respBody.msg,nil);
             showAlertMessage(respBody.msg);
             return;
         }

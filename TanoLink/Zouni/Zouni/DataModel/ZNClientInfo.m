@@ -123,6 +123,7 @@
     [userDefaults synchronize];
     self.memberInfo = nil;
     self.permit = nil;
+    [ZNApi sharedInstance].headerPermit = nil;
 }
 
 -(void) savePermit:(NSString *)permit{

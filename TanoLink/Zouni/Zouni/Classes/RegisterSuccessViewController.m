@@ -129,7 +129,7 @@ static SystemSoundID shake_sound_id = 0;
                 
                 [self performSelector:@selector(jumpOver) withObject:nil afterDelay:1];
             }else{
-                [JGProgressHUD showHintStr:respModel.msg];
+                [JGProgressHUD showHintStr:msg];
             }
             [weakSelf hideHud];
         }];

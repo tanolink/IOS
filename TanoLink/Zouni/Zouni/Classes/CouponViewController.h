@@ -8,7 +8,8 @@
 
 #import "ZNBaseViewController.h"
 #import "ShopModel.h"
+#import "UMSocial.h"
 
-@interface CouponViewController : ZNBaseViewController
+@interface CouponViewController : ZNBaseViewController<UMSocialUIDelegate>
 @property (nonatomic,strong) ShopModel *shopModel;
 @end

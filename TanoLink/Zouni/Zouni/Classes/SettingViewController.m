@@ -126,14 +126,28 @@
     }
 }
 -(void) share{
+    // 分享
     [UMSocialSnsService presentSnsIconSheetView:self
-                                         appKey:@"556885e767e58e40ca001421"
-                                      shareText:@"你要分享的文字"
-                                     shareImage:[UIImage imageNamed:@"icon.png"]
+                                         appKey:UMengAppKey
+                                      shareText:@"走你app是您在日本的私人贴身导游，美食购物优惠券让您随时享用。"
+                                     shareImage:[UIImage imageNamed:@"Icon"]
                                 shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina,UMShareToWechatSession,UMShareToQQ,
                                                  UMShareToQzone,UMShareToWechatTimeline,UMShareToEmail,nil]
-                                       delegate:nil];
+                                       delegate:self];
+    
 }
+-(void)didFinishGetUMSocialDataInViewController:(UMSocialResponseEntity *)response
+{
+    //根据`responseCode`得到发送结果,如果分享成功
+    if(response.responseCode == UMSResponseCodeSuccess)
+    {
+        //得到分享到的微博平台名
+        if([[[response.data allKeys] objectAtIndex:0] length]>0){
+            [JGProgressHUD showSuccessStr:@"恭喜您分享成功!"];
+        }
+    }
+}
+
 #pragma mark 版本更新
 -(void) checkVersion{
     [self showHudInView:self.view hint:@"正在检查版本..."];
@@ -149,7 +163,6 @@
             NSString *localVersionKey =[[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleVersionKey];
             if (localVersionKey.intValue < versionNative.intValue){
                 NSString *msgcontent = [NSString stringWithFormat:@"已经发现新版本，是否确定更新？\n 当前版本:V%@ \n最新版本:V%@",localVersionKey,versionNative];
-                // 退出/注销
                 UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"发现新版本" message:msgcontent delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
                 [alert setTag:100001111];
                 [alert setDelegate:self];

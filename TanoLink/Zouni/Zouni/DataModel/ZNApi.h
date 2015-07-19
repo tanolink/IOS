@@ -13,7 +13,7 @@
 #import "Reachability.h"
 
 // 应用ID 发布itunes时生成的ID
-#define ZN_APPID @"414478124"
+#define ZN_APPID @"1019363581"
 
 //#define MACRO_PRODUCT 1
 //测试账号chensl2
@@ -24,6 +24,7 @@
 #define ZN_BASE_URL   @"http://115.28.166.35:8888"
 #endif
 
+#define UMengAppKey @"556885e767e58e40ca001421"
 
 #define DefaultHeaderMD5 @"0,5848e1a72107f97600dc3c3f917d58f4"
 #define DefautlKey @"1bf304dc01310c6b0aa7983ecc9e4d35"
@@ -51,6 +52,8 @@
 #define ZN_FORGETPWD_API                @"api/forgetPassword"               /*修改密码*/ //
 
 #define ZN_BINDMOBILE_API               @"api/BindMobile"                    /*绑定手机mobile=xxx.xxx@.com&code=xxx*/
+
+#define ZN_THIRDLOGIN_API               @"api/ThirdPartyLogin"               /*第三方登录loginName=&loginFrom=*/
 
 /*设置*/
 #define ZN_ADDFEEDBACK_API @"api/AddFeedback" /*反馈*///?content=fds&mobileType=ios

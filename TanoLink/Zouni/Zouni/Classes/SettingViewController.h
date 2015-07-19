@@ -9,6 +9,6 @@
 #import "ZNBaseViewController.h"
 #import "UMSocial.h"
 
-@interface SettingViewController : ZNBaseViewController<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
+@interface SettingViewController : ZNBaseViewController<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate,UMSocialUIDelegate>
 
 @end

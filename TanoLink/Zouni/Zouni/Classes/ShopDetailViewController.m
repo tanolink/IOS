@@ -34,6 +34,10 @@
     [super viewDidLoad];
     [self.view setBackgroundColor:[UIColor whiteColor]];
     [self setBackBarButton];
+    
+    [self setTitle:@"店铺详情"];
+    [self setRightBarButtonItemTitle:@"分享" target:self action:@selector(share)];
+//    [self setRightBarButtonItemImage:@"share_icon" target:self action:@selector(share)];
 
     [self showHudInView:self.view hint:nil];
     __weak typeof(self) weakSelf = self;
@@ -62,12 +66,12 @@
 }
 -(void) share{
     [UMSocialSnsService presentSnsIconSheetView:self
-                                         appKey:@"556885e767e58e40ca001421"
-                                      shareText:@"你要分享的文字"
-                                     shareImage:[UIImage imageNamed:@"icon.png"]
+                                         appKey:UMengAppKey
+                                      shareText:@"走你app是您在日本的私人贴身导游，美食购物优惠券让您随时享用。"
+                                     shareImage:[UIImage imageNamed:@"Icon"]
                                 shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina,UMShareToWechatSession,UMShareToQQ,
                                                  UMShareToQzone,UMShareToWechatTimeline,UMShareToEmail,nil]
-                                       delegate:nil];
+                                       delegate:self];
 }
 #pragma mark tableview datasource
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{

@@ -297,7 +297,7 @@
             [ZNClientInfo sharedClinetInfo].memberInfo.cityId = resultString;
             [[ZNClientInfo sharedClinetInfo] saveMemberInfo];
         }else{
-            [JGProgressHUD showHintStr:respModel.msg];
+            [JGProgressHUD showHintStr:msg];
         }
         [weakSelf hideHud];
     }];

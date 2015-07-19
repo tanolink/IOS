@@ -189,7 +189,7 @@ static SystemSoundID shake_sound_id = 0;
             [ZNClientInfo sharedClinetInfo].memberInfo.mobile = _txfMobile.text;
             [[ZNClientInfo sharedClinetInfo] saveMemberInfo];
         }else{
-            [JGProgressHUD showHintStr:respModel.msg];
+            [JGProgressHUD showHintStr:msg];
         }
         [weakSelf hideHud];
     }];

@@ -13,18 +13,46 @@
 #import "CityListViewController.h"
 #import "MyCenterViewController.h"
 #import "ShopListViewController.h"
-#import <GoogleMaps/GoogleMaps.h>
+//#import <GoogleMaps/GoogleMaps.h>
 #import "InterfaceViewController.h"
 #import "UMSocial.h"
 #import "KitMapViewController.h"
 #import "GuideViewController.h"
 
+#import "UMSocialWechatHandler.h"
+#import "UMSocialQQHandler.h"
+#import "UMSocialSinaSSOHandler.h"
+#import "UMSocialSinaHandler.h"
+
 @implementation ZNAppDelegate
 //static NSString *const kAPIKey = @"AIzaSyBUyVmigb163ipK0MyITVJt76RR0XBwnKk";
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-//    [UMSocialData setAppKey:@"556885e767e58e40ca001421"];
-//    [GMSServices provideAPIKey:kAPIKey];
+    // 友盟
+    [UMSocialData setAppKey:UMengAppKey];
+    // 微信
+    [UMSocialWechatHandler setWXAppId:@"wxc38a3e3ef8f78503" appSecret:@"d61bc62f323b94cf6abd0c973daba6ca"
+                                  url:@"http://www.tanolink.com"];
+    [UMSocialQQHandler setQQWithAppId:@"1104725612" appKey:@"3A8aYBWIQMo4pxSR" url:@"http://www.tanolink.com"];
+    
+    // 新浪
+    [UMSocialSinaSSOHandler openNewSinaSSOWithRedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
+    // 新浪 非原生
+    [UMSocialSinaHandler openSSOWithRedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
+    
+    // 分享
+    // 分享APP
+    [UMSocialData defaultData].extConfig.wxMessageType = UMSocialWXMessageTypeApp;
+    
+    // 如果不是APP，择分享的后的链接
+    //微信
+    [UMSocialData defaultData].extConfig.wechatSessionData.url = @"http://www.tanolink.com";
+    [UMSocialData defaultData].extConfig.wechatTimelineData.url = @"http://www.tanolink.com";
+    [UMSocialData defaultData].extConfig.wechatSessionData.title = @"走你app带您进入日本美食购物天堂";
+    [UMSocialData defaultData].extConfig.wechatTimelineData.title = @"走你app带您进入日本美食购物天堂";
+    [UMSocialData defaultData].extConfig.qzoneData.title = @"走你app带您进入日本美食购物天堂";
+    [UMSocialData defaultData].extConfig.qqData.title = @"走你app带您进入日本美食购物天堂";
+    [UMSocialData defaultData].extConfig.emailData.title = @"走你app带您进入日本美食购物天堂";
     
     [[AFNetworkReachabilityManager sharedManager]startMonitoring];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -94,6 +122,21 @@
 {
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 }
+
+#pragma Weixin
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+    return  [UMSocialSnsService handleOpenURL:url];
+}
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation
+{
+    return  [UMSocialSnsService handleOpenURL:url];
+}
+
+
 
 #pragma mark - 初始化jpush
 

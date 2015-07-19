@@ -53,7 +53,7 @@
         return ;
     }
     // send to server
-    NSDictionary *requestDic= @{@"conInfo":gTextView.text,
+    NSDictionary *requestDic= @{@"content":gTextView.text,
                                 @"mobileType":@"ios"
                                 };
     [self showHudInView:self.view hint:@"正在发送。。。"];
@@ -64,7 +64,7 @@
             [gTextView setText:@""];
             gLabelPlaceHolder.hidden = NO;
         }else{
-            [JGProgressHUD showHintStr:respModel.msg];
+            [JGProgressHUD showHintStr:msg];
         }
         [weakSelf hideHud];
     }];

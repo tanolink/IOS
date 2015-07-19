@@ -13,6 +13,7 @@
 #import "FGalleryViewController.h"
 
 @interface ShopDetailViewController : ZNBaseViewController<UITableViewDelegate,UITableViewDataSource,FGalleryViewControllerDelegate
+,UMSocialUIDelegate
 //,UMSocialDataDelegate
 >
 @property(nonatomic,strong)ShopModel *shopModel;

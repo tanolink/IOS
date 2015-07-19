@@ -198,11 +198,12 @@
         for (int i=0;i<count;i++) {
             UIButton *Img = (UIButton *)_mutArray[i];
             if(i<commentModel.Images.count){
-                NSLog(@"%lul",(unsigned long)commentModel.Images.count);
                 NSString *imageUrl = commentModel.Images[i];
-                NSURL *caseurl = [NSURL URLWithString:imageUrl];
-                [Img sd_setBackgroundImageWithURL:caseurl forState:UIControlStateNormal
+                if (imageUrl.length>0) {
+                    NSURL *caseurl = [NSURL URLWithString:imageUrl];
+                    [Img sd_setBackgroundImageWithURL:caseurl forState:UIControlStateNormal
                                          placeholderImage:[UIImage imageNamed:@"default_avatar"]];
+                }
             }else{
                 [Img setFrame:CGRectZero];
                 Img = nil;
@@ -219,7 +220,18 @@
     }
     if([commentModel.Images isKindOfClass:[NSArray class]]){
         if(commentModel.Images.count>0){
-            totalHeight += 75;
+            BOOL isNeedHeight = NO;
+            for (int i=0;i<4;i++) {
+                if(i<commentModel.Images.count){
+                    NSString *imageUrl = commentModel.Images[i];
+                    if (imageUrl.length>0) {
+                        isNeedHeight = YES;
+                    }
+                }
+            }
+            if(isNeedHeight){
+                totalHeight += 75;
+            }
         }
     }
     return totalHeight;

@@ -82,7 +82,7 @@
 }
 #pragma 初始化数据
 -(void) initData{
-    _pageNumber = 0;
+    _pageNumber = 1;
     _pageSize = 12;
     _dataMutableArray = [[NSMutableArray alloc]init];
     arrDelShopID = [NSMutableArray new];
@@ -91,7 +91,7 @@
 }
 #pragma 下拉加载最新数据
 -(void)loadNewData{
-    _pageNumber = 0;
+    _pageNumber = 1;
     _pageSize = 12;
     [arrDelShopID removeAllObjects];
     [_dataMutableArray removeAllObjects];

@@ -11,6 +11,8 @@
 #import "RegisterViewController.h"
 #import "ShopListViewController.h"
 #import "ZNAppUtil.h"
+#import "UMSocialWechatHandler.h"
+#import "UMSocial.h"
 
 @interface LoginViewController (){
     UIImageView *iconUserName;
@@ -205,10 +207,19 @@
 //    [iconBtn3 addTarget:self action:@selector(loginThirdPartyAction:) forControlEvents:UIControlEventTouchUpInside];
     UIButton *iconBtn1 = [UIButton new];
     [iconBtn1 setImage:[UIImage imageNamed:@"share_weibo"] forState:UIControlStateNormal];
+    iconBtn1.tag = 1;
+    [iconBtn1 addTarget:self action:@selector(loginThirdPartyAction:) forControlEvents:UIControlEventTouchUpInside];
+    
     UIButton *iconBtn2 = [UIButton new];
     [iconBtn2 setImage:[UIImage imageNamed:@"share_weixin"] forState:UIControlStateNormal];
+    iconBtn2.tag = 2;
+    [iconBtn2 addTarget:self action:@selector(loginThirdPartyAction:) forControlEvents:UIControlEventTouchUpInside];
+    
     UIButton *iconBtn3= [UIButton new];
     [iconBtn3 setImage:[UIImage imageNamed:@"share_qq"] forState:UIControlStateNormal];
+    iconBtn3.tag = 3;
+    [iconBtn3 addTarget:self action:@selector(loginThirdPartyAction:) forControlEvents:UIControlEventTouchUpInside];
+
     
     [view addSubview:iconBtn1];
     [view addSubview:iconBtn2];
@@ -239,9 +250,115 @@
 
 #pragma mark - action
 -(void)loginThirdPartyAction : (UIButton *) button{
-    NSLog(@"%ld", (long)button.tag);
-}
+    if (button.tag == 1) {
+        UMSocialSnsPlatform *snsPlatform = [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToSina];
+        snsPlatform.loginClickHandler(self,[UMSocialControllerService defaultControllerService],YES,^(UMSocialResponseEntity *response){
+            //获取微博用户名、uid、token等
+            if (response.responseCode == UMSResponseCodeSuccess) {
+                UMSocialAccountEntity *snsAccount = [[UMSocialAccountManager socialAccountDictionary] valueForKey:UMShareToSina];
+//                NSLog(@"username is %@, uid is %@, token is %@ url is %@",snsAccount.userName,snsAccount.usid,snsAccount.accessToken,snsAccount.iconURL);
+                NSDictionary *requestDic = [[NSDictionary alloc]initWithObjectsAndKeys:
+                                            snsAccount.userName,@"loginName",
+                                            @"新浪微博",@"loginFrom",nil];
+                [self showHudInView:self.view hint:@"正在通过新浪微博登录..."];
+                [ZNApi invokePost:ZN_THIRDLOGIN_API parameters:requestDic completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
+                    if (resultObj) {
+                        NSDictionary *dic = (NSDictionary *)resultObj;
+                        NSString *strKey = [NSString stringWithFormat:@"%@%@",[dic objectForKey:@"objectId"],DefautlKey];
+                        NSString *strMd5  = [ZNAppUtil toMd5:strKey];
+                        NSString *permit = [NSString stringWithFormat:@"%@,%@",[dic objectForKey:@"objectId"],strMd5];
+                        NSError *err = nil;
+                        MemberInfo *memberInfo = [[MemberInfo alloc]initWithDictionary:dic error:&err];
+                        memberInfo.userPhoto = snsAccount.iconURL;
+                        memberInfo.username = snsAccount.userName;
+                        [[ZNClientInfo sharedClinetInfo] saveMemberInfo:memberInfo];
+                        [[ZNClientInfo sharedClinetInfo] savePermit:permit];
+                        [[ZNClientInfo sharedClinetInfo] loadPermit];
+                        [self hideHud];
+                        ShopListViewController *shopList = [ShopListViewController new];
+                        [self.navigationController pushViewController:shopList animated:YES];
+                    }
+                    [self hideHud];
+                }];
+        }});
+    }
+    if (button.tag == 2) {// 微信
+        UMSocialSnsPlatform *snsPlatform = [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToWechatSession];
+        snsPlatform.loginClickHandler(self,[UMSocialControllerService defaultControllerService],YES,
+                                      ^(UMSocialResponseEntity *response){
+            if (response.responseCode == UMSResponseCodeSuccess) {
+                UMSocialAccountEntity *snsAccount = [[UMSocialAccountManager socialAccountDictionary]valueForKey:UMShareToWechatSession];
+//                NSLog(@"username is %@, uid is %@, token is %@ url is %@",snsAccount.userName,snsAccount.usid,snsAccount.accessToken,snsAccount.iconURL);
+                NSDictionary *requestDic = [[NSDictionary alloc]initWithObjectsAndKeys:
+                                            snsAccount.userName,@"loginName",
+                                            @"微信",@"loginFrom",nil];
+                [self showHudInView:self.view hint:@"正在通过微信登录..."];
+                [ZNApi invokePost:ZN_THIRDLOGIN_API parameters:requestDic completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
+                    if (resultObj) {
+                        NSDictionary *dic = (NSDictionary *)resultObj;
+                        NSString *strKey = [NSString stringWithFormat:@"%@%@",[dic objectForKey:@"objectId"],DefautlKey];
+                        NSString *strMd5  = [ZNAppUtil toMd5:strKey];
+                        NSString *permit = [NSString stringWithFormat:@"%@,%@",[dic objectForKey:@"objectId"],strMd5];
+                        NSError *err = nil;
+                        MemberInfo *memberInfo = [[MemberInfo alloc]initWithDictionary:dic error:&err];
+                        memberInfo.userPhoto = snsAccount.iconURL;
+                        memberInfo.username = snsAccount.userName;
+                        [[ZNClientInfo sharedClinetInfo] saveMemberInfo:memberInfo];
+                        [[ZNClientInfo sharedClinetInfo] savePermit:permit];
+                        [[ZNClientInfo sharedClinetInfo] loadPermit];
+                        [self hideHud];
+                        ShopListViewController *shopList = [ShopListViewController new];
+                        [self.navigationController pushViewController:shopList animated:YES];
+                    }
+                    [self hideHud];
+                }];
+            }
+        });
+//        [[UMSocialDataService defaultDataService] requestSnsInformation:UMShareToWechatSession  completion:^(UMSocialResponseEntity *response){
+//            NSLog(@"SnsInformation is %@",response.data);
+//        }];
+    }
+    if (button.tag == 3) {
+        UMSocialSnsPlatform *snsPlatform = [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToQQ];
+        snsPlatform.loginClickHandler(self,[UMSocialControllerService defaultControllerService],YES,^(UMSocialResponseEntity *response){
+            //获取微博用户名、uid、token等
+            if (response.responseCode == UMSResponseCodeSuccess) {
+                UMSocialAccountEntity *snsAccount = [[UMSocialAccountManager socialAccountDictionary] valueForKey:UMShareToQQ];
+//                NSLog(@"username is %@, uid is %@, token is %@ url is %@",snsAccount.userName,snsAccount.usid,snsAccount.accessToken,snsAccount.iconURL);
+                NSDictionary *requestDic = [[NSDictionary alloc]initWithObjectsAndKeys:
+                                            snsAccount.userName,@"loginName",
+                                            @"微信",@"loginFrom",nil];
+                [self showHudInView:self.view hint:@"正在通过QQ登录..."];
+                [ZNApi invokePost:ZN_THIRDLOGIN_API parameters:requestDic completion:^(id resultObj,NSString *msg,ZNRespModel *respModel) {
+                    if (resultObj) {
+                        NSDictionary *dic = (NSDictionary *)resultObj;
+                        NSString *strKey = [NSString stringWithFormat:@"%@%@",[dic objectForKey:@"objectId"],DefautlKey];
+                        NSString *strMd5  = [ZNAppUtil toMd5:strKey];
+                        NSString *permit = [NSString stringWithFormat:@"%@,%@",[dic objectForKey:@"objectId"],strMd5];
+                        NSError *err = nil;
+                        MemberInfo *memberInfo = [[MemberInfo alloc]initWithDictionary:dic error:&err];
+                        memberInfo.userPhoto = snsAccount.iconURL;
+                        memberInfo.username = snsAccount.userName;
+                        [[ZNClientInfo sharedClinetInfo] saveMemberInfo:memberInfo];
+                        [[ZNClientInfo sharedClinetInfo] savePermit:permit];
+                        [[ZNClientInfo sharedClinetInfo] loadPermit];
+                        [self hideHud];
+                        ShopListViewController *shopList = [ShopListViewController new];
+                        [self.navigationController pushViewController:shopList animated:YES];
+                    }
+                    [self hideHud];
+                }];
 
+            }});
+        //获取accestoken以及QQ用户信息，得到的数据在回调Block对象形参respone的data属性
+//        [[UMSocialDataService defaultDataService] requestSnsInformation:UMShareToQQ  completion:^(UMSocialResponseEntity *response){
+//            NSLog(@"SnsInformation is %@",response.data);
+//        }];
+    }
+}
+-(void) thridLogin{
+    
+}
 -(void)loginBtnAction : (UIButton *)button {
     [self.view endEditing:YES];
     if (!accountTextField.text.length) {

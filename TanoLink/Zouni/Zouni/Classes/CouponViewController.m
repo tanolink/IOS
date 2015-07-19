@@ -51,6 +51,8 @@
     CouponModel *_couponModel;
     // 单独显示优惠券图片
     UIButton *btnCouponImg;
+    // 说明
+    NSString *howToUseCoupon;
 }
 
 @end
@@ -84,7 +86,7 @@
                 [self buildUICouponImg:resultObj];
             }
         }else{
-            [JGProgressHUD showHintStr:respModel.msg];
+            [JGProgressHUD showHintStr:msg];
         }
         [weakSelf hideHud];
     }];
@@ -110,7 +112,7 @@
     }else{
         _labAddress.text = dic[@"address"];
     }
-    NSLog(@"%@",dic[@"special"]);
+    NSLog(@"%@",dic[@"specialDetail"]);
     if ([dic[@"special"] isEqual:[NSNull null]]) {
         _labCouponContent.text = @"暂无";
     }else{
@@ -121,6 +123,8 @@
     }else{
         _labTitle.text = dic[@"shopName"];
     }
+    howToUseCoupon = dic[@"specialDetail"];
+    
     NSURL *couponUrl = [NSURL URLWithString:dic[@"couponPhoto"]];
     [_imgCoupon sd_setBackgroundImageWithURL:couponUrl forState:UIControlStateNormal
                               placeholderImage:[UIImage imageNamed:@"default_userhead"]];
@@ -209,6 +213,7 @@
     [_btnCouponUseDesc.titleLabel setFont:DEFAULT_FONT(13)];
     [_btnCouponUseDesc handleControlEvent:UIControlEventTouchUpInside withBlock:^{
         CouponDescViewController *couponDescVC = [CouponDescViewController new];
+        couponDescVC.howToUseCoupon = howToUseCoupon;
         [self.navigationController pushViewController:couponDescVC animated:YES];
     }];
     
@@ -348,12 +353,12 @@
 #pragma 分享
 -(void) share{
     [UMSocialSnsService presentSnsIconSheetView:self
-                                         appKey:@"556885e767e58e40ca001421"
-                                      shareText:@"你要分享的文字"
-                                     shareImage:[UIImage imageNamed:@"icon.png"]
+                                         appKey:UMengAppKey
+                                      shareText:@"走你app是您在日本的私人贴身导游，美食购物优惠券让您随时享用。"
+                                     shareImage:[UIImage imageNamed:@"Icon"]
                                 shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina,UMShareToWechatSession,UMShareToQQ,
                                                  UMShareToQzone,UMShareToWechatTimeline,UMShareToEmail,nil]
-                                       delegate:nil];
+                                       delegate:self];
 }
 #pragma mark - 保存图片
 -(void) longPressSavaImage:(UILongPressGestureRecognizer *)longPress{

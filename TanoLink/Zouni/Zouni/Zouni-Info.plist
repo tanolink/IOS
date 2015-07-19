@@ -8,8 +8,10 @@
 	<string>走你</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
+	<key>CFBundleGetInfoString</key>
+	<string>41D8C66C</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.lanolink.zouni</string>
+	<string>com.lanolink.zouniapp</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -29,17 +31,7 @@
 			<string>tencent_qq</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>QQ41BF9633</string>
-			</array>
-		</dict>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLName</key>
-			<string>tencent_weibo</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>wb1103074867</string>
+				<string>QQ41D8C66C</string>
 			</array>
 		</dict>
 		<dict>
@@ -49,7 +41,17 @@
 			<string>sina_weibo</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>wb3749353156</string>
+				<string>sina.556885e767e58e40ca001421</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>sina_wb</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>wb2261727746</string>
 			</array>
 		</dict>
 		<dict>
@@ -59,7 +61,17 @@
 			<string>tencent_weixin</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>wxe084293a2b896acf</string>
+				<string>wxc38a3e3ef8f78503</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>tencent</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>tencent1104725612</string>
 			</array>
 		</dict>
 	</array>
@@ -69,6 +81,8 @@
 	<string></string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>需要定位</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>在地图上显示您的位置</string>
 	<key>UIAppFonts</key>
@@ -83,8 +97,6 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>需要定位</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
 </dict>

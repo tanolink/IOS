@@ -459,7 +459,6 @@
 //                make.height.equalTo(@(360));
     }];
     [_gTableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        NSLog(@"fffffffffffffffff%f",tabCommentHeight);
         make.height.equalTo(@(tabCommentHeight));
     }];
     

@@ -24,10 +24,12 @@
     [labDesc setFont:DEFAULT_FONT(12)];
     [labDesc setTextColor:ZN_FONNT_01_BLACK];
     [labDesc setText:@"详细规则："];
-    UILabel *labContent = [[UILabel alloc]initWithFrame:CGRectZero];
+    UITextView *labContent = [[UITextView alloc]initWithFrame:CGRectZero];
     [labContent setFont:DEFAULT_FONT(12)];
     [labContent setTextColor:ZN_FONNT_02_GRAY];
     [labContent setTextAlignment:NSTextAlignmentLeft];
+    [labContent setBackgroundColor:ZN_BACKGROUND_COLOR];
+    [labContent setEditable:NO];
     
     [self.view addSubview:labDesc];
     [self.view addSubview:labContent];
@@ -43,12 +45,12 @@
         make.top.equalTo(labDesc.mas_bottom).offset(15);
         make.left.equalTo(labDesc);
         make.right.equalTo(self.view).offset(-15);
-        make.height.equalTo(@15);
+//        make.height.equalTo(@15);
         // ==================================这里要改成自适应高度
-//        make.bottom.equalTo(self.view);
+        make.bottom.equalTo(self.view);
     }];
     
-    [labContent setText:@"优惠活动:打印优惠券可以享受%5优惠"];
+    [labContent setText:self.howToUseCoupon];
 
 }
 

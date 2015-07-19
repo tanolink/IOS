@@ -78,7 +78,7 @@ static SystemSoundID shake_sound_id = 0;
                 [ZNClientInfo sharedClinetInfo].memberInfo.nickname = _txfNickName.text;
                 [[ZNClientInfo sharedClinetInfo] saveMemberInfo];
             }else{
-                [JGProgressHUD showHintStr:respModel.msg];
+                [JGProgressHUD showHintStr:msg];
             }
             [weakSelf hideHud];
         }];
